@@ -63,7 +63,7 @@ export const dynamicRoutes: Array<RouteRecordRaw> = [
 			{
 				path: '/404',
 				name: 'notFound',
-				component: () => import('/@/views/error/404.vue'),
+				component: () => import('/@/views/common/error/404.vue'),
 				meta: {
 					title: 'message.staticRoutes.notFound',
 					isLink: '',
@@ -76,7 +76,7 @@ export const dynamicRoutes: Array<RouteRecordRaw> = [
 			{
 				path: '/401',
 				name: 'noPower',
-				component: () => import('/@/views/error/401.vue'),
+				component: () => import('/@/views/common/error/401.vue'),
 				meta: {
 					title: 'message.staticRoutes.noPower',
 					isLink: '',

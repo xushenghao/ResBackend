@@ -4,7 +4,6 @@ import {NextLoading} from '/@/utils/loading';
 import {setAddRoute, setFilterMenuAndCacheTagsViewRoutes} from '/@/router/index';
 import {getUserMenus} from '/@/api/system/menu';
 import {dynamicRoutes} from '/@/router/route';
-import {demoRoutes} from '/@/router/demos';
 
 const layoutModules: any = import.meta.glob('../layout/routerView/*.{vue,tsx}');
 const viewsModules: any = import.meta.glob('../views/**/*.{vue,tsx}');
@@ -40,7 +39,7 @@ export async function initBackEndControlRoutes() {
     await store.dispatch('requestOldRoutes/setBackEndControlRoutes', JSON.parse(JSON.stringify(menuRoute)));
 
     // 处理路由（component），替换 dynamicRoutes（/@/router/route）第一个顶级 children 的路由
-    dynamicRoutes[0].children?.push(...await backEndComponent(menuRoute), ...demoRoutes);
+    dynamicRoutes[0].children?.push(...await backEndComponent(menuRoute));
     await setAddRoute();
     await setFilterMenuAndCacheTagsViewRoutes();
 }

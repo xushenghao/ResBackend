@@ -9,7 +9,7 @@ export const staticRoutes: Array<RouteRecordRaw> = [
     {
         path: '/login',
         name: 'login',
-        component: () => import('/@/views/login/index.vue'),
+        component: () => import('/@/views/common/login/index.vue'),
         meta: {
             title: '登录',
         },
@@ -17,7 +17,7 @@ export const staticRoutes: Array<RouteRecordRaw> = [
     {
         path: '/dbInit',
         name: 'dbInit',
-        component: () => import('/@/views/dbInit/index.vue'),
+        component: () => import('/@/views/common/dbInit/index.vue'),
         meta: {
             title: '系统初始化',
         },
