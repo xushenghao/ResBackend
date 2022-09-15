@@ -4,7 +4,8 @@ import 'nprogress/nprogress.css';
 import {store} from '/@/store/index.ts';
 import {Session} from '/@/utils/storage';
 import {NextLoading} from '/@/utils/loading';
-import {dynamicRoutes, staticRoutes} from '/@/router/route';
+import {dynamicRoutes} from '/@/router/route';
+import {staticRoutes} from '/@/router/static';
 import {initFrontEndControlRoutes} from '/@/router/frontEnd';
 import {initBackEndControlRoutes} from '/@/router/backEnd';
 import {isInit} from "/@/api/system/dbInit"
@@ -54,7 +55,7 @@ export function formatTwoStageRoutes(arr: any) {
     if (arr.length <= 0) return false;
     const newArr: any = [];
     const cacheList: Array<string> = [];
-    arr.forEach((v: any) => {
+    arr.forEach(async (v: any) => {
         if (v.path === '/') {
             newArr.push({component: v.component, name: v.name, path: v.path, redirect: v.redirect, meta: v.meta, children: []});
         } else {
@@ -69,7 +70,7 @@ export function formatTwoStageRoutes(arr: any) {
             // 路径：/@/layout/routerView/parent.vue
             if (newArr[0].meta.isKeepAlive && v.meta.isKeepAlive) {
                 cacheList.push(v.name);
-                store.dispatch('keepAliveNames/setCacheKeepAlive', cacheList);
+                await store.dispatch('keepAliveNames/setCacheKeepAlive', cacheList);
             }
         }
     });
@@ -128,12 +129,12 @@ export async function setFilterMenuAndCacheTagsViewRoutes() {
  * 获取当前用户权限标识去比对路由表（未处理成多级嵌套路由）
  * @description 这里主要用于动态路由的添加，router.addRoute
  * @link 参考：https://next.router.vuejs.org/zh/api/#addroute
- * @param chil dynamicRoutes（/@/router/route）第一个顶级 children 的下路由集合
+ * @param children dynamicRoutes（/@/router/route）第一个顶级 children 的下路由集合
  * @returns 返回有当前用户权限标识的路由数组
  */
-export function setFilterRoute(chil: any) {
+export function setFilterRoute(children: any) {
     let filterRoute: any = [];
-    chil.forEach((route: any) => {
+    children.forEach((route: any) => {
         if (route.meta.roles) {
             route.meta.roles.forEach((metaRoles: any) => {
                 store.state.userInfos.userInfos.roles.forEach((roles: any) => {
@@ -185,13 +186,14 @@ export async function resetRoute() {
 // isRequestRoutes 为 true，则开启后端控制路由，路径：`/src/store/modules/themeConfig.ts`
 const {isRequestRoutes} = store.state.themeConfig.themeConfig;
 // 前端控制路由：初始化方法，防止刷新时路由丢失
-if (!isRequestRoutes) initFrontEndControlRoutes();
+if (!isRequestRoutes) await initFrontEndControlRoutes();
 
 
 // 路由加载前
 router.beforeEach(async (to, from, next) => {
     NProgress.configure({showSpinner: false});
     if (to.meta.title) NProgress.start();
+
     //  系统初始化
     if (to.path === '/dbInit') {
         next();
@@ -234,10 +236,7 @@ router.beforeEach(async (to, from, next) => {
         } else {
             if (store.state.routesList.routesList.length === 0) {
                 if (isRequestRoutes) {
-                    // 后端控制路由：路由数据初始化，防止刷新时丢失
                     await initBackEndControlRoutes();
-                    // 动态添加路由：防止非首页刷新时跳转回首页的问题
-                    // 确保 addRoute() 时动态添加的路由已经被完全加载上去
                     next({...to, replace: true});
                 }
             } else {

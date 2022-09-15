@@ -1,14 +1,14 @@
 <template>
 	<div class="system-edit-dept-container">
-		<el-dialog :title="(ruleForm.deptId!==0?'修改':'添加')+'部门'" v-model="isShowDialog" width="769px">
+		<el-dialog :title="(ruleForm.deptId!==0?'修改':'添加')+'机构'" v-model="isShowDialog" width="769px">
 			<el-form ref="formRef" :model="ruleForm" :rules="rules" size="default" label-width="90px">
 				<el-row :gutter="35">
 					<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb20">
-						<el-form-item label="上级部门">
+						<el-form-item label="上级机构">
 							<el-cascader
 								:options="deptData"
 								:props="{ checkStrictly: true,emitPath: false, value: 'deptId', label: 'deptName' }"
-								placeholder="请选择部门"
+								placeholder="请选择机构"
 								clearable
 								class="w100"
 								v-model="ruleForm.parentId"
@@ -21,8 +21,8 @@
 						</el-form-item>
 					</el-col>
 					<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
-						<el-form-item label="部门名称" prop="deptName">
-							<el-input v-model="ruleForm.deptName" placeholder="请输入部门名称" clearable></el-input>
+						<el-form-item label="机构名称" prop="deptName">
+							<el-input v-model="ruleForm.deptName" placeholder="请输入机构名称" clearable></el-input>
 						</el-form-item>
 					</el-col>
 					<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
@@ -46,7 +46,7 @@
 						</el-form-item>
 					</el-col>
 					<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
-						<el-form-item label="部门状态">
+						<el-form-item label="机构状态">
 							<el-switch v-model="ruleForm.status" :active-value="1" :inactive-value="0" inline-prompt active-text="启" inactive-text="禁"></el-switch>
 						</el-form-item>
 					</el-col>
@@ -100,18 +100,18 @@ export default defineComponent({
 			isShowDialog: false,
 			ruleForm: {
         deptId:0,
-        parentId: 0, // 上级部门
-				deptName: '', // 部门名称
+        parentId: 0, // 上级机构
+				deptName: '', // 机构名称
         orderNum:0,
         leader: '',
         phone: '',
         email: '',
         status: 1,
 			},
-			deptData: [], // 部门数据
+			deptData: [], // 机构数据
       rules: {
         deptName:[
-          {required: true, message: "部门名称不能为空", trigger: "blur"},
+          {required: true, message: "机构名称不能为空", trigger: "blur"},
         ]
       }
 		});
@@ -163,8 +163,8 @@ export default defineComponent({
     const resetForm = ()=>{
       state.ruleForm = {
         deptId:0,
-        parentId: 0, // 上级部门
-        deptName: '', // 部门名称
+        parentId: 0, // 上级机构
+        deptName: '', // 机构名称
         orderNum:0,
         leader: '',
         phone: '',

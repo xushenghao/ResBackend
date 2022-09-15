@@ -29,7 +29,7 @@
     <div class="login-footer">
       <div class="login-footer-content mt15">
         <div class="login-footer-content-warp">
-          <div>Copyright © 2021-2023 wake.link All Rights Reserved.</div>
+          <div>Copyright © 2021-2023 Joyful All Rights Reserved.</div>
           <div class="mt5">四川慧及视光科技有限公司</div>
         </div>
       </div>

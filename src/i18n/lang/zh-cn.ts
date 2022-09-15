@@ -1,12 +1,12 @@
 // 定义内容
 export default {
 	router: {
-		home: '首页',
+		home: '数据看板',
 		system: '系统设置',
 		systemMenu: '菜单管理',
 		systemRole: '角色管理',
 		systemUser: '用户管理',
-		systemDept: '部门管理',
+		systemDept: '机构管理',
 		systemDic: '字典管理',
 		limits: '权限管理',
 		limitsFrontEnd: '前端控制',

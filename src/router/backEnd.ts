@@ -1,9 +1,10 @@
-import { store } from '/@/store/index.ts';
-import { Session } from '/@/utils/storage';
-import { NextLoading } from '/@/utils/loading';
-import { setAddRoute, setFilterMenuAndCacheTagsViewRoutes } from '/@/router/index';
-import {demoRoutes, dynamicRoutes} from '/@/router/route';
-import { getUserMenus } from '/@/api/system/menu';
+import {store} from '/@/store/index.ts';
+import {Session} from '/@/utils/storage';
+import {NextLoading} from '/@/utils/loading';
+import {setAddRoute, setFilterMenuAndCacheTagsViewRoutes} from '/@/router/index';
+import {getUserMenus} from '/@/api/system/menu';
+import {dynamicRoutes} from '/@/router/route';
+import {demoRoutes} from '/@/router/demos';
 
 const layoutModules: any = import.meta.glob('../layout/routerView/*.{vue,tsx}');
 const viewsModules: any = import.meta.glob('../views/**/*.{vue,tsx}');
@@ -12,7 +13,7 @@ const viewsModules: any = import.meta.glob('../views/**/*.{vue,tsx}');
  * @method import.meta.glob
  * @link 参考：https://cn.vitejs.dev/guide/features.html#json
  */
-const dynamicViewsModules: Record<string, Function> = Object.assign({}, { ...layoutModules }, { ...viewsModules });
+const dynamicViewsModules: Record<string, Function> = Object.assign({}, {...layoutModules}, {...viewsModules});
 
 /**
  * 后端控制路由：初始化方法，防止刷新时路由丢失
@@ -23,29 +24,25 @@ const dynamicViewsModules: Record<string, Function> = Object.assign({}, { ...lay
  * @method setFilterMenuAndCacheTagsViewRoutes 设置递归过滤有权限的路由到 vuex routesList 中（已处理成多级嵌套路由）及缓存多级嵌套数组处理后的一维数组
  */
 export async function initBackEndControlRoutes() {
-	// 界面 loading 动画开始执行
-	if (window.nextLoading === undefined) NextLoading.start();
-	// 无 token 停止执行下一步
-	if (!Session.get('token')) return false;
-	// 触发初始化用户信息
-	await store.dispatch('userInfos/setUserInfos');
-	await store.dispatch('userInfos/setPermissions');
-	let menuRoute = Session.get('userMenu')
-	let permissions = Session.get('permissions')
-	if (!menuRoute || !permissions) {
-		await getBackEndControlRoutes(); // 获取路由
-		menuRoute = Session.get('userMenu')
-	}
+    if (window.nextLoading === undefined) NextLoading.start();
+    if (!Session.get('token')) return false;
+    await store.dispatch('userInfos/setUserInfos');
+    await store.dispatch('userInfos/setPermissions');
+    let menuRoute = Session.get('userMenu')
+    let permissions = Session.get('permissions')
+    if (!menuRoute || !permissions) {
+        await getBackEndControlRoutes();
+        menuRoute = Session.get('userMenu')
+    }
 
-	// 获取路由菜单数据
-	// 存储接口原始路由（未处理component），根据需求选择使用
-	await store.dispatch('requestOldRoutes/setBackEndControlRoutes', JSON.parse(JSON.stringify(menuRoute)));
-	// 处理路由（component），替换 dynamicRoutes（/@/router/route）第一个顶级 children 的路由
-	dynamicRoutes[0].children?.push(...await backEndComponent(menuRoute),...demoRoutes) ;
-	// 添加动态路由
-	await setAddRoute();
-	// 设置递归过滤有权限的路由到 vuex routesList 中（已处理成多级嵌套路由）及缓存多级嵌套数组处理后的一维数组
-	setFilterMenuAndCacheTagsViewRoutes();
+    // 获取路由菜单数据
+    // 存储接口原始路由（未处理component），根据需求选择使用
+    await store.dispatch('requestOldRoutes/setBackEndControlRoutes', JSON.parse(JSON.stringify(menuRoute)));
+
+    // 处理路由（component），替换 dynamicRoutes（/@/router/route）第一个顶级 children 的路由
+    dynamicRoutes[0].children?.push(...await backEndComponent(menuRoute), ...demoRoutes);
+    await setAddRoute();
+    await setFilterMenuAndCacheTagsViewRoutes();
 }
 
 /**
@@ -54,11 +51,11 @@ export async function initBackEndControlRoutes() {
  * @returns 返回后端路由菜单数据
  */
 export async function getBackEndControlRoutes() {
-	return getUserMenus().then((res:any)=>{
-		Session.set('userMenu',res.data.menuList)
-		Session.set('permissions',res.data.permissions)
-		store.dispatch('userInfos/setPermissions',res.data.permissions)
-	})
+    return getUserMenus().then((res: any) => {
+        Session.set('userMenu', res.data.menuList)
+        Session.set('permissions', res.data.permissions)
+        store.dispatch('userInfos/setPermissions', res.data.permissions)
+    })
 }
 
 /**
@@ -67,7 +64,7 @@ export async function getBackEndControlRoutes() {
  * @description 路径：/src/views/system/menu/component/addMenu.vue
  */
 export async function setBackEndControlRefreshRoutes() {
-	await getBackEndControlRoutes();
+    await getBackEndControlRoutes();
 }
 
 /**
@@ -76,12 +73,12 @@ export async function setBackEndControlRefreshRoutes() {
  * @returns 返回处理成函数后的 component
  */
 export function backEndComponent(routes: any) {
-	if (!routes) return;
-	return routes.map((item: any) => {
-		if (item.component) item.component = dynamicImport(dynamicViewsModules, item.component as string);
-		item.children && backEndComponent(item.children);
-		return item;
-	});
+    if (!routes) return;
+    return routes.map((item: any) => {
+        if (item.component) item.component = dynamicImport(dynamicViewsModules, item.component as string);
+        item.children && backEndComponent(item.children);
+        return item;
+    });
 }
 
 /**
@@ -91,16 +88,16 @@ export function backEndComponent(routes: any) {
  * @returns 返回处理成函数后的 component
  */
 export function dynamicImport(dynamicViewsModules: Record<string, Function>, component: string) {
-	const keys = Object.keys(dynamicViewsModules);
-	const matchKeys = keys.filter((key) => {
-		const k = key.replace(/..\/views|../, '');
-		return k.startsWith(`${component}`) || k.startsWith(`/${component}`);
-	});
-	if (matchKeys?.length === 1) {
-		const matchKey = matchKeys[0];
-		return dynamicViewsModules[matchKey];
-	}
-	if (matchKeys?.length > 1) {
-		return false;
-	}
+    const keys = Object.keys(dynamicViewsModules);
+    const matchKeys = keys.filter((key) => {
+        const k = key.replace(/..\/views|../, '');
+        return k.startsWith(`${component}`) || k.startsWith(`/${component}`);
+    });
+    if (matchKeys?.length === 1) {
+        const matchKey = matchKeys[0];
+        return dynamicViewsModules[matchKey];
+    }
+    if (matchKeys?.length > 1) {
+        return false;
+    }
 }

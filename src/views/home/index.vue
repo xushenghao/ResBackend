@@ -40,7 +40,7 @@
 		<el-row :gutter="15" class="home-card-three">
 			<el-col :xs="24" :sm="10" :md="10" :lg="8" :xl="8">
 				<div class="home-card-item">
-					<div class="home-card-item-title">快捷导航工具</div>
+					<div class="home-card-item-title">热门门诊</div>
 					<div class="home-monitor">
 						<div class="flex-warp">
 							<div class="flex-warp-item" v-for="(v, k) in homeThree" :key="k">
@@ -68,7 +68,7 @@
 <script lang="ts">
 import { toRefs, reactive, defineComponent, onMounted, ref, watch, nextTick, onActivated } from 'vue';
 import * as echarts from 'echarts';
-import { useStore } from '/@/store/index';
+import { useStore } from '/@/store';
 
 let global: any = {
 	homeChartOne: null,
@@ -87,36 +87,36 @@ export default defineComponent({
 		const state = reactive({
 			homeOne: [
 				{
-					num1: '125,12',
+					num1: '25,12',
 					num2: '-12.32',
-					num3: '订单统计信息',
+					num3: '累计预约人次',
 					num4: 'icon-putong',
 					color1: '#FF6462',
 					color2: '--next-color-primary-lighter',
 					color3: '--el-color-primary',
 				},
 				{
-					num1: '653,33',
+					num1: '23,33',
 					num2: '+42.32',
-					num3: '月度计划信息',
+					num3: '累计就诊人次',
 					num4: 'icon-ditu',
 					color1: '#6690F9',
 					color2: '--el-color-success-lighter',
 					color3: '--el-color-success',
 				},
 				{
-					num1: '125,65',
+					num1: '8,65',
 					num2: '+17.32',
-					num3: '年度计划信息',
+					num3: '本月预约人次',
 					num4: 'icon-zaosheng',
 					color1: '#6690F9',
 					color2: '--el-color-warning-lighter',
 					color3: '--el-color-warning',
 				},
 				{
-					num1: '520,43',
+					num1: '7,43',
 					num2: '-10.01',
-					num3: '访问统计信息',
+					num3: '本月就诊人次',
 					num4: 'icon-skin',
 					color1: '#FF6462',
 					color2: '--el-color-danger-lighter',
@@ -193,31 +193,31 @@ export default defineComponent({
 			const option = {
 				backgroundColor: state.charts.bgColor,
 				title: {
-					text: '政策补贴额度',
+					text: '预约就诊趋势',
 					x: 'left',
 					textStyle: { fontSize: '15', color: state.charts.color },
 				},
 				grid: { top: 70, right: 20, bottom: 30, left: 30 },
 				tooltip: { trigger: 'axis' },
-				legend: { data: ['预购队列', '最新成交价'], right: 0 },
+				legend: { data: ['预约人次', '就诊人次'], right: 0 },
 				xAxis: {
 					data: ['1月', '2月', '3月', '4月', '5月', '6月', '7月', '8月', '9月', '10月', '11月', '12月'],
 				},
 				yAxis: [
 					{
 						type: 'value',
-						name: '价格',
+						name: '人次',
 						splitLine: { show: true, lineStyle: { type: 'dashed', color: '#f5f5f5' } },
 					},
 				],
 				series: [
 					{
-						name: '预购队列',
+						name: '预约人次',
 						type: 'line',
 						symbolSize: 6,
 						symbol: 'circle',
 						smooth: true,
-						data: [0, 41.1, 30.4, 65.1, 53.3, 53.3, 53.3, 41.1, 30.4, 65.1, 53.3, 10],
+						data: [41, 30, 65, 53, 53, 53, 41, 30, 65],
 						lineStyle: { color: '#fe9a8b' },
 						itemStyle: { color: '#fe9a8b', borderColor: '#fe9a8b' },
 						areaStyle: {
@@ -228,12 +228,12 @@ export default defineComponent({
 						},
 					},
 					{
-						name: '最新成交价',
+						name: '就诊人次',
 						type: 'line',
 						symbolSize: 6,
 						symbol: 'circle',
 						smooth: true,
-						data: [0, 24.1, 7.2, 15.5, 42.4, 42.4, 42.4, 24.1, 7.2, 15.5, 42.4, 0],
+						data: [24, 7, 15, 42, 42, 42, 24, 7, 15],
 						lineStyle: { color: '#9E87FF' },
 						itemStyle: { color: '#9E87FF', borderColor: '#9E87FF' },
 						areaStyle: {
@@ -272,17 +272,17 @@ export default defineComponent({
 		const initPieChart = () => {
 			if (!global.dispose.some((b: any) => b === global.homeChartTwo)) global.homeChartTwo.dispose();
 			global.homeChartTwo = <any>echarts.init(homePieRef.value, state.charts.theme);
-			var getname = ['房屋及结构物', '专用设备', '通用设备', '文物和陈列品', '图书、档案'];
-			var getvalue = [34.2, 38.87, 17.88, 9.05, 2.05];
-			var data = [];
-			for (var i = 0; i < getname.length; i++) {
-				data.push({ name: getname[i], value: getvalue[i] });
+      const getName = ['医学验光', '视力检查', '视觉训练', '干眼SPA', 'OK镜验配'];
+      const getValue = [34.2, 38.87, 17.88, 9.05, 2.05];
+      const data = [];
+      for (let i = 0; i < getName.length; i++) {
+				data.push({ name: getName[i], value: getValue[i] });
 			}
 			const colorList = ['#51A3FC', '#36C78B', '#FEC279', '#968AF5', '#E790E8'];
 			const option = {
 				backgroundColor: state.charts.bgColor,
 				title: {
-					text: '房屋建筑工程',
+					text: '科目总占比',
 					x: 'left',
 					textStyle: { fontSize: '15', color: state.charts.color },
 				},
@@ -312,7 +312,7 @@ export default defineComponent({
 					top: 'center',
 					itemWidth: 14,
 					itemHeight: 14,
-					data: getname,
+					data: getName,
 					textStyle: {
 						rich: {
 							name: {
@@ -360,44 +360,44 @@ export default defineComponent({
 			const option = {
 				backgroundColor: state.charts.bgColor,
 				title: {
-					text: '地热开发利用',
+					text: '科目热度趋势',
 					x: 'left',
 					textStyle: { fontSize: '15', color: state.charts.color },
 				},
 				tooltip: { trigger: 'axis' },
-				legend: { data: ['供温', '回温', '压力值(Mpa)'], right: 0 },
+				legend: { data: ['诊疗', '产品', '其它'], right: 0 },
 				grid: { top: 70, right: 80, bottom: 30, left: 80 },
 				xAxis: [
 					{
 						type: 'category',
-						data: ['1km', '2km', '3km', '4km', '5km', '6km'],
+						data: ['1月', '2月', '3月', '4月', '5月', '6月', '7月', '8月', '9月', '10月', '11月', '12月'],
 						boundaryGap: true,
 						axisTick: { show: false },
 					},
 				],
 				yAxis: [
-					{
-						name: '供回温度(℃）',
-						nameLocation: 'middle',
-						nameTextStyle: { padding: [3, 4, 50, 6] },
-						splitLine: { show: true, lineStyle: { type: 'dashed', color: '#f5f5f5' } },
-						axisLine: { show: false },
-						axisTick: { show: false },
-						axisLabel: { color: state.charts.color, formatter: '{value} ' },
-					},
-					{
-						name: '压力值(Mpa)',
-						nameLocation: 'middle',
-						nameTextStyle: { padding: [50, 4, 5, 6] },
-						splitLine: { show: false },
-						axisLine: { show: false },
-						axisTick: { show: false },
-						axisLabel: { color: state.charts.color, formatter: '{value} ' },
-					},
+          {
+            name: '人次',
+            nameLocation: 'middle',
+            nameTextStyle: { padding: [3, 4, 50, 6] },
+            splitLine: { show: true, lineStyle: { type: 'dashed', color: '#f5f5f5' } },
+            axisLine: { show: false },
+            axisTick: { show: false },
+            axisLabel: { color: state.charts.color, formatter: '{value} ' },
+          },
+          {
+            name: '人次',
+            nameLocation: 'middle',
+            nameTextStyle: { padding: [3, 4, 50, 6] },
+            splitLine: { show: true, lineStyle: { type: 'dashed', color: '#f5f5f5' } },
+            axisLine: { show: false },
+            axisTick: { show: false },
+            axisLabel: { color: state.charts.color, formatter: '{value} ' },
+          },
 				],
 				series: [
 					{
-						name: '供温',
+						name: '诊疗',
 						type: 'line',
 						smooth: true,
 						showSymbol: true,
@@ -425,7 +425,7 @@ export default defineComponent({
 						],
 					},
 					{
-						name: '回温',
+						name: '产品',
 						type: 'line',
 						smooth: true,
 						showSymbol: true,
@@ -458,7 +458,7 @@ export default defineComponent({
 						],
 					},
 					{
-						name: '压力值(Mpa)',
+						name: '累计',
 						type: 'bar',
 						barWidth: 30,
 						yAxisIndex: 1,

@@ -18,8 +18,8 @@
 					</el-form-item>
 				</el-col>
 				<el-col :xs="24" :sm="12" :md="8" :lg="6" :xl="4" class="mb20">
-					<el-form-item label="所属部门" prop="department">
-						<el-input v-model="form.department" placeholder="请输入所属部门" clearable></el-input>
+					<el-form-item label="所属机构" prop="department">
+						<el-input v-model="form.department" placeholder="请输入所属机构" clearable></el-input>
 					</el-form-item>
 				</el-col>
 			</el-row>
@@ -38,7 +38,7 @@ export default defineComponent({
 				createUser: { required: true, message: '请输入创建用户', trigger: 'blur' },
 				editUser: { required: true, message: '请输入修改用户', trigger: 'blur' },
 				user: { required: true, message: '请输入所属用户', trigger: 'blur' },
-				department: { required: true, message: '请输入所属部门', trigger: 'blur' },
+				department: { required: true, message: '请输入所属机构', trigger: 'blur' },
 			},
 		});
 		return {

@@ -5,7 +5,7 @@
         <el-card shadow="hover">
           <el-aside>
             <el-scrollbar>
-              <el-input :prefix-icon="search" v-model="filterText" placeholder="请输入部门名称" clearable size="default" style="width: 80%;"/>
+              <el-input :prefix-icon="search" v-model="filterText" placeholder="请输入机构名称" clearable size="default"/>
               <el-tree
                   ref="treeRef"
                   class="filter-tree"
@@ -100,7 +100,7 @@
             <el-table-column type="index" label="序号" width="60"/>
             <el-table-column prop="userName" label="账户名称" show-overflow-tooltip></el-table-column>
             <el-table-column prop="userNickname" label="用户昵称" show-overflow-tooltip></el-table-column>
-            <el-table-column prop="dept.deptName" label="部门" show-overflow-tooltip></el-table-column>
+            <el-table-column prop="dept.deptName" label="机构" show-overflow-tooltip></el-table-column>
             <el-table-column label="角色" align="center" prop="roleInfo" :show-overflow-tooltip="true">
               <template #default="scope">
                 <span v-for="(item,index) of scope.row.roleInfo" :key="'role-'+index">   {{ item.name + '   ' }}   </span>
@@ -362,3 +362,16 @@ export default defineComponent({
   },
 });
 </script>
+<style scoped lang="scss">
+.el-aside {
+  width: var(--el-aside-width, 100%);
+
+  .filter-tree {
+    margin-top: 10px;
+  }
+
+  .el-tree-node__content {
+    height: 32px;
+  }
+}
+</style>

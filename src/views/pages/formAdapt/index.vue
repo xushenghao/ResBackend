@@ -9,8 +9,8 @@
 						</el-form-item>
 					</el-col>
 					<el-col :xs="24" :sm="12" :md="8" :lg="6" :xl="4" class="mb20">
-						<el-form-item label="用户归属部门">
-							<el-input v-model="form.email" placeholder="请输入用户归属部门" clearable></el-input>
+						<el-form-item label="用户归属机构">
+							<el-input v-model="form.email" placeholder="请输入用户归属机构" clearable></el-input>
 						</el-form-item>
 					</el-col>
 					<el-col :xs="24" :sm="12" :md="8" :lg="6" :xl="4" class="mb20">
@@ -66,8 +66,8 @@
 						</el-form-item>
 					</el-col>
 					<el-col :xs="24" :sm="12" :md="8" :lg="6" :xl="4" class="mb20">
-						<el-form-item label="所属部门">
-							<el-input v-model="form.phone6" placeholder="请输入所属部门" clearable></el-input>
+						<el-form-item label="所属机构">
+							<el-input v-model="form.phone6" placeholder="请输入所属机构" clearable></el-input>
 						</el-form-item>
 					</el-col>
 					<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24">

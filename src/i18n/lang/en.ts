@@ -1,7 +1,7 @@
 // 定义内容
 export default {
 	router: {
-		home: 'home',
+		home: 'Dashboard',
 		system: 'system',
 		systemMenu: 'systemMenu',
 		systemRole: 'systemRole',

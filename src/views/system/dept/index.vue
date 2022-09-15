@@ -3,8 +3,8 @@
     <el-card shadow="hover">
       <div class="system-dept-search mb15">
         <el-form :inline="true">
-          <el-form-item label="部门名称">
-            <el-input size="default" v-model="tableData.param.deptName" placeholder="请输入部门名称" class="w-50 m-2" clearable/>
+          <el-form-item label="机构名称">
+            <el-input size="default" v-model="tableData.param.deptName" placeholder="请输入机构名称" class="w-50 m-2" clearable/>
           </el-form-item>
           <el-form-item label="状态">
             <el-select size="default" placeholder="请选择状态" class="w-50 m-2" v-model="tableData.param.status" clearable>
@@ -23,7 +23,7 @@
               <el-icon>
                 <ele-FolderAdd/>
               </el-icon>
-              新增部门
+              新增机构
             </el-button>
           </el-form-item>
         </el-form>
@@ -35,8 +35,8 @@
           default-expand-all
           :tree-props="{ children: 'children', hasChildren: 'hasChildren' }"
       >
-        <el-table-column prop="deptName" label="部门名称" show-overflow-tooltip></el-table-column>
-        <el-table-column prop="status" label="部门状态" show-overflow-tooltip>
+        <el-table-column prop="deptName" label="机构名称" show-overflow-tooltip></el-table-column>
+        <el-table-column prop="status" label="机构状态" show-overflow-tooltip>
           <template #default="scope">
             <el-tag type="success" v-if="scope.row.status===1">启用</el-tag>
             <el-tag type="info" v-else>禁用</el-tag>
@@ -124,7 +124,7 @@ export default defineComponent({
     };
     // 删除当前行
     const onTableRowDel = (row: TableDataRow) => {
-      ElMessageBox.confirm(`此操作将永久删除部门：${row.deptName}, 是否继续?`, '提示', {
+      ElMessageBox.confirm(`此操作将永久删除机构：${row.deptName}, 是否继续?`, '提示', {
         confirmButtonText: '删除',
         cancelButtonText: '取消',
         type: 'warning',

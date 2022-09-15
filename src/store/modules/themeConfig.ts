@@ -10,7 +10,7 @@ const themeConfigModule: Module<ThemeConfigState, RootStateTypes> = {
     namespaced: true,
     state: {
         themeConfig: {
-            isDrawer: true,                      // 是否开启布局配置抽屉
+            isDrawer: false,                     // 是否开启布局配置抽屉
             primary: '#E49612',                  // 默认主题颜色
 
             /**
@@ -22,7 +22,7 @@ const themeConfigModule: Module<ThemeConfigState, RootStateTypes> = {
             topBar: '#ffffff',                   // 默认顶栏导航背景颜色
             topBarColor: '#606266',              // 默认顶栏导航字体颜色
             isTopBarColorGradual: false,         // 是否开启顶栏背景颜色渐变
-            menuBar: '#646667',                  // 默认菜单导航背景颜色
+            menuBar: '#001529',                  // 默认菜单导航背景颜色
             menuBarColor: '#EEEFF0',             // 默认菜单导航字体颜色
             isMenuBarColorGradual: false,        // 是否开启菜单背景颜色渐变
             columnsMenuBar: '#545c64',           // 默认分栏菜单背景颜色
