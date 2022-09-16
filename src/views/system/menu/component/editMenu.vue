@@ -231,7 +231,7 @@ export default defineComponent({
                 name: data.name, // 接口规则
                 component: data.component, // 组件路径
                 isLink: data.isLink, // 是否外链
-                menuSort: data.weigh, // 菜单排序
+                menuSort: data.weight, // 菜单排序
                 path: data.path, // 路由路径
                 redirect: data.redirect, // 路由重定向，有子集 children 时
                 icon: data.icon, // 菜单图标

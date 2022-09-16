@@ -1,0 +1,22 @@
+.card-header {
+  font-weight: bold;
+}
+
+.el-aside {
+  .el-tree-node__content {
+    min-height: 36px;
+  }
+}
+
+table {
+  .el-button--small {
+    font-size: 13px;
+  }
+}
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active{
+  -webkit-box-shadow: 0 0 0 30px white inset !important;
+}

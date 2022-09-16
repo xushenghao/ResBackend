@@ -1,12 +1,12 @@
 import enLocale from 'element-plus/lib/locale/lang/en';
-import nextEn from '/@/i18n/lang/en';
-import nextZh from '/@/i18n/lang/zh-cn';
 import pagesFormI18nEn from '/@/i18n/pages/formI18n/en';
 import pagesFormI18nZh from '/@/i18n/pages/formI18n/zh-cn';
 import pagesLoginEn from '/@/i18n/pages/login/en';
 import pagesLoginZh from '/@/i18n/pages/login/zh-cn';
 import zhLocale from 'element-plus/lib/locale/lang/zh-cn';
 import { createI18n } from 'vue-i18n';
+import nextZh from '/@/i18n/lang/zh-cn';
+import nextEn from '/@/i18n/lang/en';
 import { store } from '/@/store';
 
 // 定义语言国际化内容

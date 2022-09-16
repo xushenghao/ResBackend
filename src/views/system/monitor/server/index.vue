@@ -1,6 +1,6 @@
 <template>
   <div class="system-user-container">
-    <el-row :gutter="30">
+    <el-row :gutter="16">
       <el-col :xs="24" :sm="6" :md="6" class="marg-b-15">
         <el-card class="box-card">
           <template #header>
@@ -29,7 +29,7 @@
               </tr>
               <tr>
                 <td>
-                  <div class="cell">服务器名称</div>
+                  <div class="cell">主机名称</div>
                 </td>
                 <td>
                   <div class="cell">{{ sysInfo.sysComputerName }}</div>
@@ -37,7 +37,7 @@
               </tr>
               <tr>
                 <td>
-                  <div class="cell">服务器 IP</div>
+                  <div class="cell">主机地址</div>
                 </td>
                 <td>
                   <div class="cell">{{ sysInfo.sysComputerIp }}</div>
@@ -45,7 +45,7 @@
               </tr>
               <tr>
                 <td>
-                  <div class="cell">Go 版本</div>
+                  <div class="cell">语言版本</div>
                 </td>
                 <td>
                   <div class="cell">{{ sysInfo.goVersion }}</div>
@@ -121,7 +121,7 @@
                 </table>
               </el-col>
               <el-col :xs="24" :sm="24" :md="12">
-                <div style="min-height: 280px;" ref="chartsWarningRefCPU"></div>
+                <div style="min-height: 260px;" ref="chartsWarningRefCPU"></div>
               </el-col>
             </el-row>
           </div>
@@ -175,7 +175,7 @@
                 </table>
               </el-col>
               <el-col :xs="24" :sm="24" :md="12">
-                <div style="min-height: 280px;" ref="chartsWarningRefRAM"></div>
+                <div style="min-height: 260px;" ref="chartsWarningRefRAM"></div>
               </el-col>
             </el-row>
           </div>
@@ -189,7 +189,7 @@
             </div>
           </template>
           <div class=" el-table--enable-row-hover el-table--medium">
-            <table style="width: 100%;">
+            <table stripe style="width: 100%;">
               <tbody>
               <tr>
                 <td>
@@ -242,10 +242,10 @@
 </template>
 
 <script lang="ts">
-import {toRefs, reactive, onMounted, getCurrentInstance, defineComponent} from 'vue';
+import {defineComponent, getCurrentInstance, onMounted, reactive, toRefs} from 'vue';
+import {getSysInfo} from "/@/api/system/monitor/server";
 import * as echarts from 'echarts';
 import 'echarts-wordcloud';
-import {getSysInfo} from "/@/api/system/monitor/server";
 
 let interval: any = null
 export default defineComponent({
@@ -257,7 +257,6 @@ export default defineComponent({
       myCharts: [],
       sysInfo: {}
     });
-
 
     let myChartCPU: any;
     let myChartRAM: any;

@@ -6,8 +6,8 @@
           <el-form-item label="角色名称">
             <el-input size="default" v-model="tableData.param.roleName" placeholder="请输入角色名称" class="w-50 m-2" clearable/>
           </el-form-item>
-          <el-form-item label="状态">
-            <el-select size="default" placeholder="请选择状态" class="w-50 m-2" v-model="tableData.param.roleStatus" clearable>
+          <el-form-item label="角色状态">
+            <el-select size="default" placeholder="请选择角色状态" class="w-50 m-2" v-model="tableData.param.roleStatus" clearable>
               <el-option label="启用"  value="1" />
               <el-option label="禁用"  value="0" />
             </el-select>
@@ -28,19 +28,19 @@
           </el-form-item>
         </el-form>
 			</div>
-			<el-table :data="tableData.data" style="width: 100%">
+			<el-table stripe :data="tableData.data" style="width: 100%">
 				<el-table-column type="index" label="序号" width="60" />
-				<el-table-column prop="name" label="角色名称" show-overflow-tooltip></el-table-column>
-				<el-table-column prop="listOrder" label="排序" show-overflow-tooltip></el-table-column>
-				<el-table-column prop="status" label="角色状态" show-overflow-tooltip>
-					<template #default="scope">
-						<el-tag type="success" v-if="scope.row.status===1">启用</el-tag>
-						<el-tag type="info" v-else>禁用</el-tag>
-					</template>
-				</el-table-column>
+				<el-table-column prop="listOrder" width="60" label="排序" show-overflow-tooltip></el-table-column>
+        <el-table-column prop="name" width="140" label="角色名称" show-overflow-tooltip></el-table-column>
 				<el-table-column prop="remark" label="角色描述" show-overflow-tooltip></el-table-column>
-        <el-table-column prop="createdAt" label="创建时间" show-overflow-tooltip></el-table-column>
-				<el-table-column label="操作" width="100">
+        <el-table-column prop="createdAt" width="180" label="创建时间" show-overflow-tooltip></el-table-column>
+        <el-table-column prop="status" width="100" label="角色状态" show-overflow-tooltip>
+          <template #default="scope">
+            <el-tag type="success" v-if="scope.row.status===1">启用</el-tag>
+            <el-tag type="info" v-else>禁用</el-tag>
+          </template>
+        </el-table-column>
+				<el-table-column label="操作" width="100" align="center">
 					<template #default="scope">
 						<el-button size="small" type="text" @click="onOpenEditRole(scope.row)">修改</el-button>
 						<el-button size="small" type="text" @click="onRowDel(scope.row)">删除</el-button>

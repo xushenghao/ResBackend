@@ -1,8 +1,8 @@
 <template>
   <div class="layout-navbars-breadcrumb-user" :style="{ flex: layoutUserFlexNum }">
-    <el-dropdown :show-timeout="70" :hide-timeout="50" trigger="click" @command="onComponentSizeChange">
+    <el-dropdown v-show="false" :show-timeout="70" :hide-timeout="50" trigger="click" @command="onComponentSizeChange">
       <div class="layout-navbars-breadcrumb-user-icon">
-        <i class="iconfont icon-ziti" :title="$t('message.user.title0')"></i>
+        <i class="iconfont icon-ziti" :title="$t('message.user.title0')"/>
       </div>
       <template #dropdown>
         <el-dropdown-menu>
@@ -12,9 +12,9 @@
         </el-dropdown-menu>
       </template>
     </el-dropdown>
-    <el-dropdown :show-timeout="70" :hide-timeout="50" trigger="click" @command="onLanguageChange">
+    <el-dropdown v-show="false" :show-timeout="70" :hide-timeout="50" trigger="click" @command="onLanguageChange">
       <div class="layout-navbars-breadcrumb-user-icon">
-        <i class="iconfont" :class="disabledI18n === 'en' ? 'icon-fuhao-yingwen' : 'icon-fuhao-zhongwen'" :title="$t('message.user.title1')"></i>
+        <i class="iconfont" :class="disabledI18n === 'en' ? 'icon-fuhao-yingwen' : 'icon-fuhao-zhongwen'" :title="$t('message.user.title1')"/>
       </div>
       <template #dropdown>
         <el-dropdown-menu>
@@ -23,13 +23,13 @@
         </el-dropdown-menu>
       </template>
     </el-dropdown>
-    <div class="layout-navbars-breadcrumb-user-icon" @click="onSearchClick">
+    <div v-show="false" class="layout-navbars-breadcrumb-user-icon" @click="onSearchClick">
       <el-icon :title="$t('message.user.title2')">
         <ele-Search/>
       </el-icon>
     </div>
     <div class="layout-navbars-breadcrumb-user-icon" @click="onLayoutSettingClick">
-      <i class="icon-skin iconfont" :title="$t('message.user.title3')"></i>
+      <i class="icon-skin iconfont" :title="$t('message.user.title3')"/>
     </div>
     <div class="layout-navbars-breadcrumb-user-icon">
       <el-popover placement="bottom" trigger="click" :width="300">
@@ -94,7 +94,7 @@ export default defineComponent({
     const state = reactive({
       isScreenfull: false,
       disabledI18n: 'zh-cn',
-      disabledSize: 'large',
+      disabledSize: 'default',
     });
     // 获取用户信息 vuex
     const getUserInfos = computed(() => {
@@ -167,7 +167,7 @@ export default defineComponent({
             .catch(() => {
             });
       } else if (path === 'wareHouse') {
-        window.open('https://github.com/tiger1103/gfast');
+        window.open('https://www.baidu.com');
       } else {
         router.push(path);
       }

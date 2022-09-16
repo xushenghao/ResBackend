@@ -44,47 +44,53 @@
             <span class="ml10">{{ scope.row.title }}</span>
           </template>
         </el-table-column>
-        <el-table-column prop="path" label="路由路径" show-overflow-tooltip></el-table-column>
+        <el-table-column label="排序" show-overflow-tooltip width="80" align="center">
+          <template #default="scope">
+            {{ scope.row.weight }}
+          </template>
+        </el-table-column>
+        <el-table-column prop="path" label="路由路径" show-overflow-tooltip/>
         <el-table-column label="组件路径" show-overflow-tooltip>
           <template #default="scope">
             <span>{{ scope.row.component }}</span>
           </template>
         </el-table-column>
-        <el-table-column label="api接口" show-overflow-tooltip>
+        <el-table-column label="API 接口" show-overflow-tooltip>
           <template #default="scope">
             <span>{{ scope.row.name }}</span>
           </template>
         </el-table-column>
-        <el-table-column label="排序" show-overflow-tooltip width="80">
+        <el-table-column label="类型" show-overflow-tooltip width="80" align="center">
           <template #default="scope">
-            {{ scope.row.weigh }}
-          </template>
-        </el-table-column>
-        <el-table-column label="类型" show-overflow-tooltip width="80">
-          <template #default="scope">
-            <el-tag :type="scope.row.menuType===0?'danger':(scope.row.menuType===1?'success':'warning')"
-                    size="small">{{ scope.row.menuType === 0 ? '目录' : (scope.row.menuType === 1 ? '菜单' : '按钮') }}
+            <el-tag
+                :type="scope.row.menuType===0?'danger':(scope.row.menuType===1?'success':'warning')"
+                size="small">{{ scope.row.menuType === 0 ? '目录' : (scope.row.menuType === 1 ? '菜单' : '按钮') }}
             </el-tag>
           </template>
         </el-table-column>
-        <el-table-column prop="isHide" label="显示状态" :formatter="formatIsHide" width="120"></el-table-column>
-        <el-table-column label="操作" show-overflow-tooltip width="140">
+        <el-table-column prop="isHide" label="显示状态" :formatter="formatIsHide" width="100" align="center"/>
+        <el-table-column label="操作" show-overflow-tooltip width="150" align="center">
           <template #default="scope">
-            <el-button v-if="scope.row.menuType!==2" size="small" type="text" @click="onOpenAddMenu(scope.row)" v-auth="'api/v1/system/menu/add'">新增
+            <el-button size="small" type="text" @click="onOpenAddMenu(scope.row)" v-auth="'api/v1/system/menu/add'" v-if="scope.row.menuType!==2">
+              新增
             </el-button>
-            <el-button size="small" type="text" @click="onOpenEditMenu(scope.row)" v-auth="'api/v1/system/menu/update'">修改</el-button>
-            <el-button size="small" type="text" @click="onTableRowDel(scope.row)" v-auth="'api/v1/system/menu/delete'">删除</el-button>
+            <el-button size="small" type="text" @click="onOpenEditMenu(scope.row)" v-auth="'api/v1/system/menu/update'">
+              修改
+            </el-button>
+            <el-button size="small" type="text" @click="onTableRowDel(scope.row)" v-auth="'api/v1/system/menu/delete'">
+              删除
+            </el-button>
           </template>
         </el-table-column>
       </el-table>
     </el-card>
-    <EditMenu ref="editMenuRef" @menuList="menuList" :visibleOptions="sys_show_hide" :acType="acType"/>
+    <EditMenu ref="editMenuRef" @menuList="menuList" :visibleOptions="[sys_show_hide]" :acType="acType"/>
   </div>
 </template>
 
 <script lang="ts">
-import {ref, toRefs, reactive, onBeforeMount, defineComponent, getCurrentInstance, unref} from 'vue';
-import {ElMessageBox, ElMessage} from 'element-plus';
+import {ElMessage, ElMessageBox} from 'element-plus';
+import {defineComponent, getCurrentInstance, onBeforeMount, reactive, ref, toRefs, unref} from 'vue';
 import EditMenu from '/@/views/system/menu/component/editMenu.vue';
 import {delMenu, getMenuList} from "/@/api/system/menu";
 

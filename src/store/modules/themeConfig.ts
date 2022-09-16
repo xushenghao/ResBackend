@@ -22,7 +22,7 @@ const themeConfigModule: Module<ThemeConfigState, RootStateTypes> = {
             topBar: '#ffffff',                   // 默认顶栏导航背景颜色
             topBarColor: '#606266',              // 默认顶栏导航字体颜色
             isTopBarColorGradual: false,         // 是否开启顶栏背景颜色渐变
-            menuBar: '#001529',                  // 默认菜单导航背景颜色
+            menuBar: '#123B60',                  // 默认菜单导航背景颜色
             menuBarColor: '#EEEFF0',             // 默认菜单导航字体颜色
             isMenuBarColorGradual: false,        // 是否开启菜单背景颜色渐变
             columnsMenuBar: '#545c64',           // 默认分栏菜单背景颜色
@@ -34,8 +34,8 @@ const themeConfigModule: Module<ThemeConfigState, RootStateTypes> = {
              */
             isCollapse: false,                   // 是否开启菜单水平折叠效果
             isUniqueOpened: true,                // 是否开启菜单手风琴效果
-            isFixedHeader: false,                // 是否开启固定 Header
-            isFixedHeaderChange: false,          // 初始化变量，用于更新菜单 el-scrollbar 的高度，请勿删除
+            isFixedHeader: true,                 // 是否开启固定 Header
+            isFixedHeaderChange: true,           // 初始化变量，用于更新菜单 el-scrollbar 的高度，请勿删除
             isClassicSplitMenu: false,           // 是否开启经典布局分割菜单（仅经典布局生效）
             isLockScreen: false,                 // 是否开启自动锁屏
             lockScreenTime: 30,                  // 开启自动锁屏倒计时(秒)

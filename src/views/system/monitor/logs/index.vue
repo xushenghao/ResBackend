@@ -3,7 +3,7 @@
     <el-card shadow="hover">
       <div class="system-user-search mb15">
         <el-form :model="tableData.param" ref="queryRef" :inline="true" label-width="68px">
-          <el-form-item label="登录IP" prop="ipaddr">
+          <el-form-item label="登录 IP" prop="ipaddr">
             <el-input
                 v-model="tableData.param.ipaddr"
                 placeholder="请输入登录地址"
@@ -36,7 +36,7 @@
             />
           </el-form-item>
 
-          <el-form-item label="状态" prop="status">
+          <el-form-item label="登录状态" prop="status">
             <el-select
                 v-model="tableData.param.status"
                 placeholder="登录状态"
@@ -68,43 +68,43 @@
           <el-form-item>
             <el-button size="default" type="primary" class="ml10" @click="dataList">
               <el-icon>
-                <ele-Search />
+                <ele-Search/>
               </el-icon>
               查询
             </el-button>
             <el-button size="default" @click="resetQuery(queryRef)">
               <el-icon>
-                <ele-Refresh />
+                <ele-Refresh/>
               </el-icon>
               重置
             </el-button>
             <el-button size="default" type="danger" class="ml10" @click="onRowDel(null)">
               <el-icon>
-                <ele-Delete />
+                <ele-Delete/>
               </el-icon>
               删除日志
             </el-button>
             <el-button size="default" type="danger" class="ml10" @click="onRowClear()">
               <el-icon>
-                <ele-Delete />
+                <ele-Delete/>
               </el-icon>
               清空日志
             </el-button>
           </el-form-item>
         </el-form>
       </div>
-      <el-table :data="tableData.data" style="width: 100%" @selection-change="handleSelectionChange">
-        <el-table-column type="selection" width="55" align="center" />
-        <el-table-column label="编号" align="center" prop="infoId" />
-        <el-table-column label="登录名称" align="center" prop="loginName" />
-        <el-table-column label="登录地址" align="center" prop="ipaddr" width="130" :show-overflow-tooltip="true" />
-        <el-table-column label="登录地点" align="center" prop="loginLocation" :show-overflow-tooltip="true" />
-        <el-table-column label="浏览器" align="center" prop="browser" />
-        <el-table-column label="操作系统" align="center" prop="os" />
-        <el-table-column label="登录状态" align="center" prop="status" :formatter="statusFormat" />
-        <el-table-column label="操作信息" align="center" prop="msg" />
-        <el-table-column label="登录日期" align="center" prop="loginTime" width="180" />
-        <el-table-column label="登录模块" alian="center" prop="module"></el-table-column>
+      <el-table stripe :data="tableData.data" style="width: 100%" @selection-change="handleSelectionChange">
+        <el-table-column type="selection" width="55" align="center"/>
+        <el-table-column label="编号" align="center" width="60" prop="infoId"/>
+        <el-table-column label="登录日期" align="center" width="180" prop="loginTime"/>
+        <el-table-column label="登录名称" align="center" width="100" prop="loginName"/>
+        <el-table-column label="登录模块" alian="center" width="100" prop="module"/>
+        <el-table-column label="登录状态" align="center" width="100" prop="status" :formatter="statusFormat"/>
+        <el-table-column label="登录 IP" align="center" width="100" prop="ipaddr" :show-overflow-tooltip="true"/>
+        <el-table-column label="登录地点" align="center" width="140" prop="loginLocation" :show-overflow-tooltip="true"/>
+        <el-table-column label="操作信息" align="center" prop="msg"/>
+        <el-table-column label="浏览器" align="center" width="100" prop="browser"/>
+        <el-table-column label="操作系统" align="center" prop="os"/>
       </el-table>
       <pagination
           v-show="tableData.total>0"
@@ -118,25 +118,26 @@
 </template>
 
 <script lang="ts">
-import { toRefs, reactive, onMounted, ref, defineComponent,getCurrentInstance,unref } from 'vue';
-import { ElMessageBox, ElMessage,FormInstance} from 'element-plus';
-import { logList,deleteLog,clearLog } from '/@/api/system/monitor/logs';
+import {toRefs, reactive, onMounted, ref, defineComponent, getCurrentInstance, unref} from 'vue';
+import {ElMessageBox, ElMessage, FormInstance} from 'element-plus';
+import {logList, deleteLog, clearLog} from '/@/api/system/monitor/logs';
 
 // 定义接口来定义对象的类型
 interface TableDataRow {
-  infoId:number;
-  loginName:string;
-  ipaddr:string;
-  loginLocation:string;
-  browser:string;
-  os:string;
-  status:number;
-  msg:string;
-  loginTime:string;
-  module:string;
+  infoId: number;
+  loginName: string;
+  ipaddr: string;
+  loginLocation: string;
+  browser: string;
+  os: string;
+  status: number;
+  msg: string;
+  loginTime: string;
+  module: string;
 }
+
 interface TableDataState {
-  ids:number[];
+  ids: number[];
   tableData: {
     data: Array<TableDataRow>;
     total: number;
@@ -146,9 +147,9 @@ interface TableDataState {
       pageSize: number;
       dateRange: string[];
       status: string;
-      ipaddr:string;
-      loginLocation:string;
-      userName:string;
+      ipaddr: string;
+      loginLocation: string;
+      userName: string;
     };
   };
 }
@@ -160,7 +161,7 @@ export default defineComponent({
     const queryRef = ref();
     const {sys_login_status} = proxy.useDict('sys_login_status')
     const state = reactive<TableDataState>({
-      ids:[],
+      ids: [],
       tableData: {
         data: [],
         total: 0,
@@ -170,9 +171,9 @@ export default defineComponent({
           pageSize: 10,
           dateRange: [],
           status: '',
-          ipaddr:'',
-          loginLocation:'',
-          userName:''
+          ipaddr: '',
+          loginLocation: '',
+          userName: ''
         },
       },
     });
@@ -180,8 +181,8 @@ export default defineComponent({
     const initTableData = () => {
       dataList()
     };
-    const dataList=()=>{
-      logList(state.tableData.param).then((res:any)=>{
+    const dataList = () => {
+      logList(state.tableData.param).then((res: any) => {
         state.tableData.data = res.data.list;
         state.tableData.total = res.data.total;
       });
@@ -189,14 +190,14 @@ export default defineComponent({
     // 删除日志
     const onRowDel = (row: TableDataRow) => {
       let msg = '你确定要删除所选数据？';
-      let ids:number[] = [] ;
-      if(row){
+      let ids: number[] = [];
+      if (row) {
         msg = `此操作将永久删除：“${row.loginName}”，是否继续?`
         ids = [row.infoId]
-      }else{
+      } else {
         ids = state.ids
       }
-      if(ids.length===0){
+      if (ids.length === 0) {
         ElMessage.error('请选择要删除的数据。');
         return
       }
@@ -206,12 +207,13 @@ export default defineComponent({
         type: 'warning',
       })
           .then(() => {
-            deleteLog(ids).then(()=>{
+            deleteLog(ids).then(() => {
               ElMessage.success('删除成功');
               dataList();
             })
           })
-          .catch(() => {});
+          .catch(() => {
+          });
     };
     // 清空日志
     const onRowClear = () => {
@@ -221,12 +223,13 @@ export default defineComponent({
         type: 'warning',
       })
           .then(() => {
-            clearLog().then(()=>{
+            clearLog().then(() => {
               ElMessage.success('清除成功');
               dataList();
             })
           })
-          .catch(() => {});
+          .catch(() => {
+          });
     };
     // 页面加载时
     onMounted(() => {
@@ -239,11 +242,11 @@ export default defineComponent({
       dataList()
     };
     // 多选框选中数据
-    const handleSelectionChange = (selection:TableDataRow[])=> {
+    const handleSelectionChange = (selection: TableDataRow[]) => {
       state.ids = selection.map(item => item.infoId)
     };
     // 登录状态字典翻译
-    const statusFormat = (row:TableDataRow) => {
+    const statusFormat = (row: TableDataRow) => {
       return proxy.selectDictLabel(unref(sys_login_status), row.status);
     };
     return {

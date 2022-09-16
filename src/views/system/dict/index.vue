@@ -23,7 +23,7 @@
                 @keyup.enter.native="typeList"
             />
           </el-form-item>
-          <el-form-item label="状态" prop="status" style="width: 200px;">
+          <el-form-item label="字典状态" prop="status" style="width: 200px;">
             <el-select
                 v-model="tableData.param.status"
                 placeholder="字典状态"
@@ -75,10 +75,10 @@
           </el-form-item>
         </el-form>
       </div>
-      <el-table :data="tableData.data" style="width: 100%" @selection-change="handleSelectionChange">
+      <el-table stripe :data="tableData.data" style="width: 100%" @selection-change="handleSelectionChange">
         <el-table-column type="selection" width="60" align="center"/>
-        <el-table-column label="字典主键" width="90" align="center" prop="dictId"/>
-        <el-table-column label="字典名称" align="center" prop="dictName" :show-overflow-tooltip="true"/>
+        <el-table-column label="字典主键" width="100" align="center" prop="dictId"/>
+        <el-table-column label="字典名称" width="100" align="center" prop="dictName" :show-overflow-tooltip="true"/>
         <el-table-column label="字典类型" align="center" :show-overflow-tooltip="true">
           <template #default="scope">
             <router-link :to="'/system/dict/data/list/' + scope.row.dictType" class="link-type">
@@ -193,13 +193,13 @@ export default defineComponent({
       let msg = '你确定要删除所选数据？';
       let ids: number[] = [];
       if (row) {
-        msg = `此操作将永久删除用户：“${row.dictName}”，是否继续?`
+        msg = `此操作将永久删除：${row.dictName}，是否继续？`
         ids = [row.dictId]
       } else {
         ids = state.ids
       }
       if (ids.length === 0) {
-        ElMessage.error('请选择要删除的数据。');
+        ElMessage.error('请选择要删除的数据');
         return
       }
       ElMessageBox.confirm(msg, '提示', {

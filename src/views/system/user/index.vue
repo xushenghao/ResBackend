@@ -11,8 +11,9 @@
                   class="filter-tree"
                   :data="deptData"
                   :props="deptProps"
-                  default-expand-all
                   :filter-node-method="deptFilterNode"
+                  :expand-on-click-node="false"
+                  :default-expand-all="true"
                   @node-click="handleNodeClick"
               />
             </el-scrollbar>
@@ -43,10 +44,10 @@
                     @keyup.enter.native="userList"
                 />
               </el-form-item>
-              <el-form-item label="状态" prop="status" style="width: 200px;">
+              <el-form-item label="用户状态" prop="status">
                 <el-select
                     v-model="tableData.param.status"
-                    placeholder="用户状态"
+                    placeholder="请选择用户状态"
                     clearable
                     size="default"
                     style="width: 240px"
@@ -95,19 +96,20 @@
               </el-form-item>
             </el-form>
           </div>
-          <el-table :data="tableData.data" style="width: 100%" @selection-change="handleSelectionChange">
+          <el-table stripe :data="tableData.data" style="width: 100%" @selection-change="handleSelectionChange">
             <el-table-column type="selection" width="55" align="center"/>
-            <el-table-column type="index" label="序号" width="60"/>
+            <el-table-column type="index" label="序号" width="60" align="center"/>
             <el-table-column prop="userName" label="账户名称" show-overflow-tooltip></el-table-column>
             <el-table-column prop="userNickname" label="用户昵称" show-overflow-tooltip></el-table-column>
-            <el-table-column prop="dept.deptName" label="机构" show-overflow-tooltip></el-table-column>
+            <el-table-column prop="dept.deptName" label="所属机构" show-overflow-tooltip></el-table-column>
             <el-table-column label="角色" align="center" prop="roleInfo" :show-overflow-tooltip="true">
               <template #default="scope">
                 <span v-for="(item,index) of scope.row.roleInfo" :key="'role-'+index">   {{ item.name + '   ' }}   </span>
               </template>
             </el-table-column>
-            <el-table-column prop="mobile" label="手机号" show-overflow-tooltip></el-table-column>
-            <el-table-column prop="userStatus" label="用户状态" show-overflow-tooltip>
+            <el-table-column prop="mobile" label="手机号" align="center" show-overflow-tooltip></el-table-column>
+            <el-table-column prop="createdAt" width="180" label="创建时间" show-overflow-tooltip/>
+            <el-table-column prop="userStatus" width="100" align="center" label="用户状态" show-overflow-tooltip>
               <template #default="scope">
                 <el-switch
                     v-model="scope.row.userStatus"
@@ -120,8 +122,7 @@
                 </el-switch>
               </template>
             </el-table-column>
-            <el-table-column prop="createdAt" label="创建时间" show-overflow-tooltip></el-table-column>
-            <el-table-column label="操作" width="150">
+            <el-table-column label="操作" width="150" align="center">
               <template #default="scope">
                 <el-button size="small" type="text" @click="onOpenEditUser(scope.row)">修改</el-button>
                 <el-button size="small" type="text" @click="onRowDel(scope.row)">删除</el-button>
@@ -144,11 +145,11 @@
 </template>
 
 <script lang="ts">
-import {toRefs, reactive, onMounted, ref, defineComponent, watch, getCurrentInstance} from 'vue';
-import {ElMessageBox, ElMessage, ElTree, FormInstance} from 'element-plus';
+import {defineComponent, getCurrentInstance, onMounted, reactive, ref, toRefs, watch} from 'vue';
+import {ElMessage, ElMessageBox, ElTree, FormInstance} from 'element-plus';
 import {Search} from '@element-plus/icons-vue'
 import EditUser from '/@/views/system/user/component/editUser.vue';
-import {getUserList, getDeptTree, resetUserPwd, changeUserStatus, deleteUser} from '/@/api/system/user';
+import {changeUserStatus, deleteUser, getDeptTree, getUserList, resetUserPwd} from '/@/api/system/user';
 
 interface TableDataState {
   ids: number[];
@@ -250,7 +251,7 @@ export default defineComponent({
       let msg = '你确定要删除所选用户？';
       let ids: number[] = [];
       if (row) {
-        msg = `此操作将永久删除用户：“${row.userName}”，是否继续?`
+        msg = `此操作将永久删除用户：${row.userName}，是否继续？`
         ids = [row.id]
       } else {
         ids = state.ids

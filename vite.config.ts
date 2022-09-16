@@ -50,6 +50,7 @@ const viteConfig = defineConfig((mode: ConfigEnv) => {
 					},
 				},
 			},
+			minify: 'terser',
 			terserOptions: {
 				compress: {
 					drop_console: true,

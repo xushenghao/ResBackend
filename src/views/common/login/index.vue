@@ -9,7 +9,7 @@
             </div>
           </div>
           <div v-if="!isScan">
-            <el-tabs v-model="tabsActiveName">
+            <el-tabs :stretch="true" v-model="tabsActiveName">
               <el-tab-pane :label="$t('message.label.one1')" name="account">
                 <Account/>
               </el-tab-pane>
@@ -130,7 +130,7 @@ export default defineComponent({
 
     .login-content-main {
       margin: 0 auto;
-      width: 80%;
+      width: calc(100% - 40px);
 
       .login-content-title {
         color: var(--el-text-color-primary);

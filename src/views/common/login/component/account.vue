@@ -1,5 +1,5 @@
 <template>
-  <el-form ref="loginForm" size="large" class="login-content-form" :model="ruleForm"  :rules="formRules">
+  <el-form ref="loginForm" size="large" class="login-content-form" :model="ruleForm" :rules="formRules">
     <el-form-item class="login-animation1" prop="username">
       <el-input
           type="text"
@@ -7,7 +7,9 @@
           v-model="ruleForm.username"
           clearable autocomplete="off">
         <template #prefix>
-          <el-icon class="el-input__icon"><ele-User /></el-icon>
+          <el-icon class="el-input__icon">
+            <ele-User/>
+          </el-icon>
         </template>
       </el-input>
     </el-form-item>
@@ -15,12 +17,14 @@
       <el-input
           :type="isShowPassword ? 'text' : 'password'"
           :placeholder="$t('message.account.accountPlaceholder2')"
-          v-model="ruleForm.password"
           autocomplete="off"
+          v-model="ruleForm.password"
           @keyup.enter="onSignIn"
       >
         <template #prefix>
-          <el-icon class="el-input__icon"><ele-Unlock /></el-icon>
+          <el-icon class="el-input__icon">
+            <ele-Unlock/>
+          </el-icon>
         </template>
         <template #suffix>
           <i
@@ -44,7 +48,9 @@
             @keyup.enter="onSignIn"
         >
           <template #prefix>
-            <el-icon class="el-input__icon"><ele-Position /></el-icon>
+            <el-icon class="el-input__icon">
+              <ele-Position/>
+            </el-icon>
           </template>
         </el-input>
       </el-col>
@@ -71,45 +77,46 @@
 </template>
 
 <script lang="ts">
-import {toRefs, reactive, defineComponent, computed, onMounted,getCurrentInstance} from 'vue';
-import { useRoute, useRouter } from 'vue-router';
-import { ElMessage } from 'element-plus';
-import { useI18n } from 'vue-i18n';
-import { initFrontEndControlRoutes } from '/@/router/frontEnd';
-import { initBackEndControlRoutes } from '/@/router/backEnd';
-import { useStore } from '/@/store';
-import { Session } from '/@/utils/storage';
-import { formatAxis } from '/@/utils/formatTime';
-import {login,captcha} from '/@/api/login';
+import {toRefs, reactive, defineComponent, computed, onMounted, getCurrentInstance} from 'vue';
+import {useRoute, useRouter} from 'vue-router';
+import {ElMessage} from 'element-plus';
+import {useI18n} from 'vue-i18n';
+import {initFrontEndControlRoutes} from '/@/router/frontEnd';
+import {initBackEndControlRoutes} from '/@/router/backEnd';
+import {useStore} from '/@/store';
+import {Session} from '/@/utils/storage';
+import {formatAxis} from '/@/utils/formatTime';
+import {login, captcha} from '/@/api/login';
+
 export default defineComponent({
   name: 'loginAccount',
   setup() {
-    const { t } = useI18n();
+    const {t} = useI18n();
     const store = useStore();
     const route = useRoute();
     const router = useRouter();
-    const { proxy } = <any>getCurrentInstance();
+    const {proxy} = <any>getCurrentInstance();
     const state = reactive({
       isShowPassword: false,
       ruleForm: {
-        username: 'demo',
-        password: '123456',
+        username: '',
+        password: '',
         verifyCode: '',
-        verifyKey:''
+        verifyKey: ''
       },
-      formRules:{
+      formRules: {
         username: [
-          { required: true, trigger: "blur", message: "用户名不能为空" }
+          {required: true, trigger: "blur", message: "用户名不能为空"}
         ],
         password: [
-          { required: true, trigger: "blur", message: "密码不能为空" }
+          {required: true, trigger: "blur", message: "密码不能为空"}
         ],
-        verifyCode: [{ required: true, trigger: "blur", message: "验证码不能为空" }]
+        verifyCode: [{required: true, trigger: "blur", message: "验证码不能为空"}]
       },
       loading: {
         signIn: false,
       },
-      captchaSrc:'',
+      captchaSrc: '',
     });
     onMounted(() => {
       getCaptcha();
@@ -120,7 +127,7 @@ export default defineComponent({
     });
 
     const getCaptcha = () => {
-      captcha().then((res:any)=>{
+      captcha().then((res: any) => {
         state.captchaSrc = res.data.img
         state.ruleForm.verifyKey = res.data.key
       })
@@ -130,22 +137,19 @@ export default defineComponent({
     const onSignIn = () => {
       // 验证表单
       proxy.$refs.loginForm.validate((valid: boolean) => {
-        if(valid){
+        if (valid) {
           state.loading.signIn = true;
-          login(state.ruleForm).then(async (res:any)=>{
+          login(state.ruleForm).then(async (res: any) => {
             const userInfos = res.data.userInfo
             userInfos.avatar = proxy.getUpFileUrl(userInfos.avatar)
-            // 存储 token 到浏览器缓存
-            Session.set('token', res.data.token);
-            // 存储用户信息到浏览器缓存
-            Session.set('userInfo', userInfos);
-            // 设置用户菜单
-            Session.set('userMenu',res.data.menuList)
-            // 设置按钮权限
-            Session.set('permissions',res.data.permissions)
+            Session.set('token', res.data.token); // 存储 token 到浏览器缓存
+            Session.set('userInfo', userInfos);  // 存储用户信息到浏览器缓存
+            Session.set('userMenu', res.data.menuList) // 设置用户菜单
+            Session.set('permissions', res.data.permissions) // 设置按钮权限
+
             // 1、请注意执行顺序(存储用户信息到vuex)
             await store.dispatch('userInfos/setUserInfos', userInfos);
-            await store.dispatch('userInfos/setPermissions',res.data.permissions)
+            await store.dispatch('userInfos/setPermissions', res.data.permissions)
             if (!store.state.themeConfig.themeConfig.isRequestRoutes) {
               // 前端控制路由，2、请注意执行顺序
               await initFrontEndControlRoutes();
@@ -157,12 +161,13 @@ export default defineComponent({
               // 执行完 initBackEndControlRoutes，再执行 signInSuccess
               signInSuccess();
             }
-          }).catch(()=>{
+          }).catch(() => {
             state.loading.signIn = false;
             getCaptcha()
           })
         }
-      }).catch(()=>{})
+      }).catch(() => {
+      })
     };
     // 登录成功后的跳转
     const signInSuccess = () => {
@@ -206,18 +211,22 @@ export default defineComponent({
       animation-delay: calc($i/10) + s;
     }
   }
+
   .login-content-password {
     display: inline-block;
     width: 20px;
     cursor: pointer;
+
     &:hover {
       color: #909399;
     }
   }
+
   .login-content-code {
     display: flex;
     align-items: center;
     justify-content: space-around;
+
     .login-content-code-img {
       width: 100%;
       height: 40px;
@@ -228,12 +237,14 @@ export default defineComponent({
       transition: all ease 0.2s;
       border-radius: 4px;
       user-select: none;
+
       &:hover {
         border-color: #c0c4cc;
         transition: all ease 0.2s;
       }
     }
   }
+
   .login-content-submit {
     width: 100%;
     letter-spacing: 2px;

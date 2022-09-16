@@ -29,12 +29,12 @@ export default defineComponent({
 			newsList: [
 				{
 					label: '关于版本发布的通知',
-					value: 'GFast基于全新Go Frame 2.0+Vue3+Element Plus开发的全栈前后端分离的管理系统，正式发布时间：2022年04月21日！',
+					value: '基于全新Go Frame 2.0 + Vue3 + Element Plus 开发的全栈前后端分离的管理系统，正式发布时间：2022年04月21日！',
 					time: '2022-04-21',
 				},
 				{
 					label: '关于学习交流的通知',
-					value: 'QQ群号码 865697297，欢迎小伙伴入群学习交流探讨！',
+					value: '欢迎小伙伴入群学习交流探讨！',
 					time: '2022-04-21',
 				},
 			],
@@ -45,7 +45,7 @@ export default defineComponent({
 		};
 		// 前往通知中心点击
 		const onGoToGiteeClick = () => {
-			window.open('https://github.com/tiger1103/gfast');
+			window.open('https://www.baidu.com');
 		};
 		return {
 			onAllReadClick,

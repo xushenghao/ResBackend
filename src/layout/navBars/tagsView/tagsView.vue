@@ -452,7 +452,7 @@ export default defineComponent({
       state.sortable = Sortable.create(el, {
         animation: 300,
         dataIdAttr: 'data-url',
-        disabled: getThemeConfig.value.isSortableTagsView ? false : true,
+        disabled: !getThemeConfig.value.isSortableTagsView,
         onEnd: () => {
           const sortEndList: any = [];
           state.sortable.toArray().map((val: any) => {

@@ -2,7 +2,7 @@
   <el-card class="box-card">
     <template #header>
       <div class="card-header">
-        <span>Gfast 安装向导</span>
+        <span>安装向导</span>
       </div>
     </template>
     <Step :number="2"></Step>
@@ -15,7 +15,7 @@
           :model="ruleForm"
           :rules="rules"
       >
-        <el-divider> 数据库配置 </el-divider>
+        <el-divider> 数据库配置</el-divider>
         <el-form-item label="数据库地址" prop="dbHost">
           <el-input v-model="ruleForm.dbHost" placeholder="例如:127.0.0.1"/>
         </el-form-item>
@@ -29,7 +29,7 @@
         </el-form-item>
 
         <el-form-item label="数据库密码" prop="dbPass">
-          <el-input  v-model="ruleForm.dbPass" placeholder="请输入数据库密码"/>
+          <el-input v-model="ruleForm.dbPass" placeholder="请输入数据库密码"/>
         </el-form-item>
 
         <el-form-item label="数据库名称" prop="dbName">
@@ -37,18 +37,18 @@
         </el-form-item>
 
         <el-form-item label="数据库编码" prop="dbCharset">
-          <el-autocomplete  :fetch-suggestions="querySearch" v-model="ruleForm.dbCharset" placeholder="请输入数据库编码"/>
+          <el-autocomplete :fetch-suggestions="querySearch" v-model="ruleForm.dbCharset" placeholder="请输入数据库编码"/>
 
         </el-form-item>
 
-        <el-divider> Redis配置 </el-divider>
+        <el-divider> Redis配置</el-divider>
 
         <el-form-item label="Redis地址" prop="redisAddress">
-          <el-input  v-model="ruleForm.redisAddress" placeholder="例如:127.0.0.1"/>
+          <el-input v-model="ruleForm.redisAddress" placeholder="例如:127.0.0.1"/>
         </el-form-item>
 
         <el-form-item label="Redis端口" prop="redisPort">
-          <el-input  v-model.number="ruleForm.redisPort" placeholder="例如:6379"/>
+          <el-input v-model.number="ruleForm.redisPort" placeholder="例如:6379"/>
         </el-form-item>
 
         <el-form-item label="Redis索引" prop="redisDb">
@@ -72,35 +72,33 @@
 
 <script lang="ts" setup>
 import {createDb} from "/@/api/system/dbInit"
+import {inject, reactive, ref} from 'vue'
+import type {FormInstance, FormRules} from 'element-plus'
+import {ElLoading, ElMessage} from 'element-plus'
 
-import { reactive, ref, inject } from 'vue'
-
-const jump:any = inject('jump')
-
-import type { FormInstance, FormRules } from 'element-plus'
-import { ElMessage, ElLoading } from 'element-plus'
+const jump: any = inject('jump')
 const ruleFormRef = ref<FormInstance>()
 const ruleForm = reactive({
   dbHost: '127.0.0.1',
   dbPort: 3306,
   dbUser: 'root',
-  dbPass:'root',
-  dbName:'',
-  dbCharset:'utf8mb4',
-  redisAddress:'127.0.0.1',
-  redisPort:6379,
-  redisDb:1,
-  redisPass:'',
+  dbPass: 'root',
+  dbName: '',
+  dbCharset: 'utf8mb4',
+  redisAddress: '127.0.0.1',
+  redisPort: 6379,
+  redisDb: 1,
+  redisPass: '',
 })
 const rules = reactive<FormRules>({
-  dbHost: [{ required: true, message: '请输入数据库地址', trigger: 'blur' }],
-  dbPort: [{ required: true, message: '请输入数据库端口', trigger: 'blur' },{ type: 'number', message: '数据库端口必须是一个数值' }],
-  dbUser: [{ required: true, message: '请输入数据库用户名', trigger: 'blur' }],
-  dbName: [{ required: true, message: '请输入数据库名称', trigger: 'blur' }],
-  dbCharset: [{ required: true, message: '请输入数据库编码' }],
-  redisAddress: [{ required: true, message: '请输入Redis地址', trigger: 'blur' }],
-  redisPort: [{ required: true, message: '请输入Redis端口', trigger: 'blur' },{ type: 'number', message: 'Redis端口必须是一个数值' }],
-  redisDb: [{ required: true, message: '请输入Redis索引', trigger: 'blur' },{ type: 'number', message: 'Redis索引必须是一个数值' }],
+  dbHost: [{required: true, message: '请输入数据库地址', trigger: 'blur'}],
+  dbPort: [{required: true, message: '请输入数据库端口', trigger: 'blur'}, {type: 'number', message: '数据库端口必须是一个数值'}],
+  dbUser: [{required: true, message: '请输入数据库用户名', trigger: 'blur'}],
+  dbName: [{required: true, message: '请输入数据库名称', trigger: 'blur'}],
+  dbCharset: [{required: true, message: '请输入数据库编码'}],
+  redisAddress: [{required: true, message: '请输入Redis地址', trigger: 'blur'}],
+  redisPort: [{required: true, message: '请输入Redis端口', trigger: 'blur'}, {type: 'number', message: 'Redis端口必须是一个数值'}],
+  redisDb: [{required: true, message: '请输入Redis索引', trigger: 'blur'}, {type: 'number', message: 'Redis索引必须是一个数值'}],
 })
 
 interface DbCharsetItem {
@@ -108,28 +106,28 @@ interface DbCharsetItem {
 }
 
 const dbCharsetList = ref<DbCharsetItem[]>([
-  {value:'utf8mb4'},
-  {value:'utf8'},
-  {value:'gbk'},
-  {value:'gb2312'}
+  {value: 'utf8mb4'},
+  {value: 'utf8'},
+  {value: 'gbk'},
+  {value: 'gb2312'}
 ])
 
 const querySearch = (query: string, cb: any) => {
-  const results = query ? dbCharsetList.value.filter((item:DbCharsetItem) => item.value.indexOf(query) >= 0) : dbCharsetList.value
+  const results = query ? dbCharsetList.value.filter((item: DbCharsetItem) => item.value.indexOf(query) >= 0) : dbCharsetList.value
   cb(results)
 }
 
 const next = async (formEl: FormInstance | undefined) => {
 
   if (!formEl) return
-  await formEl.validate(async (valid, fields) => {
+  await formEl.validate(async (valid) => {
     if (valid) {
       const loading = ElLoading.service({
         lock: true,
         text: 'Loading',
         background: 'rgba(0, 0, 0, 0.7)',
       })
-      let res:any = await createDb(ruleForm)
+      let res: any = await createDb(ruleForm)
       loading.close()
       const {code, message, data} = res
       if (code === 0 && data === true) {
@@ -158,37 +156,38 @@ const next = async (formEl: FormInstance | undefined) => {
 
 <script lang="ts">
 import Step from './step.vue'
-import { defineComponent} from "vue";
+import {defineComponent} from "vue";
 
 export default defineComponent({
   name: "init",
-  components:{
+  components: {
     Step
   },
 
 
-  methods:{
-
-  }
+  methods: {}
 })
 </script>
 
-<style scoped  lang="scss">
-.box-card{
-  margin:100px auto;
-  width:600px;
-  min-height:550px;
+<style scoped lang="scss">
+.box-card {
+  margin: 100px auto;
+  width: 600px;
+  min-height: 550px;
+
   .content {
-    height:370px;
-    margin-bottom:10px;
-    padding:10px;
+    height: 370px;
+    margin-bottom: 10px;
+    padding: 10px;
     overflow: auto;
+
     .el-row {
       margin-bottom: 10px;
     }
   }
+
   .foot {
-    text-align:center;
+    text-align: center;
   }
 }
 </style>

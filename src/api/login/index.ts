@@ -1,6 +1,16 @@
 import request from '/@/utils/request';
 
 /**
+ * 获取验证码
+ */
+export function captcha() {
+    return request({
+        url: "/api/v1/pub/captcha/get",
+        method: "get"
+    })
+}
+
+/**
  * 登录api接口集合
  * @method signIn 用户登录
  */
@@ -13,21 +23,11 @@ export function login(params: object) {
 }
 
 /**
- * 获取验证码
- */
-export function captcha() {
-    return request({
-        url: "/api/v1/pub/captcha/get",
-        method: "get"
-    })
-}
-
-/**
  * 退出登录
  */
-export function signOut(params: object) {
+export function logout(params: object) {
     return request({
-        url: '/api/v1/user/signOut',
+        url: '/api/v1/user/logout',
         method: 'post',
         data: params,
     });
