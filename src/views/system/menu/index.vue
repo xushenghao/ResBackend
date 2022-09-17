@@ -84,7 +84,7 @@
         </el-table-column>
       </el-table>
     </el-card>
-    <EditMenu ref="editMenuRef" @menuList="menuList" :visibleOptions="[sys_show_hide]" :acType="acType"/>
+    <EditMenu ref="editMenuRef" @menuList="menuList" :visibleOptions="sys_show_hide" :acType="acType"/>
   </div>
 </template>
 
