@@ -43,7 +43,7 @@ export function useTitle() {
  * @param arr 列表数据
  * @description data-xxx 属性用于存储页面或应用程序的私有自定义数据
  */
-export const lazyImg = (el: any, arr: any) => {
+export const lazyImg = async (el: any, arr: any) => {
     const io = new IntersectionObserver((res) => {
         res.forEach((v: any) => {
             if (v.isIntersecting) {
@@ -56,7 +56,7 @@ export const lazyImg = (el: any, arr: any) => {
             }
         });
     });
-    nextTick(() => {
+    await nextTick(() => {
         document.querySelectorAll(el).forEach((img) => io.observe(img));
     });
 };

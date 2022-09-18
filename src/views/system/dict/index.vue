@@ -94,10 +94,10 @@
             <el-tag type="info" v-else>禁用</el-tag>
           </template>
         </el-table-column>
-        <el-table-column label="操作" width="100">
+        <el-table-column label="操作" width="110">
           <template #default="scope">
-            <el-button size="small" type="text" @click="onOpenEditDic(scope.row)">修改</el-button>
-            <el-button size="small" type="text" @click="onRowDel(scope.row)">删除</el-button>
+            <el-button size="small" link type="primary" @click="onOpenEditDic(scope.row)">修改</el-button>
+            <el-button size="small" link type="danger" @click="onRowDel(scope.row)">删除</el-button>
           </template>
         </el-table-column>
       </el-table>

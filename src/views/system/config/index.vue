@@ -80,14 +80,14 @@
         <el-table-column label="参数主键" width="90" align="center" prop="configId" />
         <el-table-column label="参数名称" width="180" prop="configName" :show-overflow-tooltip="true" />
         <el-table-column label="参数键名" prop="configKey" :show-overflow-tooltip="true" />
-        <el-table-column label="参数键值" prop="configValue" />
+        <el-table-column label="参数键值" prop="configValue" :show-overflow-tooltip="true"/>
         <el-table-column label="系统内置" width="90" align="center" prop="configType" :formatter="typeFormat" />
         <el-table-column label="备注" prop="remark" :show-overflow-tooltip="true" />
         <el-table-column label="创建时间" align="center" prop="createdAt" width="180" />
-        <el-table-column label="操作" align="center" width="100">
+        <el-table-column label="操作" align="center" width="110">
           <template #default="scope">
-            <el-button size="small" type="text" @click="onOpenEditDic(scope.row)">修改</el-button>
-            <el-button size="small" type="text" @click="onRowDel(scope.row)">删除</el-button>
+            <el-button size="small" link type="primary" @click="onOpenEditDic(scope.row)">修改</el-button>
+            <el-button size="small" link type="danger" @click="onRowDel(scope.row)">删除</el-button>
           </template>
         </el-table-column>
       </el-table>

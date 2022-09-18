@@ -69,15 +69,15 @@
           </template>
         </el-table-column>
         <el-table-column prop="isHide" label="显示状态" :formatter="formatIsHide" width="100" align="center"/>
-        <el-table-column label="操作" show-overflow-tooltip width="150" align="center">
+        <el-table-column label="操作" show-overflow-tooltip width="160" align="center">
           <template #default="scope">
-            <el-button size="small" type="text" @click="onOpenAddMenu(scope.row)" v-auth="'api/v1/system/menu/add'" v-if="scope.row.menuType!==2">
+            <el-button size="small" link type="primary" @click="onOpenAddMenu(scope.row)" v-auth="'api/v1/system/menu/add'" v-if="scope.row.menuType!==2">
               新增
             </el-button>
-            <el-button size="small" type="text" @click="onOpenEditMenu(scope.row)" v-auth="'api/v1/system/menu/update'">
+            <el-button size="small" link type="primary" @click="onOpenEditMenu(scope.row)" v-auth="'api/v1/system/menu/update'">
               修改
             </el-button>
-            <el-button size="small" type="text" @click="onTableRowDel(scope.row)" v-auth="'api/v1/system/menu/delete'">
+            <el-button size="small" link type="danger" @click="onTableRowDel(scope.row)" v-auth="'api/v1/system/menu/delete'">
               删除
             </el-button>
           </template>

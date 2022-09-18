@@ -158,20 +158,18 @@ export default defineComponent({
           state.loading = true;
           state.formData.menuIds = getMenuAllCheckedKeys();
           if (state.formData.id === 0) {
-            //添加
             addRole(state.formData).then(() => {
               ElMessage.success('角色添加成功');
-              closeDialog(); // 关闭弹窗
+              closeDialog();
               resetMenuSession()
               emit('getRoleList')
             }).finally(() => {
               state.loading = false;
             })
           } else {
-            //修改
             editRole(state.formData).then(() => {
               ElMessage.success('角色修改成功');
-              closeDialog(); // 关闭弹窗
+              closeDialog();
               resetMenuSession()
               emit('getRoleList')
             }).finally(() => {
@@ -220,9 +218,7 @@ export default defineComponent({
 
     /** 所有菜单节点数据 */
     function getMenuAllCheckedKeys() {
-      // 目前被选中的菜单节点
       let checkedKeys = menuRef.value.getCheckedKeys();
-      // 半选中的菜单节点
       let halfCheckedKeys = menuRef.value.getHalfCheckedKeys();
       checkedKeys.unshift.apply(checkedKeys, halfCheckedKeys);
       return checkedKeys;

@@ -122,11 +122,11 @@
                 </el-switch>
               </template>
             </el-table-column>
-            <el-table-column label="操作" width="150" align="center">
+            <el-table-column label="操作" width="160" align="center">
               <template #default="scope">
-                <el-button size="small" type="text" @click="onOpenEditUser(scope.row)">修改</el-button>
-                <el-button size="small" type="text" @click="onRowDel(scope.row)">删除</el-button>
-                <el-button size="small" type="text" @click="handleResetPwd(scope.row)">重置</el-button>
+                <el-button size="small" link type="primary" @click="onOpenEditUser(scope.row)">修改</el-button>
+                <el-button size="small" link type="danger" @click="onRowDel(scope.row)">删除</el-button>
+                <el-button size="small" link type="danger" @click="handleResetPwd(scope.row)">重置</el-button>
               </template>
             </el-table-column>
           </el-table>
