@@ -104,11 +104,10 @@
             <el-table-column prop="dept.deptName" label="所属机构" show-overflow-tooltip></el-table-column>
             <el-table-column label="角色" align="center" prop="roleInfo" :show-overflow-tooltip="true">
               <template #default="scope">
-                <span v-for="(item,index) of scope.row.roleInfo" :key="'role-'+index">   {{ item.name + '   ' }}   </span>
+                <span v-for="(item,index) of scope.row.roleInfo" :key="'role-'+index"> {{ item.name + ' ' }}</span>
               </template>
             </el-table-column>
             <el-table-column prop="mobile" label="手机号" align="center" show-overflow-tooltip></el-table-column>
-            <el-table-column prop="createdAt" width="180" label="创建时间" show-overflow-tooltip/>
             <el-table-column prop="userStatus" width="100" align="center" label="用户状态" show-overflow-tooltip>
               <template #default="scope">
                 <el-switch
@@ -189,27 +188,7 @@ export default defineComponent({
         children: "children",
         label: "deptName"
       },
-      deptData: [
-        {
-          label: '集团总部',
-          children: [
-            {
-              label: '曲靖分部',
-              children: [
-                {
-                  label: '总经办',
-                },
-                {
-                  label: '市场部',
-                },
-                {
-                  label: '研发部',
-                },
-              ],
-            },
-          ],
-        },
-      ],
+      deptData: [],
       tableData: {
         data: [],
         total: 0,

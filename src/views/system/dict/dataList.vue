@@ -64,9 +64,9 @@
       <el-table stripe :data="tableData.data" style="width: 100%" @selection-change="handleSelectionChange">
         <el-table-column type="selection" width="60" align="center"/>
         <el-table-column label="字典编码" width="90" align="center" prop="dictCode"/>
-        <el-table-column label="字典标签" align="center" prop="dictLabel"/>
-        <el-table-column label="字典键值" align="center" prop="dictValue"/>
-        <el-table-column label="字典排序" align="center" prop="dictSort"/>
+        <el-table-column label="字典排序" width="90" align="center" prop="dictSort"/>
+        <el-table-column label="字典键值" width="120" align="center" prop="dictValue"/>
+        <el-table-column label="字典标签" width="120" align="center" prop="dictLabel"/>
         <el-table-column label="备注" align="center" prop="remark" :show-overflow-tooltip="true"/>
         <el-table-column label="创建时间" align="center" prop="createdAt" width="180"/>
         <el-table-column label="字典状态" width="90" prop="status" show-overflow-tooltip>
@@ -75,7 +75,7 @@
             <el-tag type="info" v-else>禁用</el-tag>
           </template>
         </el-table-column>
-        <el-table-column label="操作" width="100" align="center">
+        <el-table-column label="操作" width="110" align="center" fixed="right">
           <template #default="scope">
             <el-button size="small" link type="primary" @click="onOpenEditDic(scope.row)">修改</el-button>
             <el-button size="small" link type="danger" @click="onRowDel(scope.row)">删除</el-button>

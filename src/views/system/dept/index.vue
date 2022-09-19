@@ -6,6 +6,16 @@
           <el-form-item label="机构名称">
             <el-input size="default" v-model="tableData.param.deptName" placeholder="请输入机构名称" class="w-50 m-2" clearable/>
           </el-form-item>
+          <el-form-item label="机构类型">
+            <el-select size="default" placeholder="请选择机构类型" class="w-50 m-2" v-model="tableData.param.deptType" clearable>
+              <el-option
+                  v-for="dict in sys_dept_type"
+                  :key="dict.value"
+                  :label="dict.label"
+                  :value="dict.value"
+              />
+            </el-select>
+          </el-form-item>
           <el-form-item label="机构状态">
             <el-select size="default" placeholder="请选择机构状态" class="w-50 m-2" v-model="tableData.param.status" clearable>
               <el-option label="启用" value="1"/>
@@ -36,9 +46,16 @@
           default-expand-all
           :tree-props="{ children: 'children', hasChildren: 'hasChildren' }"
       >
-        <el-table-column prop="deptName" label="机构名称" show-overflow-tooltip></el-table-column>
-        <el-table-column prop="orderNum" width="60" label="排序" show-overflow-tooltip></el-table-column>
-        <el-table-column prop="createdAt" width="180" label="创建时间" show-overflow-tooltip></el-table-column>
+        <el-table-column prop="deptName" label="机构名称" show-overflow-tooltip/>
+        <el-table-column prop="deptType" width="100" label="机构类型" show-overflow-tooltip>
+          <template #default="scope">
+            <el-tag type="success">
+              {{ sys_dept_type[scope.row.deptType].label }}
+            </el-tag>
+          </template>
+        </el-table-column>
+        <el-table-column prop="orderNum" width="60" label="排序" show-overflow-tooltip/>
+        <el-table-column prop="createdAt" width="180" label="创建时间" show-overflow-tooltip/>
         <el-table-column prop="status" width="100" label="机构状态" align="center" show-overflow-tooltip>
           <template #default="scope">
             <el-tag type="success" v-if="scope.row.status===1">启用</el-tag>
@@ -59,8 +76,8 @@
 </template>
 
 <script lang="ts">
-import {ref, toRefs, reactive, onMounted, defineComponent, getCurrentInstance} from 'vue';
-import {ElMessageBox, ElMessage} from 'element-plus';
+import {defineComponent, getCurrentInstance, onMounted, reactive, ref, toRefs} from 'vue';
+import {ElMessage, ElMessageBox} from 'element-plus';
 import EditDept from '/@/views/system/dept/component/editDept.vue';
 import {deleteDept, getDeptList} from "/@/api/system/dept";
 
@@ -69,6 +86,7 @@ interface TableDataRow {
   deptId: number;
   parentId: number;
   deptName: string;
+  deptType: number;
   status: number;
   orderNum: number;
   createdAt: string;
@@ -82,6 +100,7 @@ interface TableDataState {
     param: {
       pageNum: number;
       pageSize: number;
+      deptType: number | undefined;
       deptName: string;
       status: string;
     };
@@ -92,8 +111,9 @@ export default defineComponent({
   name: 'systemDept',
   components: {EditDept},
   setup() {
-    const {proxy} = getCurrentInstance() as any;
     const editDeptRef = ref();
+    const {proxy} = getCurrentInstance() as any;
+    const {sys_dept_type} = proxy.useDict('sys_dept_type')
     const state = reactive<TableDataState>({
       tableData: {
         data: [],
@@ -101,6 +121,7 @@ export default defineComponent({
         param: {
           pageNum: 1,
           pageSize: 10,
+          deptType: undefined,
           deptName: '',
           status: ''
         },
@@ -149,6 +170,7 @@ export default defineComponent({
       onOpenAddDept,
       onOpenEditDept,
       onTableRowDel,
+      sys_dept_type,
       ...toRefs(state),
     };
   },
