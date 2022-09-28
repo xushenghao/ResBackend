@@ -7,17 +7,17 @@
           <div class="personal-user">
             <div class="personal-user-left">
               <el-upload class="h100 personal-user-left-upload" action="https://jsonplaceholder.typicode.com/posts/" multiple :limit="1">
-                <img src="https://himg.bdimg.com/sys/portrait/item/public.1.9ec96ad0.olEB3Gtm5BxogGeSiiM0gQ.jpg"/>
+                <img :src="personalForm.avatar"/>
               </el-upload>
             </div>
             <div class="personal-user-right">
               <el-row>
-                <el-col :span="24" class="personal-title mb18">{{ currentTime }}，admin，生活变的再糟糕，也不妨碍我变得更好！</el-col>
+                <el-col :span="24" class="personal-title mb18">{{ currentTime }}，{{ personalForm.name }}，生活变的再糟糕，也不妨碍我变得更好！</el-col>
                 <el-col :span="24">
                   <el-row>
                     <el-col :xs="24" :sm="8" class="personal-item mb6">
                       <div class="personal-item-label">昵称：</div>
-                      <div class="personal-item-value">小柒</div>
+                      <div class="personal-item-value">{{ personalForm.name }}</div>
                     </el-col>
                     <el-col :xs="24" :sm="16" class="personal-item mb6">
                       <div class="personal-item-label">身份：</div>
@@ -57,23 +57,6 @@
               </li>
             </ul>
           </div>
-        </el-card>
-      </el-col>
-
-      <!-- 营销推荐 -->
-      <el-col :span="24">
-        <el-card shadow="hover" class="mt15" header="营销推荐">
-          <el-row :gutter="15" class="personal-recommend-row">
-            <el-col :sm="6" v-for="(v, k) in recommendList" :key="k" class="personal-recommend-col">
-              <div class="personal-recommend" :style="{ 'background-color': v.bg }">
-                <SvgIcon :name="v.icon" :style="{ color: v.iconColor }"/>
-                <div class="personal-recommend-auto">
-                  <div>{{ v.title }}</div>
-                  <div class="personal-recommend-msg">{{ v.msg }}</div>
-                </div>
-              </div>
-            </el-col>
-          </el-row>
         </el-card>
       </el-col>
 
@@ -186,12 +169,12 @@
 <script lang="ts">
 import {toRefs, reactive, computed, defineComponent} from 'vue';
 import {formatAxis} from '/@/utils/formatTime';
-import {newsInfoList, recommendList} from './mock';
+import {Session} from '/@/utils/storage';
+import {newsInfoList} from './mock';
 
 // 定义接口来定义对象的类型
 interface PersonalState {
   newsInfoList: any;
-  recommendList: any;
   personalForm: any;
 }
 
@@ -200,14 +183,14 @@ export default defineComponent({
   setup() {
     const state = reactive<PersonalState>({
       newsInfoList,
-      recommendList,
       personalForm: {
-        name: '',
+        name: Session.get('userInfo').userNickname,
+        avatar: Session.get('userInfo').avatar,
         email: '',
-        autograph: '',
-        occupation: '',
         phone: '',
         sex: '',
+        autograph: '',
+        occupation: '',
       },
     });
     // 当前时间提示语
@@ -332,8 +315,8 @@ export default defineComponent({
 
         &:hover {
           i {
-            right: 0px !important;
-            bottom: 0px !important;
+            right: 0 !important;
+            bottom: 0 !important;
             transition: all ease 0.3s;
           }
         }

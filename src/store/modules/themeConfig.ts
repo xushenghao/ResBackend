@@ -33,7 +33,7 @@ const themeConfigModule: Module<ThemeConfigState, RootStateTypes> = {
              * 界面设置
              */
             isCollapse: false,                   // 是否开启菜单水平折叠效果
-            isUniqueOpened: true,                // 是否开启菜单手风琴效果
+            isUniqueOpened: false,               // 是否开启菜单手风琴效果
             isFixedHeader: true,                 // 是否开启固定 Header
             isFixedHeaderChange: true,           // 初始化变量，用于更新菜单 el-scrollbar 的高度，请勿删除
             isClassicSplitMenu: false,           // 是否开启经典布局分割菜单（仅经典布局生效）
@@ -84,7 +84,7 @@ const themeConfigModule: Module<ThemeConfigState, RootStateTypes> = {
              */
             globalTitle: '炯炯眼科',
             globalViceTitle: '业务管理系统',
-            globalComponentSize: 'large',
+            globalComponentSize: 'default',
             globalI18n: 'zh-cn',
         },
     },

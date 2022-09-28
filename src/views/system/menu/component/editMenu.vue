@@ -30,8 +30,8 @@
             </el-form-item>
           </el-col>
           <el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
-            <el-form-item label="菜单名称" prop="menuName">
-              <el-input v-model="ruleForm.menuName" placeholder="请填写菜单名称" clearable></el-input>
+            <el-form-item label="菜单名称" prop="title">
+              <el-input v-model="ruleForm.title" placeholder="请填写菜单名称" clearable></el-input>
             </el-form-item>
           </el-col>
           <el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
@@ -170,7 +170,7 @@ export default defineComponent({
         id: undefined,
         pid: 0, // 上级菜单
         menuType: '0', // 菜单类型
-        menuName: '', // 菜单名称
+        title: '', // 菜单名称
         name: '', // 接口规则
         component: '', // 组件路径
         isLink: 0, // 是否外链
@@ -196,7 +196,7 @@ export default defineComponent({
         path: [
           {required: true, message: "路由地址不能为空", trigger: "blur"},
         ],
-        menuName: [
+        title: [
           {required: true, message: "菜单名称不能为空", trigger: "blur"},
         ],
         menuType: [
@@ -227,7 +227,7 @@ export default defineComponent({
                 id: data.id,
                 pid: data.pid, // 上级菜单
                 menuType: '' + data.menuType, // 菜单类型
-                menuName: data.title, // 菜单名称
+                title: data.title, // 菜单名称
                 name: data.name, // 接口规则
                 component: data.component, // 组件路径
                 isLink: data.isLink, // 是否外链
@@ -302,7 +302,7 @@ export default defineComponent({
         id: undefined,
         pid: 0, // 上级菜单
         menuType: '0', // 菜单类型
-        menuName: '', // 菜单名称
+        title: '', // 菜单名称
         name: '', // 接口规则
         component: '', // 组件路径
         isLink: 0, // 是否外链

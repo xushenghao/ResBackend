@@ -97,7 +97,7 @@
         <el-table-column type="selection" width="55" align="center"/>
         <el-table-column label="编号" align="center" width="60" prop="infoId"/>
         <el-table-column label="登录日期" align="center" width="180" prop="loginTime"/>
-        <el-table-column label="登录名称" align="center" width="100" prop="loginName"/>
+        <el-table-column label="登录名称" align="center" prop="loginName" :show-overflow-tooltip="true"/>
         <el-table-column label="登录模块" alian="center" width="100" prop="module"/>
         <el-table-column label="登录状态" align="center" width="100" prop="status" :formatter="statusFormat"/>
         <el-table-column label="登录 IP" align="center" width="100" prop="ipaddr" :show-overflow-tooltip="true"/>

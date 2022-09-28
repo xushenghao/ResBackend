@@ -31,19 +31,12 @@
           <div style="height: 100%" ref="homeLineRef"></div>
         </div>
       </el-col>
-      <el-col :xs="24" :sm="10" :md="10" :lg="8" :xl="8" class="home-media">
-        <div class="home-card-item">
-          <div style="height: 100%" ref="homePieRef"></div>
-        </div>
-      </el-col>
-    </el-row>
-    <el-row :gutter="15" class="home-card-three">
       <el-col :xs="24" :sm="10" :md="10" :lg="8" :xl="8">
         <div class="home-card-item">
-          <div class="home-card-item-title">热门门诊</div>
+          <div class="home-card-item-title">常用功能</div>
           <div class="home-monitor">
             <div class="flex-warp">
-              <div class="flex-warp-item" v-for="(v, k) in homeThree" :key="k">
+              <div class="flex-warp-item" v-for="(v, k) in shortcut" :key="k">
                 <div class="flex-warp-item-box" :class="`home-animation${k}`">
                   <div class="flex-margin">
                     <i :class="v.icon" :style="{ color: v.iconColor }"></i>
@@ -54,6 +47,13 @@
               </div>
             </div>
           </div>
+        </div>
+      </el-col>
+    </el-row>
+    <el-row :gutter="15" class="home-card-three">
+      <el-col :xs="24" :sm="10" :md="10" :lg="8" :xl="8" class="home-media">
+        <div class="home-card-item">
+          <div style="height: 100%" ref="homePieRef"></div>
         </div>
       </el-col>
       <el-col :xs="24" :sm="14" :md="14" :lg="16" :xl="16" class="home-media">
@@ -123,61 +123,31 @@ export default defineComponent({
           color3: '--el-color-danger',
         },
       ],
-      homeThree: [
+      shortcut: [
         {
           icon: 'iconfont icon-yangan',
-          label: '浅粉红',
+          label: '客户管理',
           value: '2.1%OBS/M',
           iconColor: '#F72B3F',
         },
         {
           icon: 'iconfont icon-wendu',
-          label: '深红(猩红)',
+          label: '预约签到',
           value: '30℃',
           iconColor: '#91BFF8',
         },
         {
           icon: 'iconfont icon-shidu',
-          label: '淡紫红',
+          label: '排班管理',
           value: '57%RH',
           iconColor: '#88D565',
         },
         {
           icon: 'iconfont icon-shidu',
-          label: '弱紫罗兰红',
+          label: '渠道报备',
           value: '107w',
           iconColor: '#88D565',
-        },
-        {
-          icon: 'iconfont icon-zaosheng',
-          label: '中紫罗兰红',
-          value: '57DB',
-          iconColor: '#FBD4A0',
-        },
-        {
-          icon: 'iconfont icon-zaosheng',
-          label: '紫罗兰',
-          value: '57PV',
-          iconColor: '#FBD4A0',
-        },
-        {
-          icon: 'iconfont icon-zaosheng',
-          label: '暗紫罗兰',
-          value: '517Cpd',
-          iconColor: '#FBD4A0',
-        },
-        {
-          icon: 'iconfont icon-zaosheng',
-          label: '幽灵白',
-          value: '12kg',
-          iconColor: '#FBD4A0',
-        },
-        {
-          icon: 'iconfont icon-zaosheng',
-          label: '海军蓝',
-          value: '64fm',
-          iconColor: '#FBD4A0',
-        },
+        }
       ],
       myCharts: [],
       charts: {
@@ -386,7 +356,7 @@ export default defineComponent({
             axisLabel: {color: state.charts.color, formatter: '{value} '},
           },
           {
-            name: '人次',
+            name: '',
             nameLocation: 'middle',
             nameTextStyle: {padding: [3, 4, 50, 6]},
             splitLine: {show: true, lineStyle: {type: 'dashed', color: '#f5f5f5'}},
@@ -548,7 +518,7 @@ export default defineComponent({
 </script>
 
 <style scoped lang="scss">
-$homeNavLengh: 8;
+$homeNavLength: 8;
 .home-container {
   overflow: hidden;
 
@@ -557,7 +527,7 @@ $homeNavLengh: 8;
   .home-card-three {
     .home-card-item, .home-card-top {
       width: 100%;
-      height: 130px;
+      height: 110px;
       border-radius: 4px;
       transition: all ease 0.3s;
       padding: 20px;
@@ -605,11 +575,11 @@ $homeNavLengh: 8;
   .home-card-two,
   .home-card-three {
     .home-card-item {
-      height: 500px;
+      height: 310px;
     }
 
     .home-card-top {
-      height: 250px;
+      height: 240px;
 
       .box-card {
         padding: 15px 20px 20px 20px;
@@ -633,7 +603,7 @@ $homeNavLengh: 8;
 
         .flex-warp-item {
           width: 25%;
-          height: 111px;
+          height: 120px;
           display: flex;
 
           .flex-warp-item-box {
@@ -652,7 +622,7 @@ $homeNavLengh: 8;
             }
           }
 
-          @for $i from 0 through $homeNavLengh {
+          @for $i from 0 through $homeNavLength {
             .home-animation#{$i} {
               opacity: 0;
               animation-name: error-num;

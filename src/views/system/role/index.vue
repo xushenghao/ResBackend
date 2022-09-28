@@ -7,7 +7,7 @@
             <el-input size="default" v-model="tableData.param.roleName" placeholder="请输入角色名称" class="w-50 m-2" clearable/>
           </el-form-item>
           <el-form-item label="角色状态">
-            <el-select size="default" placeholder="请选择角色状态" class="w-50 m-2" v-model="tableData.param.roleStatus" clearable>
+            <el-select size="default" placeholder="请选择角色状态" class="w-50 m-2" v-model="tableData.param.status" clearable>
               <el-option label="启用"  value="1" />
               <el-option label="禁用"  value="0" />
             </el-select>
@@ -82,7 +82,7 @@ interface TableDataState {
 		loading: boolean;
 		param: {
       roleName:string;
-      roleStatus:string;
+      status:string;
 			pageNum: number;
 			pageSize: number;
 		};
@@ -103,7 +103,7 @@ export default defineComponent({
 				loading: false,
 				param: {
           roleName:'',
-          roleStatus:'',
+          status:'',
 					pageNum: 1,
 					pageSize: 10,
 				},

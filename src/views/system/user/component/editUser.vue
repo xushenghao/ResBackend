@@ -88,16 +88,8 @@
           <el-col :span="24">
             <el-form-item label="用户类型">
               <el-radio-group v-model="ruleForm.isAdmin">
-                <el-radio
-                    :label="1"
-                >
-                  后台管理员
-                </el-radio>
-                <el-radio
-                    :label="0"
-                >
-                  前台用户
-                </el-radio>
+                <el-radio :label="1">后台用户</el-radio>
+                <el-radio :label="0">前台用户</el-radio>
               </el-radio-group>
             </el-form-item>
           </el-col>
@@ -119,10 +111,9 @@
 </template>
 
 <script lang="ts">
-import {reactive, toRefs, onMounted, defineComponent, ref, unref} from 'vue';
-import {getParams, addUser, editUser, getEditUser} from "/@/api/system/user";
+import {defineComponent, onMounted, reactive, ref, toRefs, unref} from 'vue';
+import {addUser, editUser, getEditUser, getParams} from "/@/api/system/user";
 import {ElMessage} from "element-plus";
-
 
 export default defineComponent({
   name: 'systemEditUser',
