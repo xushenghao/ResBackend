@@ -33,7 +33,7 @@ export function useDict(...args: string[]): ToRefs<any> {
 export function getDataList(query: Object) {
     return request({
         url: '/api/v1/system/dict/data/list',
-        method: 'get',
+        method: 'post',
         params: query
     })
 }

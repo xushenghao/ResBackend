@@ -3,7 +3,7 @@ import request from '/@/utils/request';
 export function getMenuList(query: Object) {
     return request({
         url: '/api/v1/system/menu/list',
-        method: 'get',
+        method: 'post',
         params: query
     })
 }

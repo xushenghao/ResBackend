@@ -4,7 +4,7 @@ import request from '/@/utils/request';
 export function getConfigList(query: Object) {
     return request({
         url: '/api/v1/system/config/list',
-        method: 'get',
+        method: 'post',
         params: query
     })
 }

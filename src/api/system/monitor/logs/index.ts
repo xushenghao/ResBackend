@@ -4,7 +4,7 @@ import request from '/@/utils/request';
 export function logList(query: object) {
     return request({
         url: '/api/v1/system/logs/list',
-        method: 'get',
+        method: 'post',
         params: query
     })
 }

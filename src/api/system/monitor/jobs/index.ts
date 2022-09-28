@@ -79,7 +79,7 @@ export function runJob(jobId: number) {
 export function listJob(query: object) {
     return request({
         url: '/api/v1/system/jobs/list',
-        method: 'get',
+        method: 'post',
         params: query
     })
 }
