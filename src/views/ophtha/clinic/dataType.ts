@@ -1,5 +1,5 @@
 // 定义接口来定义对象的类型
-export default interface TableDataRow {
+export interface TableDataRow {
     id: string;         // 诊所ID
     name: string;       // 诊所全称
     short: string;      // 诊所简称
@@ -10,6 +10,24 @@ export default interface TableDataRow {
     address: string;    // 诊所地址
     phoneMain: string;  // 联系电话 1
     phoneOther: string; // 联系电话 2
-    remark: string;     // 备注
     status: number;     // 运营状态，0 禁用 1启用
+}
+
+// 定义列表视图的数据类型
+export interface TableDataState {
+    ids: string[];
+    tableData: {
+        data: Array<TableDataRow>;
+        total: number;
+        loading: boolean;
+        param: {
+            pageNum: number;
+            pageSize: number;
+            dateRange: string[];
+            status: number | undefined;
+            name: string;
+            address: string;
+            deptName: string;
+        };
+    };
 }
