@@ -7,7 +7,16 @@
             <el-input v-model="state.data.photos" placeholder="请选择形象照片" class="w100"/>
           </el-form-item>
           <el-form-item :inline="true" label="品牌标志" prop="logo">
-            <el-input v-model="state.data.logo" placeholder="请输入品牌标志" class="w100"/>
+            <el-upload
+                class="avatar-uploader"
+                action="http://127.0.0.1:6969/api/v1/pub/upload/singleImg"
+                :show-file-list="false"
+                :on-success="handleAvatarSuccess"
+                :before-upload="beforeAvatarUpload"
+            >
+              <img v-if="state.data.logo" :src="state.data.logo" class="avatar" />
+              <el-icon v-else class="avatar-uploader-icon"><Plus /></el-icon>
+            </el-upload>
           </el-form-item>
           <el-form-item :inline="true" label="诊所名称" prop="name">
             <el-input v-model="state.data.name" placeholder="请输入诊所名称" class="w100"/>
@@ -52,7 +61,8 @@
 import {reactive, ref, unref} from 'vue';
 import {ClinicData, EditorState} from "/@/views/ophtha/clinic/dataType";
 import {addClinic, updateClinic} from "/@/api/ophtha/clinic";
-import {ElMessage} from "element-plus";
+import {ElMessage, UploadProps} from "element-plus";
+import {Plus} from '@element-plus/icons-vue'
 
 const formRef = ref<HTMLElement | null>(null);
 const state = reactive<EditorState>({
@@ -132,6 +142,26 @@ const onSubmit = () => {
   });
 };
 
+// 上传 logo 图片
+const beforeAvatarUpload: UploadProps['beforeUpload'] = (rawFile) => {
+  if (rawFile.type !== 'image/jpeg' && rawFile.type !== 'image/png') {
+    ElMessage.error('请选择 JPEG/PNG 格式的图片')
+    return false
+  } else if (rawFile.size / 1024 / 1024 > 2) {
+    ElMessage.error('文件大小不能超过 2MB')
+    return false
+  }
+  return true
+}
+
+// 更新 logo 地址
+const handleAvatarSuccess: UploadProps['onSuccess'] = (
+    response,
+    uploadFile
+) => {
+  state.data.logo = URL.createObjectURL(uploadFile.raw!)
+}
+
 defineExpose({openDrawer})
 </script>
 
@@ -139,4 +169,15 @@ defineExpose({openDrawer})
 .el-form-item__label {
   font-weight: bold;
 }
+
+.avatar {
+  height: 128px;
+  width: 128px;
+  border-radius: 5px;
+}
+
+.avatar-uploader .el-upload {
+  cursor: pointer;
+}
+
 </style>
