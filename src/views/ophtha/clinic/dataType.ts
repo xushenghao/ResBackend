@@ -1,5 +1,5 @@
-// 定义接口来定义对象的类型
-export interface TableDataRow {
+// 诊所对象数据类型
+export interface ClinicData {
     id: string;         // 诊所ID
     name: string;       // 诊所全称
     short: string;      // 诊所简称
@@ -13,11 +13,11 @@ export interface TableDataRow {
     status: number;     // 运营状态，0 禁用 1启用
 }
 
-// 定义列表视图的数据类型
-export interface TableDataState {
+// 列表视图数据类型
+export interface ListState {
     ids: string[];
-    tableData: {
-        data: Array<TableDataRow>;
+    list: {
+        data: Array<ClinicData>;
         total: number;
         loading: boolean;
         param: {
@@ -30,4 +30,11 @@ export interface TableDataState {
             deptName: string;
         };
     };
+}
+
+// 编辑视图数据类型
+export interface EditorState {
+    isShow: boolean;
+    data: ClinicData;
+    rules: {}
 }

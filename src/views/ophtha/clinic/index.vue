@@ -2,10 +2,10 @@
   <div class="ophtha-clinic-container">
     <el-card shadow="hover">
       <div class="ophtha-clinic-search mb15">
-        <el-form :model="state.tableData.param" ref="queryRef" :inline="true" label-width="68px">
+        <el-form :model="state.list.param" ref="queryRef" :inline="true" label-width="68px">
           <el-form-item label="诊所名称" prop="name">
             <el-input
-                v-model="state.tableData.param.name"
+                v-model="state.list.param.name"
                 placeholder="请输入诊所名称"
                 clearable
                 size="default"
@@ -14,7 +14,7 @@
           </el-form-item>
           <el-form-item label="诊所状态" prop="status">
             <el-input
-                v-model="state.tableData.param.status"
+                v-model="state.list.param.status"
                 placeholder="请输入诊所状态"
                 clearable
                 size="default"
@@ -23,7 +23,7 @@
           </el-form-item>
           <el-form-item label="所属机构" prop="deptName">
             <el-input
-                v-model="state.tableData.param.deptName"
+                v-model="state.list.param.deptName"
                 placeholder="请输入机构名称"
                 clearable
                 size="default"
@@ -58,7 +58,7 @@
           </el-form-item>
         </el-form>
       </div>
-      <el-table stripe :data="state.tableData.data" style="width: 100%" @selection-change="onSelectionChange">
+      <el-table stripe :data="state.list.data" style="width: 100%" @selection-change="onSelectionChange">
         <el-table-column type="selection" width="55" align="center"/>
         <el-table-column label="诊所标志" width="120" alian="center" prop="logo">
           <template #default="scope">
@@ -92,10 +92,10 @@
         </el-table-column>
       </el-table>
       <pagination
-          v-show="state.tableData.total>0"
-          :total="state.tableData.total"
-          v-model:page="state.tableData.param.pageNum"
-          v-model:limit="state.tableData.param.pageSize"
+          v-show="state.list.total>0"
+          :total="state.list.total"
+          v-model:page="state.list.param.pageNum"
+          v-model:limit="state.list.param.pageSize"
           @pagination="dataList"
       />
     </el-card>
@@ -107,14 +107,14 @@
 import {onMounted, reactive, ref} from 'vue';
 import {ElMessage, ElMessageBox, FormInstance} from 'element-plus';
 import {changeStatus, deleteClinic, listClinic} from '/@/api/ophtha/clinic';
-import {TableDataRow, TableDataState} from "/@/views/ophtha/clinic/dataType";
+import {ClinicData, ListState} from "/@/views/ophtha/clinic/dataType";
 import Editor from "/@/views/ophtha/clinic/editor.vue";
 
 const queryRef = ref();
 const editorRef = ref();
-const state = reactive<TableDataState>({
+const state = reactive<ListState>({
   ids: [],
-  tableData: {
+  list: {
     data: [],
     total: 0,
     loading: false,
@@ -135,20 +135,20 @@ const initTableData = () => {
   dataList()
 };
 const dataList = () => {
-  listClinic(state.tableData.param).then((res: any) => {
-    state.tableData.data = res.data.list;
-    state.tableData.total = res.data.total;
+  listClinic(state.list.param).then((res: any) => {
+    state.list.data = res.data.list;
+    state.list.total = res.data.total;
   });
 };
 
 // 新增弹窗
 const onOpenAddEditor = () => {
-  editorRef.value.openDialog();
+  editorRef.value.openDrawer();
 };
 
 // 修改弹窗
-const onOpenEditor = (row: TableDataRow) => {
-  editorRef.value.openDialog(row);
+const onOpenEditor = (row: ClinicData) => {
+  editorRef.value.openDrawer(row);
 };
 
 // 重置按钮
@@ -159,12 +159,12 @@ const onReset = (formEl: FormInstance | undefined) => {
 };
 
 // 框选数据
-const onSelectionChange = (selection: TableDataRow[]) => {
+const onSelectionChange = (selection: ClinicData[]) => {
   state.ids = selection.map(item => item.id)
 };
 
 // 删除诊所
-const onRowDel = (row: TableDataRow) => {
+const onRowDel = (row: ClinicData) => {
   let msg = '你确定要删除所选数据？';
   let ids: string[] = [];
   if (row) {
@@ -193,7 +193,7 @@ const onRowDel = (row: TableDataRow) => {
 };
 
 // 切换状态
-const onStatusChange = (row: TableDataRow) => {
+const onStatusChange = (row: ClinicData) => {
   let text = row.status === 1 ? "启用" : "禁用";
   ElMessageBox.confirm('确认要' + text + '：' + row.name + '诊所吗？', "警告", {
     confirmButtonText: "确定",
