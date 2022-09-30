@@ -4,18 +4,49 @@
       <div style="padding: 0 20px">
         <el-form :model="state.data" ref="formRef" :rules="state.rules" size="default" label-width="100px">
           <el-form-item :inline="true" label="形象照片" prop="photos">
-            <el-input v-model="state.data.photos" placeholder="请选择形象照片" class="w100"/>
+            <el-upload
+                class="photos-uploader"
+                accept=".jpg, .png"
+                :limit=1
+                :auto-upload="true"
+                :show-file-list="false"
+                :action="state.upload.url"
+                :headers="state.upload.headers"
+                :before-upload="beforeUpload"
+                :on-progress="onUploadProgress"
+                :on-success="onHeroUploadSuccess"
+            >
+              <el-tooltip
+                  effect="dark"
+                  class="box-item"
+                  placement="right"
+              >
+                <template #content>点击更换 JPEG 或 PNG 格式的图<br>片，推荐尺寸为 640 * 300 像素</template>
+                <el-image v-if="state.data.photos" :src="state.data.photos" class="photos" fit="cover" alt=""/>
+              </el-tooltip>
+            </el-upload>
           </el-form-item>
           <el-form-item :inline="true" label="品牌标志" prop="logo">
             <el-upload
                 class="avatar-uploader"
-                action="http://127.0.0.1:6969/api/v1/pub/upload/singleImg"
+                accept=".jpg, .png"
+                :limit=1
+                :auto-upload="true"
                 :show-file-list="false"
-                :on-success="handleAvatarSuccess"
-                :before-upload="beforeAvatarUpload"
+                :action="state.upload.url"
+                :headers="state.upload.headers"
+                :before-upload="beforeUpload"
+                :on-progress="onUploadProgress"
+                :on-success="onLogoUploadSuccess"
             >
-              <img v-if="state.data.logo" :src="state.data.logo" class="avatar" />
-              <el-icon v-else class="avatar-uploader-icon"><Plus /></el-icon>
+              <el-tooltip
+                  effect="dark"
+                  class="box-item"
+                  placement="right"
+              >
+                <template #content>点击更换 JPEG 或 PNG 格式的图<br>片，推荐尺寸为 128 * 128 像素</template>
+                <el-image v-if="state.data.logo" :src="state.data.logo" class="avatar" fit="cover" alt=""/>
+              </el-tooltip>
             </el-upload>
           </el-form-item>
           <el-form-item :inline="true" label="诊所名称" prop="name">
@@ -59,10 +90,11 @@
 
 <script lang="ts" setup>
 import {reactive, ref, unref} from 'vue';
-import {ClinicData, EditorState} from "/@/views/ophtha/clinic/dataType";
+import {ElMessage} from "element-plus";
+import {UploadRawFile} from "element-plus/es/components/upload/src/upload";
+import {ClinicData, EditorState, UploadResult} from "/@/views/ophtha/clinic/dataType";
 import {addClinic, updateClinic} from "/@/api/ophtha/clinic";
-import {ElMessage, UploadProps} from "element-plus";
-import {Plus} from '@element-plus/icons-vue'
+import {Session} from "/@/utils/storage";
 
 const formRef = ref<HTMLElement | null>(null);
 const state = reactive<EditorState>({
@@ -84,6 +116,11 @@ const state = reactive<EditorState>({
     name: [
       {required: true, message: "诊所名称不能为空", trigger: "blur"}
     ]
+  },
+  upload: {
+    url: `http://127.0.0.1:6969/api/v1/pub/upload/singleImg`,
+    headers: {Authorization: `Bearer ${Session.get('token')}`},
+    isUploading: false,
   }
 });
 
@@ -121,7 +158,7 @@ const onCancel = () => {
   closeDrawer();
 };
 
-// 新增
+// 提交表单
 const onSubmit = () => {
   const formWrap = unref(formRef) as any;
   if (!formWrap) return;
@@ -142,10 +179,10 @@ const onSubmit = () => {
   });
 };
 
-// 上传 logo 图片
-const beforeAvatarUpload: UploadProps['beforeUpload'] = (rawFile) => {
+// 上传图片之前
+const beforeUpload = (rawFile: UploadRawFile) => {
   if (rawFile.type !== 'image/jpeg' && rawFile.type !== 'image/png') {
-    ElMessage.error('请选择 JPEG/PNG 格式的图片')
+    ElMessage.error('请选择 JPEG或PNG 格式的图片')
     return false
   } else if (rawFile.size / 1024 / 1024 > 2) {
     ElMessage.error('文件大小不能超过 2MB')
@@ -154,14 +191,32 @@ const beforeAvatarUpload: UploadProps['beforeUpload'] = (rawFile) => {
   return true
 }
 
-// 更新 logo 地址
-const handleAvatarSuccess: UploadProps['onSuccess'] = (
-    response,
-    uploadFile
-) => {
-  state.data.logo = URL.createObjectURL(uploadFile.raw!)
+// 上传图片途中
+const onUploadProgress = () => {
+  state.upload.isUploading = true;
 }
 
+// 更新 Logo 图片地址
+const onLogoUploadSuccess = (result: UploadResult) => {
+  state.upload.isUploading = false;
+  if (result.code === 0) {
+    state.data.logo = result.data.full_path;
+  } else {
+    ElMessage.error(`图片上传失败，${result.message}`);
+  }
+}
+
+// 更新 Hero 图片地址
+const onHeroUploadSuccess = (result: UploadResult) => {
+  state.upload.isUploading = false;
+  if (result.code === 0) {
+    state.data.photos = result.data.full_path;
+  } else {
+    ElMessage.error(`图片上传失败，${result.message}`);
+  }
+}
+
+// 对上暴露方法
 defineExpose({openDrawer})
 </script>
 
@@ -170,14 +225,37 @@ defineExpose({openDrawer})
   font-weight: bold;
 }
 
-.avatar {
-  height: 128px;
-  width: 128px;
+.avatar-uploader,
+.photos-uploader {
+  line-height: 0;
   border-radius: 5px;
+  border: 1px solid #dddfe6;
+
+  .el-upload {
+    cursor: pointer;
+    float: left;
+
+    .avatar {
+      width: 128px;
+      height: 128px;
+      overflow: hidden;
+      border-radius: 5px;
+    }
+
+    .photos {
+      max-height: 150px;
+      overflow: hidden;
+      border-radius: 5px;
+    }
+  }
 }
 
-.avatar-uploader .el-upload {
-  cursor: pointer;
+.photos-uploader {
+  width: 100%;
+
+  .el-upload {
+    width: 100%;
+  }
 }
 
 </style>

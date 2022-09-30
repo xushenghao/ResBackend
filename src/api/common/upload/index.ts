@@ -1,7 +1,7 @@
 import request from '/@/utils/request';
 
 // 上传单个图片
-export function singleImg(data: any) {
+export function uploadSingleImg(data: any) {
     return request({
         url: '/api/v1/pub/upload/singleImg',
         method: 'post',
@@ -10,7 +10,7 @@ export function singleImg(data: any) {
 }
 
 // 上传多个图片
-export function multiImg(data: any) {
+export function uploadMultiImg(data: any) {
     return request({
         url: '/api/v1/pub/upload/multipleImg',
         method: 'post',
@@ -19,7 +19,7 @@ export function multiImg(data: any) {
 }
 
 // 上传单个文件
-export function singleFile(data: any) {
+export function uploadSingleFile(data: any) {
     return request({
         url: '/api/v1/pub/upload/singleFile',
         method: 'post',
@@ -28,7 +28,7 @@ export function singleFile(data: any) {
 }
 
 // 上传多个文件
-export function multiFile(data: any) {
+export function uploadMultiFile(data: any) {
     return request({
         url: '/api/v1/pub/upload/multipleFile',
         method: 'post',

@@ -36,5 +36,23 @@ export interface ListState {
 export interface EditorState {
     isShow: boolean;
     data: ClinicData;
-    rules: {}
+    rules: {};
+    upload: {
+        url: string;
+        headers: {};
+        isUploading: boolean;
+    }
+}
+
+// 上传返回数据类型
+export interface UploadResult {
+    "code": number,
+    "message": string,
+    "data": {
+        "size": number,
+        "path": string,
+        "name": string,
+        "type": string,
+        "full_path": string
+    }
 }
