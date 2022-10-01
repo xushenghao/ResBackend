@@ -22,7 +22,7 @@
                   placement="right"
               >
                 <template #content>点击更换 JPEG 或 PNG 格式的图<br>片，推荐尺寸为 640 * 300 像素</template>
-                <el-image v-if="state.data.photos" :src="state.data.photos" class="photos" fit="cover" alt=""/>
+                <el-image :src="state.data.photos" class="photos" fit="cover" alt=""/>
               </el-tooltip>
             </el-upload>
           </el-form-item>
@@ -45,7 +45,7 @@
                   placement="right"
               >
                 <template #content>点击更换 JPEG 或 PNG 格式的图<br>片，推荐尺寸为 128 * 128 像素</template>
-                <el-image v-if="state.data.logo" :src="state.data.logo" class="avatar" fit="cover" alt=""/>
+                <el-image :src="state.data.logo" class="avatar" fit="cover" alt=""/>
               </el-tooltip>
             </el-upload>
           </el-form-item>
@@ -55,11 +55,8 @@
           <el-form-item :inline="true" label="诊所简称" prop="short">
             <el-input v-model="state.data.short" placeholder="请输入诊所简称" class="w100"/>
           </el-form-item>
-          <el-form-item :inline="true" label="机构编号" prop="DeptId">
-            <el-input v-model="state.data.DeptId" placeholder="请输入机构编号" class="w100"/>
-          </el-form-item>
           <el-form-item :inline="true" label="所属机构" prop="DeptName">
-            <el-input v-model="state.data.DeptName" placeholder="请输入所属机构" class="w100"/>
+            <el-input v-model="state.data.DeptName" placeholder="请选择所属机构" class="w100"/>
           </el-form-item>
           <el-form-item :inline="true" label="诊所地址" prop="address">
             <el-input v-model="state.data.address" placeholder="请输入诊所地址" class="w100"/>
@@ -181,13 +178,18 @@ const onSubmit = () => {
 
 // 上传图片之前
 const beforeUpload = (rawFile: UploadRawFile) => {
+  // 限制图片格式
   if (rawFile.type !== 'image/jpeg' && rawFile.type !== 'image/png') {
     ElMessage.error('请选择 JPEG或PNG 格式的图片')
     return false
-  } else if (rawFile.size / 1024 / 1024 > 2) {
+  }
+
+  // 限制图片大小
+  if (rawFile.size / 1024 / 1024 > 2) {
     ElMessage.error('文件大小不能超过 2MB')
     return false
   }
+
   return true
 }
 
@@ -220,9 +222,17 @@ const onHeroUploadSuccess = (result: UploadResult) => {
 defineExpose({openDrawer})
 </script>
 
-<style scoped lang="scss">
+<style lang="scss">
 .el-form-item__label {
   font-weight: bold;
+}
+
+.photos-uploader {
+  width: 100%;
+
+  .el-upload {
+    width: 100%;
+  }
 }
 
 .avatar-uploader,
@@ -243,18 +253,12 @@ defineExpose({openDrawer})
     }
 
     .photos {
+      width: 100%;
+      min-height: 128px;
       max-height: 150px;
       overflow: hidden;
       border-radius: 5px;
     }
-  }
-}
-
-.photos-uploader {
-  width: 100%;
-
-  .el-upload {
-    width: 100%;
   }
 }
 
