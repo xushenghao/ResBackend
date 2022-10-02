@@ -49,20 +49,15 @@
               </el-tooltip>
             </el-upload>
           </el-form-item>
-          <el-form-item :inline="true" label="诊所名称" prop="name">
-            <el-input v-model="state.data.name" placeholder="请输入诊所名称" class="w100"/>
+          <el-form-item :inline="true" label="诊所全称" prop="name">
+            <el-input v-model="state.data.name" placeholder="请输入诊所全称" class="w100"/>
           </el-form-item>
-          <el-form-item :inline="true" label="诊所简称" prop="short">
+          <el-form-item required :inline="true" label="诊所简称" prop="short">
             <el-input v-model="state.data.short" placeholder="请输入诊所简称" class="w100"/>
           </el-form-item>
-          <el-form-item :inline="true" label="所属机构" prop="deptName">
-            <el-select v-model="state.data.deptName" @change="onDeptChange"  placeholder="请选择所属机构" class="w100">
-              <el-option
-                  v-for="dept in state.dept"
-                  :key="dept.deptId"
-                  :value="dept.deptName"
-                  :label="dept.deptName"
-              />
+          <el-form-item required :inline="true" label="所属机构" prop="deptName">
+            <el-select v-model="state.data.deptName" @change="onDeptChange" placeholder="请选择所属机构" class="w100">
+              <el-option v-for="dept in state.dept" :key="dept.deptId" :value="dept.deptName" :label="dept.deptName"/>
             </el-select>
           </el-form-item>
           <el-form-item :inline="true" label="诊所地址" prop="address">
@@ -74,10 +69,10 @@
           <el-form-item :inline="true" label="备用电话" prop="phoneOther">
             <el-input v-model="state.data.phoneOther" placeholder="请输入备用电话" class="w100"/>
           </el-form-item>
-          <el-form-item label="状态" prop="status">
+          <el-form-item label="运营状态" prop="status">
             <el-radio-group v-model="state.data.status">
-              <el-radio :label=1>启用</el-radio>
-              <el-radio :label=0>禁用</el-radio>
+              <el-radio :label=1>接诊</el-radio>
+              <el-radio :label=0>停诊</el-radio>
             </el-radio-group>
           </el-form-item>
         </el-form>
@@ -101,6 +96,17 @@ import {addClinic, updateClinic} from "/@/api/ophtha/clinic";
 import {Session} from "/@/utils/storage";
 
 const formRef = ref<HTMLElement | null>(null);
+
+// 检查联系电话
+const checkPhone = (rule: any, value: string, callback: any) => {
+  if (value !== '' && !/^1[3456789]\d{9}$/.test(value)) {
+    callback(new Error('请输入正确的手机号'));
+  } else {
+    callback();
+  }
+};
+
+// 编辑器状态
 const state = reactive<ClinicEditor>({
   isShow: false,
   dept: [],
@@ -115,12 +121,24 @@ const state = reactive<ClinicEditor>({
     address: '',
     phoneMain: '',
     phoneOther: '',
-    status: 0,
+    status: 1,
   },
   rules: {
     name: [
       {required: true, message: "诊所名称不能为空", trigger: "blur"}
-    ]
+    ],
+    short: [
+      {required: true, message: "诊所简称不能为空", trigger: "blur"}
+    ],
+    deptName: [
+      {required: true, message: "所属机构不能为空", trigger: "blur"}
+    ],
+    phoneMain: [
+      {validator: checkPhone, trigger: 'blur'}
+    ],
+    phoneOther: [
+      {validator: checkPhone, trigger: 'blur'}
+    ],
   },
   upload: {
     url: `http://127.0.0.1:6969/api/v1/pub/upload/singleImg`,

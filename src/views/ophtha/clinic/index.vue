@@ -76,9 +76,9 @@
                 v-model="scope.row.status"
                 inline-prompt
                 :active-value=1
-                active-text="启"
+                active-text="接"
                 :inactive-value=0
-                inactive-text="禁"
+                inactive-text="停"
             />
           </template>
         </el-table-column>
