@@ -13,22 +13,20 @@
             />
           </el-form-item>
           <el-form-item label="诊所状态" prop="status">
-            <el-input
-                v-model="state.list.param.status"
-                placeholder="请输入诊所状态"
-                clearable
-                size="default"
-                @keyup.enter.native="dataList"
-            />
+            <el-select v-model="state.list.param.status" placeholder="请选择诊所状态" class="w100">
+              <el-option key="0" value="0" label="停诊"/>
+              <el-option key="1" value="1" label="接诊"/>
+            </el-select>
           </el-form-item>
           <el-form-item label="所属机构" prop="deptName">
-            <el-input
-                v-model="state.list.param.deptName"
-                placeholder="请输入机构名称"
-                clearable
-                size="default"
-                @keyup.enter.native="dataList"
-            />
+            <el-select v-model="state.list.param.deptName" placeholder="请选择所属机构" class="w100">
+              <el-option
+                  v-for="dept in state.dept"
+                  :key="dept.deptId"
+                  :value="dept.deptName"
+                  :label="dept.deptName"
+              />
+            </el-select>
           </el-form-item>
           <el-form-item>
             <el-button size="default" type="primary" class="ml10" @click="dataList">
@@ -60,18 +58,18 @@
       </div>
       <el-table stripe :data="state.list.data" style="width: 100%" @selection-change="onSelectionChange">
         <el-table-column type="selection" width="55" align="center"/>
-        <el-table-column label="诊所标志" width="120" alian="center" prop="logo">
+        <el-table-column label="诊所标志" width="100" alian="center" prop="logo">
           <template #default="scope">
             <el-image class="logo" :src="scope.row.logo" fit="cover"/>
           </template>
         </el-table-column>
         <el-table-column label="诊所简称" width="120" prop="short" :show-overflow-tooltip="true"/>
         <el-table-column label="诊所全称" prop="name" :show-overflow-tooltip="true"/>
-        <el-table-column label="所属机构" prop="deptName" :show-overflow-tooltip="true"/>
+        <el-table-column label="所属机构" width="100" prop="deptName"/>
         <el-table-column label="诊所地址" prop="address" :show-overflow-tooltip="true"/>
         <el-table-column label="联系电话" width="120" prop="phoneMain"/>
         <el-table-column label="备用电话" width="120" prop="phoneOther"/>
-        <el-table-column label="状态" align="center" width="160" prop="status">
+        <el-table-column label="营业状态" width="100" prop="status" align="center">
           <template #default="scope">
             <el-switch
                 @change="onStatusChange(scope.row)"
