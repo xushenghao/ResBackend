@@ -5,8 +5,8 @@ export interface ExpertData {
     title: string;          // 专家称谓
     mobile: string;         // 手机号
     status: number;         // 展示状态，0 禁用 1启用
-    Avatar: string          // 形象照路径
-    Licence: string         // 执业照路径
+    avatar: string          // 形象照路径
+    licence: string         // 执业照路径
     brief: string;          // 专家介绍
     tags: string;           // 专家标签
     ability: string;        // 技术专长
@@ -42,7 +42,7 @@ export interface ExpertList {
 }
 
 // 编辑视图数据类型
-export interface ClinicEditor {
+export interface ExpertEditor {
     isShow: boolean;
     data: ExpertData;
     clinic: Array<ClinicData>

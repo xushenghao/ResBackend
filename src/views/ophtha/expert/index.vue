@@ -23,7 +23,7 @@
               <el-option
                   v-for="clinic in state.clinic"
                   :key="clinic.id"
-                  :value="clinic.name"
+                  :value="clinic.short"
                   :label="clinic.short"
               />
             </el-select>
@@ -60,7 +60,7 @@
         <el-table-column type="selection" width="55" align="center"/>
         <el-table-column label="头像" width="100" alian="center" prop="avatar">
           <template #default="scope">
-            <el-image class="avatar" :src="scope.row.avatar" fit="cover"/>
+            <el-avatar shape="square" size="large" :src="scope.row.avatar" />
           </template>
         </el-table-column>
         <el-table-column label="姓名" width="100" prop="name"/>
@@ -229,11 +229,6 @@ onMounted(() => {
 </script>
 
 <style scoped lang="scss">
-.logo {
-  height: 64px;
-  width: 64px;
-  border-radius: 5px;
-}
 .el-tag {
   margin: 0 2px;
 }

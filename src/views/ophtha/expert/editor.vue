@@ -1,32 +1,9 @@
 <template>
-  <div class="ophtha-edit-clinic-container">
-    <el-drawer v-model="state.isShow" :size='480' :title="(state.data.id!==''?'修改':'添加')+'诊所'">
+  <div class="ophtha-edit-expert-container">
+    <el-drawer v-model="state.isShow" :size='480' :title="(state.data.id!==''?'修改':'添加')+'专家'">
       <div style="padding: 0 20px">
         <el-form :model="state.data" ref="formRef" :rules="state.rules" size="default" label-width="100px">
-          <el-form-item :inline="true" label="形象照片" prop="photos">
-            <el-upload
-                class="photos-uploader"
-                accept=".jpg, .png"
-                :limit=1
-                :auto-upload="true"
-                :show-file-list="false"
-                :action="state.upload.url"
-                :headers="state.upload.headers"
-                :before-upload="beforeUpload"
-                :on-progress="onUploadProgress"
-                :on-success="onHeroUploadSuccess"
-            >
-              <el-tooltip
-                  effect="dark"
-                  class="box-item"
-                  placement="right"
-              >
-                <template #content>点击更换 JPEG 或 PNG 格式的图<br>片，推荐尺寸为 640 * 300 像素</template>
-                <el-image :src="state.data.photos" class="photos" fit="cover" alt=""/>
-              </el-tooltip>
-            </el-upload>
-          </el-form-item>
-          <el-form-item :inline="true" label="品牌标志" prop="logo">
+          <el-form-item required :inline="true" label="形象照" prop="avatar">
             <el-upload
                 class="avatar-uploader"
                 accept=".jpg, .png"
@@ -37,7 +14,7 @@
                 :headers="state.upload.headers"
                 :before-upload="beforeUpload"
                 :on-progress="onUploadProgress"
-                :on-success="onLogoUploadSuccess"
+                :on-success="onAvatarUploadSuccess"
             >
               <el-tooltip
                   effect="dark"
@@ -45,31 +22,57 @@
                   placement="right"
               >
                 <template #content>点击更换 JPEG 或 PNG 格式的图<br>片，推荐尺寸为 128 * 128 像素</template>
-                <el-image :src="state.data.logo" class="avatar" fit="cover" alt=""/>
+                <el-avatar shape="square" size="large" :src="state.data.avatar" />
               </el-tooltip>
             </el-upload>
           </el-form-item>
-          <el-form-item :inline="true" label="诊所全称" prop="name">
-            <el-input v-model="state.data.name" placeholder="请输入诊所全称" class="w100"/>
+          <el-form-item :inline="true" label="执业照" prop="licence">
+            <el-upload
+                class="photos-uploader"
+                accept=".jpg, .png"
+                :limit=1
+                :auto-upload="true"
+                :show-file-list="false"
+                :action="state.upload.url"
+                :headers="state.upload.headers"
+                :before-upload="beforeUpload"
+                :on-progress="onUploadProgress"
+                :on-success="onLicenceUploadSuccess"
+            >
+              <el-tooltip
+                  effect="dark"
+                  class="box-item"
+                  placement="right"
+              >
+                <template #content>点击更换 JPEG 或 PNG 格式的图<br>片，推荐尺寸为 640 * 300 像素</template>
+                <el-image :src="state.data.licence" class="licence" fit="cover" alt=""/>
+              </el-tooltip>
+            </el-upload>
           </el-form-item>
-          <el-form-item required :inline="true" label="诊所简称" prop="short">
-            <el-input v-model="state.data.short" placeholder="请输入诊所简称" class="w100"/>
+          <el-form-item required :inline="true" label="专家姓名" prop="name">
+            <el-input v-model="state.data.name" placeholder="请输入专家姓名" class="w100"/>
           </el-form-item>
-          <el-form-item required :inline="true" label="所属机构" prop="deptName">
-            <el-select v-model="state.data.deptName" @change="onDeptChange" placeholder="请选择所属机构" class="w100">
-              <el-option v-for="dept in state.dept" :key="dept.deptId" :value="dept.deptName" :label="dept.deptName"/>
+          <el-form-item required :inline="true" label="专家称谓" prop="title">
+            <el-input v-model="state.data.title" placeholder="请输入专家称谓" class="w100"/>
+          </el-form-item>
+          <el-form-item required :inline="true" label="联系电话" prop="mobile">
+            <el-input v-model="state.data.mobile" placeholder="请输入联系电话" class="w100"/>
+          </el-form-item>
+          <el-form-item required :inline="true" label="所属诊所" prop="clinicName">
+            <el-select v-model="state.data.clinicName" @change="onClinicChange" placeholder="请选择所属诊所" class="w100">
+              <el-option v-for="clinic in state.clinic" :key="clinic.id" :value="clinic.short" :label="clinic.short"/>
             </el-select>
           </el-form-item>
-          <el-form-item :inline="true" label="诊所地址" prop="address">
-            <el-input v-model="state.data.address" placeholder="请输入诊所地址" class="w100"/>
+          <el-form-item :inline="true" label="专家标签" prop="tags">
+            <el-input v-model="state.data.tags" placeholder="请输入专家标签" class="w100"/>
           </el-form-item>
-          <el-form-item :inline="true" label="联系电话" prop="phoneMain">
-            <el-input v-model="state.data.phoneMain" placeholder="请输入联系电话" class="w100"/>
+          <el-form-item :inline="true" label="技术专长" prop="ability">
+            <el-input v-model="state.data.ability" autosize type="textarea" placeholder="请输入技术专长" class="w100"/>
           </el-form-item>
-          <el-form-item :inline="true" label="备用电话" prop="phoneOther">
-            <el-input v-model="state.data.phoneOther" placeholder="请输入备用电话" class="w100"/>
+          <el-form-item :inline="true" label="专家介绍" prop="brief">
+            <el-input v-model="state.data.brief" autosize type="textarea" placeholder="请输入专家介绍" class="w100"/>
           </el-form-item>
-          <el-form-item label="运营状态" prop="status">
+          <el-form-item label="专家状态" prop="status">
             <el-radio-group v-model="state.data.status">
               <el-radio :label=1>接诊</el-radio>
               <el-radio :label=0>停诊</el-radio>
@@ -91,8 +94,9 @@
 import {reactive, ref, unref} from 'vue';
 import {ElMessage} from "element-plus";
 import {UploadRawFile} from "element-plus/es/components/upload/src/upload";
-import {ClinicData, ClinicEditor, DeptData, UploadResult} from "/@/views/ophtha/clinic/dataType";
-import {addClinic, updateClinic} from "/@/api/ophtha/clinic";
+import {ClinicData, ExpertData, ExpertEditor, UploadResult} from "/@/views/ophtha/expert/dataType";
+import {addExpert, updateExpert} from "/@/api/ophtha/expert";
+import {uploadUrl} from "/@/utils/consts";
 import {Session} from "/@/utils/storage";
 
 const formRef = ref<HTMLElement | null>(null);
@@ -107,54 +111,43 @@ const checkPhone = (rule: any, value: string, callback: any) => {
 };
 
 // 编辑器状态
-const state = reactive<ClinicEditor>({
+const state = reactive<ExpertEditor>({
   isShow: false,
-  dept: [],
+  clinic: [],
   data: {
     id: '',
     name: '',
-    short: '',
-    deptId: '',
-    deptName: '',
-    photos: '',
-    logo: '',
-    address: '',
-    phoneMain: '',
-    phoneOther: '',
+    title: '',
+    mobile: '',
     status: 1,
+    avatar: '',
+    licence: '',
+    brief: '',
+    tags: '',
+    ability: '',
+    clinicId: '',
+    clinicName: '',
   },
   rules: {
-    name: [
-      {required: true, message: "诊所名称不能为空", trigger: "blur"}
-    ],
-    short: [
-      {required: true, message: "诊所简称不能为空", trigger: "blur"}
-    ],
-    deptName: [
-      {required: true, message: "所属机构不能为空", trigger: "blur"}
-    ],
-    phoneMain: [
-      {validator: checkPhone, trigger: 'blur'}
-    ],
-    phoneOther: [
+    mobile: [
       {validator: checkPhone, trigger: 'blur'}
     ],
   },
   upload: {
-    url: `http://127.0.0.1:6969/api/v1/pub/upload/singleImg`,
+    url: uploadUrl,
     headers: {Authorization: `Bearer ${Session.get('token')}`},
     isUploading: false,
   },
 });
 
 // 打开弹窗
-const openEditor = (row?: ClinicData, dept?: Array<DeptData>) => {
+const openEditor = (row?: ExpertData, clinic?: Array<ClinicData>) => {
   resetForm();
   if (row) {
     state.data = row;
   }
-  if (dept) {
-    state.dept = dept;
+  if (clinic) {
+    state.clinic = clinic;
   }
   state.isShow = true;
 };
@@ -162,15 +155,16 @@ const resetForm = () => {
   state.data = {
     id: '',
     name: '',
-    short: '',
-    deptId: '',
-    deptName: '',
-    photos: '',
-    logo: '',
-    address: '',
-    phoneMain: '',
-    phoneOther: '',
+    title: '',
+    mobile: '',
     status: 0,
+    avatar: '',
+    licence: '',
+    brief: '',
+    tags: '',
+    ability: '',
+    clinicId: '',
+    clinicName: '',
   }
 };
 
@@ -191,13 +185,13 @@ const onSubmit = () => {
   formWrap.validate((valid: boolean) => {
     if (valid) {
       if (state.data.id !== "") {
-        updateClinic(state.data).then(() => {
-          ElMessage.success('诊所记录更新成功');
+        updateExpert(state.data).then(() => {
+          ElMessage.success('专家记录更新成功');
           closeEditor();
         })
       } else {
-        addClinic(state.data).then(() => {
-          ElMessage.success('诊所记录添加成功');
+        addExpert(state.data).then(() => {
+          ElMessage.success('专家记录添加成功');
           closeEditor();
         })
       }
@@ -222,9 +216,9 @@ const beforeUpload = (rawFile: UploadRawFile) => {
   return true
 }
 
-// 同步设置机构ID
-const onDeptChange = (value: string) => {
-  state.data.deptId = state.dept.find((item: DeptData) => item.deptName === value)?.deptId || '';
+// 同步设置诊所ID
+const onClinicChange = (value: string) => {
+  state.data.clinicId = state.clinic.find((item: ClinicData) => item.short === value)?.id || '';
 }
 
 // 上传图片途中
@@ -232,21 +226,21 @@ const onUploadProgress = () => {
   state.upload.isUploading = true;
 }
 
-// 更新 Logo 图片地址
-const onLogoUploadSuccess = (result: UploadResult) => {
+// 更新 Avatar 图片地址
+const onAvatarUploadSuccess = (result: UploadResult) => {
   state.upload.isUploading = false;
   if (result.code === 0) {
-    state.data.logo = result.data.full_path;
+    state.data.avatar = result.data.full_path;
   } else {
     ElMessage.error(`图片上传失败，${result.message}`);
   }
 }
 
-// 更新 Hero 图片地址
-const onHeroUploadSuccess = (result: UploadResult) => {
+// 更新 Licence 图片地址
+const onLicenceUploadSuccess = (result: UploadResult) => {
   state.upload.isUploading = false;
   if (result.code === 0) {
-    state.data.photos = result.data.full_path;
+    state.data.licence = result.data.full_path;
   } else {
     ElMessage.error(`图片上传失败，${result.message}`);
   }
@@ -279,14 +273,7 @@ defineExpose({openEditor})
     cursor: pointer;
     float: left;
 
-    .avatar {
-      width: 128px;
-      height: 128px;
-      overflow: hidden;
-      border-radius: 5px;
-    }
-
-    .photos {
+    .licence {
       width: 100%;
       min-height: 128px;
       max-height: 150px;
