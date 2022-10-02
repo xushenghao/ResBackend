@@ -55,8 +55,15 @@
           <el-form-item :inline="true" label="诊所简称" prop="short">
             <el-input v-model="state.data.short" placeholder="请输入诊所简称" class="w100"/>
           </el-form-item>
-          <el-form-item :inline="true" label="所属机构" prop="DeptName">
-            <el-input v-model="state.data.DeptName" placeholder="请选择所属机构" class="w100"/>
+          <el-form-item :inline="true" label="所属机构" prop="deptName">
+            <el-select v-model="state.data.deptName" @change="onDeptChange"  placeholder="请选择所属机构" class="w100">
+              <el-option
+                  v-for="dept in state.dept"
+                  :key="dept.deptId"
+                  :value="dept.deptName"
+                  :label="dept.deptName"
+              />
+            </el-select>
           </el-form-item>
           <el-form-item :inline="true" label="诊所地址" prop="address">
             <el-input v-model="state.data.address" placeholder="请输入诊所地址" class="w100"/>
@@ -89,19 +96,20 @@
 import {reactive, ref, unref} from 'vue';
 import {ElMessage} from "element-plus";
 import {UploadRawFile} from "element-plus/es/components/upload/src/upload";
-import {ClinicData, EditorState, UploadResult} from "/@/views/ophtha/clinic/dataType";
+import {ClinicData, ClinicEditor, DeptData, UploadResult} from "/@/views/ophtha/clinic/dataType";
 import {addClinic, updateClinic} from "/@/api/ophtha/clinic";
 import {Session} from "/@/utils/storage";
 
 const formRef = ref<HTMLElement | null>(null);
-const state = reactive<EditorState>({
+const state = reactive<ClinicEditor>({
   isShow: false,
+  dept: [],
   data: {
     id: '',
     name: '',
     short: '',
-    DeptId: '',
-    DeptName: '',
+    deptId: '',
+    deptName: '',
     photos: '',
     logo: '',
     address: '',
@@ -118,14 +126,17 @@ const state = reactive<EditorState>({
     url: `http://127.0.0.1:6969/api/v1/pub/upload/singleImg`,
     headers: {Authorization: `Bearer ${Session.get('token')}`},
     isUploading: false,
-  }
+  },
 });
 
 // 打开弹窗
-const openDrawer = (row: ClinicData | null) => {
+const openEditor = (row?: ClinicData, dept?: Array<DeptData>) => {
   resetForm();
   if (row) {
     state.data = row;
+  }
+  if (dept) {
+    state.dept = dept;
   }
   state.isShow = true;
 };
@@ -134,8 +145,8 @@ const resetForm = () => {
     id: '',
     name: '',
     short: '',
-    DeptId: '',
-    DeptName: '',
+    deptId: '',
+    deptName: '',
     photos: '',
     logo: '',
     address: '',
@@ -146,13 +157,13 @@ const resetForm = () => {
 };
 
 // 关闭弹窗
-const closeDrawer = () => {
+const closeEditor = () => {
   state.isShow = false;
 };
 
 // 取消
 const onCancel = () => {
-  closeDrawer();
+  closeEditor();
 };
 
 // 提交表单
@@ -164,12 +175,12 @@ const onSubmit = () => {
       if (state.data.id !== "") {
         updateClinic(state.data).then(() => {
           ElMessage.success('诊所记录更新成功');
-          closeDrawer();
+          closeEditor();
         })
       } else {
         addClinic(state.data).then(() => {
           ElMessage.success('诊所记录添加成功');
-          closeDrawer();
+          closeEditor();
         })
       }
     }
@@ -191,6 +202,11 @@ const beforeUpload = (rawFile: UploadRawFile) => {
   }
 
   return true
+}
+
+// 同步设置机构ID
+const onDeptChange = (value: string) => {
+  state.data.deptId = state.dept.find((item: DeptData) => item.deptName === value)?.deptId || '';
 }
 
 // 上传图片途中
@@ -219,7 +235,7 @@ const onHeroUploadSuccess = (result: UploadResult) => {
 }
 
 // 对上暴露方法
-defineExpose({openDrawer})
+defineExpose({openEditor})
 </script>
 
 <style lang="scss">

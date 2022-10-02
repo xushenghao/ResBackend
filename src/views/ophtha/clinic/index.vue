@@ -107,13 +107,15 @@
 import {onMounted, reactive, ref} from 'vue';
 import {ElMessage, ElMessageBox, FormInstance} from 'element-plus';
 import {changeStatus, deleteClinic, listClinic} from '/@/api/ophtha/clinic';
-import {ClinicData, ListState} from "/@/views/ophtha/clinic/dataType";
+import {ClinicData, ClinicList} from "/@/views/ophtha/clinic/dataType";
 import Editor from "/@/views/ophtha/clinic/editor.vue";
+import {getDeptList} from "/@/api/system/dept";
 
 const queryRef = ref();
 const editorRef = ref();
-const state = reactive<ListState>({
+const state = reactive<ClinicList>({
   ids: [],
+  dept: [],
   list: {
     data: [],
     total: 0,
@@ -133,6 +135,7 @@ const state = reactive<ListState>({
 // 初始数据
 const initTableData = () => {
   dataList()
+  deptList()
 };
 const dataList = () => {
   listClinic(state.list.param).then((res: any) => {
@@ -140,15 +143,24 @@ const dataList = () => {
     state.list.total = res.data.total;
   });
 };
+const deptList = () => {
+  const payload = {
+    deptType: 4,
+    status: 1,
+  };
+  getDeptList(payload).then((res: any) => {
+    state.dept = res.data.deptList;
+  });
+};
 
 // 新增弹窗
 const onOpenAddEditor = () => {
-  editorRef.value.openDrawer();
+  editorRef.value.openEditor(undefined, state.dept);
 };
 
 // 修改弹窗
 const onOpenEditor = (row: ClinicData) => {
-  editorRef.value.openDrawer(row);
+  editorRef.value.openEditor(row, state.dept);
 };
 
 // 重置按钮
