@@ -3,6 +3,29 @@
     <el-drawer v-model="state.isShow" :size='480' :title="(state.data.id!==''?'修改':'添加')+'诊所'">
       <div style="padding: 0 20px">
         <el-form :model="state.data" ref="formRef" :rules="state.rules" size="default" label-width="100px">
+          <el-form-item :inline="true" label="品牌标志" prop="logo">
+            <el-upload
+                class="avatar-uploader"
+                accept=".jpg, .png"
+                :limit=1
+                :auto-upload="true"
+                :show-file-list="false"
+                :action="state.upload.url"
+                :headers="state.upload.headers"
+                :before-upload="beforeUpload"
+                :on-progress="onUploadProgress"
+                :on-success="onLogoUploadSuccess"
+            >
+              <el-tooltip
+                  effect="dark"
+                  class="box-item"
+                  placement="right"
+              >
+                <template #content>点击更换 JPEG 或 PNG 格式的图<br>片，推荐尺寸为 128 * 128 像素</template>
+                <el-avatar shape="square" size="large" :src="state.data.logo" />
+              </el-tooltip>
+            </el-upload>
+          </el-form-item>
           <el-form-item :inline="true" label="形象照片" prop="photos">
             <el-upload
                 class="photos-uploader"
@@ -23,29 +46,6 @@
               >
                 <template #content>点击更换 JPEG 或 PNG 格式的图<br>片，推荐尺寸为 640 * 300 像素</template>
                 <el-image :src="state.data.photos" class="photos" fit="cover" alt=""/>
-              </el-tooltip>
-            </el-upload>
-          </el-form-item>
-          <el-form-item :inline="true" label="品牌标志" prop="logo">
-            <el-upload
-                class="avatar-uploader"
-                accept=".jpg, .png"
-                :limit=1
-                :auto-upload="true"
-                :show-file-list="false"
-                :action="state.upload.url"
-                :headers="state.upload.headers"
-                :before-upload="beforeUpload"
-                :on-progress="onUploadProgress"
-                :on-success="onLogoUploadSuccess"
-            >
-              <el-tooltip
-                  effect="dark"
-                  class="box-item"
-                  placement="right"
-              >
-                <template #content>点击更换 JPEG 或 PNG 格式的图<br>片，推荐尺寸为 128 * 128 像素</template>
-                <el-image :src="state.data.logo" class="avatar" fit="cover" alt=""/>
               </el-tooltip>
             </el-upload>
           </el-form-item>
@@ -94,6 +94,7 @@ import {UploadRawFile} from "element-plus/es/components/upload/src/upload";
 import {ClinicData, ClinicEditor, DeptData, UploadResult} from "/@/views/ophtha/clinic/dataType";
 import {addClinic, updateClinic} from "/@/api/ophtha/clinic";
 import {Session} from "/@/utils/storage";
+import {uploadUrl} from "/@/utils/consts";
 
 const formRef = ref<HTMLElement | null>(null);
 
@@ -124,15 +125,6 @@ const state = reactive<ClinicEditor>({
     status: 1,
   },
   rules: {
-    name: [
-      {required: true, message: "诊所名称不能为空", trigger: "blur"}
-    ],
-    short: [
-      {required: true, message: "诊所简称不能为空", trigger: "blur"}
-    ],
-    deptName: [
-      {required: true, message: "所属机构不能为空", trigger: "blur"}
-    ],
     phoneMain: [
       {validator: checkPhone, trigger: 'blur'}
     ],
@@ -141,7 +133,7 @@ const state = reactive<ClinicEditor>({
     ],
   },
   upload: {
-    url: `http://127.0.0.1:6969/api/v1/pub/upload/singleImg`,
+    url: uploadUrl,
     headers: {Authorization: `Bearer ${Session.get('token')}`},
     isUploading: false,
   },
@@ -269,7 +261,6 @@ defineExpose({openEditor})
   }
 }
 
-.avatar-uploader,
 .photos-uploader {
   line-height: 0;
   border-radius: 5px;
@@ -278,13 +269,6 @@ defineExpose({openEditor})
   .el-upload {
     cursor: pointer;
     float: left;
-
-    .avatar {
-      width: 128px;
-      height: 128px;
-      overflow: hidden;
-      border-radius: 5px;
-    }
 
     .photos {
       width: 100%;

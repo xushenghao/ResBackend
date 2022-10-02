@@ -60,7 +60,7 @@
         <el-table-column type="selection" width="55" align="center"/>
         <el-table-column label="诊所标志" width="100" alian="center" prop="logo">
           <template #default="scope">
-            <el-image class="logo" :src="scope.row.logo" fit="cover"/>
+            <el-avatar shape="square" size="large" :src="scope.row.logo" />
           </template>
         </el-table-column>
         <el-table-column label="诊所简称" width="120" prop="short" :show-overflow-tooltip="true"/>
@@ -225,9 +225,4 @@ onMounted(() => {
 </script>
 
 <style scoped lang="scss">
-.logo {
-  height: 64px;
-  width: 64px;
-  border-radius: 5px;
-}
 </style>
