@@ -7,6 +7,7 @@
             <el-upload
                 class="avatar-uploader"
                 accept=".jpg, .png"
+                ref="uploadLogo"
                 :limit=1
                 :auto-upload="true"
                 :show-file-list="false"
@@ -15,6 +16,7 @@
                 :before-upload="beforeUpload"
                 :on-progress="onUploadProgress"
                 :on-success="onLogoUploadSuccess"
+                :on-exceed="onExceed"
             >
               <el-tooltip
                   effect="dark"
@@ -22,7 +24,7 @@
                   placement="right"
               >
                 <template #content>点击更换 JPEG 或 PNG 格式的图<br>片，推荐尺寸为 128 * 128 像素</template>
-                <el-avatar shape="square" size="large" :src="state.data.logo" />
+                <el-avatar shape="square" size="large" :src="state.data.logo"/>
               </el-tooltip>
             </el-upload>
           </el-form-item>
@@ -30,6 +32,7 @@
             <el-upload
                 class="photos-uploader"
                 accept=".jpg, .png"
+                ref="uploadHero"
                 :limit=1
                 :auto-upload="true"
                 :show-file-list="false"
@@ -38,6 +41,7 @@
                 :before-upload="beforeUpload"
                 :on-progress="onUploadProgress"
                 :on-success="onHeroUploadSuccess"
+                :on-exceed="onExceed"
             >
               <el-tooltip
                   effect="dark"
@@ -89,13 +93,15 @@
 
 <script lang="ts" setup>
 import {reactive, ref, unref} from 'vue';
-import {ElMessage} from "element-plus";
+import {ElMessage, UploadInstance} from "element-plus";
 import {UploadRawFile} from "element-plus/es/components/upload/src/upload";
 import {ClinicData, ClinicEditor, DeptData, UploadResult} from "/@/views/ophtha/clinic/dataType";
 import {addClinic, updateClinic} from "/@/api/ophtha/clinic";
 import {Session} from "/@/utils/storage";
 import {uploadUrl} from "/@/utils/consts";
 
+const uploadLogo = ref<UploadInstance>()
+const uploadHero = ref<UploadInstance>()
 const formRef = ref<HTMLElement | null>(null);
 
 // 检查联系电话
@@ -227,6 +233,7 @@ const onUploadProgress = () => {
 // 更新 Logo 图片地址
 const onLogoUploadSuccess = (result: UploadResult) => {
   state.upload.isUploading = false;
+  uploadLogo.value!.clearFiles();
   if (result.code === 0) {
     state.data.logo = result.data.full_path;
   } else {
@@ -237,6 +244,7 @@ const onLogoUploadSuccess = (result: UploadResult) => {
 // 更新 Hero 图片地址
 const onHeroUploadSuccess = (result: UploadResult) => {
   state.upload.isUploading = false;
+  uploadHero.value!.clearFiles();
   if (result.code === 0) {
     state.data.photos = result.data.full_path;
   } else {

@@ -7,6 +7,7 @@
             <el-upload
                 class="avatar-uploader"
                 accept=".jpg, .png"
+                ref="uploadAvatar"
                 :limit=1
                 :auto-upload="true"
                 :show-file-list="false"
@@ -22,7 +23,7 @@
                   placement="right"
               >
                 <template #content>点击更换 JPEG 或 PNG 格式的图<br>片，推荐尺寸为 128 * 128 像素</template>
-                <el-avatar shape="square" size="large" :src="state.data.avatar" />
+                <el-avatar shape="square" size="large" :src="state.data.avatar"/>
               </el-tooltip>
             </el-upload>
           </el-form-item>
@@ -30,6 +31,7 @@
             <el-upload
                 class="photos-uploader"
                 accept=".jpg, .png"
+                ref="uploadLicence"
                 :limit=1
                 :auto-upload="true"
                 :show-file-list="false"
@@ -92,13 +94,15 @@
 
 <script lang="ts" setup>
 import {reactive, ref, unref} from 'vue';
-import {ElMessage} from "element-plus";
+import {ElMessage, UploadInstance} from "element-plus";
 import {UploadRawFile} from "element-plus/es/components/upload/src/upload";
 import {ClinicData, ExpertData, ExpertEditor, UploadResult} from "/@/views/ophtha/expert/dataType";
 import {addExpert, updateExpert} from "/@/api/ophtha/expert";
 import {uploadUrl} from "/@/utils/consts";
 import {Session} from "/@/utils/storage";
 
+const uploadAvatar = ref<UploadInstance>()
+const uploadLicence = ref<UploadInstance>()
 const formRef = ref<HTMLElement | null>(null);
 
 // 检查联系电话
@@ -229,6 +233,7 @@ const onUploadProgress = () => {
 // 更新 Avatar 图片地址
 const onAvatarUploadSuccess = (result: UploadResult) => {
   state.upload.isUploading = false;
+  uploadAvatar.value!.clearFiles();
   if (result.code === 0) {
     state.data.avatar = result.data.full_path;
   } else {
@@ -239,6 +244,7 @@ const onAvatarUploadSuccess = (result: UploadResult) => {
 // 更新 Licence 图片地址
 const onLicenceUploadSuccess = (result: UploadResult) => {
   state.upload.isUploading = false;
+  uploadLicence.value!.clearFiles();
   if (result.code === 0) {
     state.data.licence = result.data.full_path;
   } else {
