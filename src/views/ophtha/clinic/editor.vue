@@ -103,6 +103,7 @@ import {uploadUrl} from "/@/utils/consts";
 const uploadLogo = ref<UploadInstance>()
 const uploadHero = ref<UploadInstance>()
 const formRef = ref<HTMLElement | null>(null);
+const emit = defineEmits(['clinicList'])
 
 // 检查联系电话
 const checkPhone = (rule: any, value: string, callback: any) => {
@@ -192,11 +193,13 @@ const onSubmit = () => {
         updateClinic(state.data).then(() => {
           ElMessage.success('诊所记录更新成功');
           closeEditor();
+          emit('clinicList');
         })
       } else {
         addClinic(state.data).then(() => {
           ElMessage.success('诊所记录添加成功');
           closeEditor();
+          emit('clinicList');
         })
       }
     }

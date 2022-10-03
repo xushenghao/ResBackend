@@ -9,7 +9,7 @@
                 placeholder="请输入诊所名称"
                 clearable
                 size="default"
-                @keyup.enter.native="dataList"
+                @keyup.enter.native="clinicList"
             />
           </el-form-item>
           <el-form-item label="诊所状态" prop="status">
@@ -29,7 +29,7 @@
             </el-select>
           </el-form-item>
           <el-form-item>
-            <el-button size="default" type="primary" class="ml10" @click="dataList">
+            <el-button size="default" type="primary" class="ml10" @click="clinicList">
               <el-icon>
                 <ele-Search/>
               </el-icon>
@@ -60,7 +60,7 @@
         <el-table-column type="selection" width="55" align="center"/>
         <el-table-column label="诊所标志" width="100" alian="center" prop="logo">
           <template #default="scope">
-            <el-avatar shape="square" size="large" :src="scope.row.logo" />
+            <el-avatar shape="square" size="large" :src="scope.row.logo"/>
           </template>
         </el-table-column>
         <el-table-column label="诊所简称" width="120" prop="short" :show-overflow-tooltip="true"/>
@@ -94,10 +94,10 @@
           :total="state.list.total"
           v-model:page="state.list.param.pageNum"
           v-model:limit="state.list.param.pageSize"
-          @pagination="dataList"
+          @pagination="clinicList"
       />
     </el-card>
-    <Editor ref="editorRef" @onRefresh="dataList"/>
+    <Editor ref="editorRef" @onRefresh="clinicList"/>
   </div>
 </template>
 
@@ -132,10 +132,10 @@ const state = reactive<ClinicList>({
 
 // 初始数据
 const initTableData = () => {
-  dataList()
+  clinicList()
   deptList()
 };
-const dataList = () => {
+const clinicList = () => {
   listClinic(state.list.param).then((res: any) => {
     state.list.data = res.data.list;
     state.list.total = res.data.total;
@@ -165,7 +165,7 @@ const onOpenEditor = (row: ClinicData) => {
 const onReset = (formEl: FormInstance | undefined) => {
   if (!formEl) return
   formEl.resetFields()
-  dataList()
+  clinicList()
 };
 
 // 框选数据
@@ -195,7 +195,7 @@ const onRowDel = (row: ClinicData) => {
       .then(() => {
         deleteClinic(ids).then(() => {
           ElMessage.success('删除成功');
-          dataList();
+          clinicList();
         })
       })
       .catch(() => {
@@ -218,10 +218,13 @@ const onStatusChange = (row: ClinicData) => {
   });
 };
 
-// 页面加载时
+// 页面加载时初始化
 onMounted(() => {
   initTableData();
 });
+
+// 导出 emit 事件方法
+defineExpose({clinicList})
 </script>
 
 <style scoped lang="scss">

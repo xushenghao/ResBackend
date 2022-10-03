@@ -25,7 +25,6 @@ export function updateClinic(data: any) {
     })
 }
 
-// 任务状态修改
 export function changeStatus(id: string, status: number) {
     return request({
         url: '/api/v1/ophtha/clinic/status',

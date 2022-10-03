@@ -104,6 +104,7 @@ import {Session} from "/@/utils/storage";
 const uploadAvatar = ref<UploadInstance>()
 const uploadLicence = ref<UploadInstance>()
 const formRef = ref<HTMLElement | null>(null);
+const emit = defineEmits(['expertList'])
 
 // 检查联系电话
 const checkPhone = (rule: any, value: string, callback: any) => {
@@ -192,11 +193,13 @@ const onSubmit = () => {
         updateExpert(state.data).then(() => {
           ElMessage.success('专家记录更新成功');
           closeEditor();
+          emit('expertList');
         })
       } else {
         addExpert(state.data).then(() => {
           ElMessage.success('专家记录添加成功');
           closeEditor();
+          emit('expertList');
         })
       }
     }

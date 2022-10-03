@@ -9,7 +9,7 @@
                 placeholder="请输入专家姓名"
                 clearable
                 size="default"
-                @keyup.enter.native="dataList"
+                @keyup.enter.native="expertList"
             />
           </el-form-item>
           <el-form-item label="专家状态" prop="status">
@@ -29,7 +29,7 @@
             </el-select>
           </el-form-item>
           <el-form-item>
-            <el-button size="default" type="primary" class="ml10" @click="dataList">
+            <el-button size="default" type="primary" class="ml10" @click="expertList">
               <el-icon>
                 <ele-Search/>
               </el-icon>
@@ -101,10 +101,10 @@
           :total="state.list.total"
           v-model:page="state.list.param.pageNum"
           v-model:limit="state.list.param.pageSize"
-          @pagination="dataList"
+          @pagination="expertList"
       />
     </el-card>
-    <Editor ref="editorRef" @onRefresh="dataList"/>
+    <Editor ref="editorRef" @onRefresh="expertList"/>
   </div>
 </template>
 
@@ -140,10 +140,10 @@ const state = reactive<ExpertList>({
 
 // 初始数据
 const initTableData = () => {
-  dataList()
+  expertList()
   clinicList()
 };
-const dataList = () => {
+const expertList = () => {
   listExpert(state.list.param).then((res: any) => {
     state.list.data = res.data.list;
     state.list.total = res.data.total;
@@ -169,7 +169,7 @@ const onOpenEditor = (row: ExpertData) => {
 const onReset = (formEl: FormInstance | undefined) => {
   if (!formEl) return
   formEl.resetFields()
-  dataList()
+  expertList()
 };
 
 // 框选数据
@@ -199,7 +199,7 @@ const onRowDel = (row: ExpertData) => {
       .then(() => {
         deleteExpert(ids).then(() => {
           ElMessage.success('删除成功');
-          dataList();
+          expertList();
         })
       })
       .catch(() => {
@@ -226,6 +226,9 @@ const onStatusChange = (row: ExpertData) => {
 onMounted(() => {
   initTableData();
 });
+
+// 导出 emit 事件方法
+defineExpose({expertList})
 </script>
 
 <style scoped lang="scss">
