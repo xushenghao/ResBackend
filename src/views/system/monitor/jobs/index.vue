@@ -95,7 +95,7 @@
             />
           </template>
         </el-table-column>
-        <el-table-column label="操作" align="center" width="180">
+        <el-table-column fixed="right" label="操作" align="center" width="180">
           <template #default="scope">
             <el-button size="small" link type="primary" @click="onOpenEditJob(scope.row)">修改</el-button>
             <el-button size="small" link type="danger" @click="onRowDel(scope.row)">删除</el-button>

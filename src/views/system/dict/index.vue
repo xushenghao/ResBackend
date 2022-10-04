@@ -77,24 +77,24 @@
       </div>
       <el-table stripe :data="tableData.data" style="width: 100%" @selection-change="handleSelectionChange">
         <el-table-column type="selection" width="60" align="center"/>
-        <el-table-column label="字典主键" width="100" align="center" prop="dictId"/>
-        <el-table-column label="字典名称" width="100" align="center" prop="dictName" :show-overflow-tooltip="true"/>
-        <el-table-column label="字典类型" align="center" :show-overflow-tooltip="true">
+        <el-table-column sortable label="字典主键" width="120" align="center" prop="dictId"/>
+        <el-table-column sortable label="字典名称" width="120" align="center" prop="dictName" show-overflow-tooltip/>
+        <el-table-column sortable label="字典类型" width="240" align="center">
           <template #default="scope">
             <router-link :to="'/system/dict/data/list/' + scope.row.dictType" class="link-type">
               <span>{{ scope.row.dictType }}</span>
             </router-link>
           </template>
         </el-table-column>
-        <el-table-column prop="remark" label="字典描述" show-overflow-tooltip/>
-        <el-table-column label="创建时间" prop="createdAt" show-overflow-tooltip width="180"/>
-        <el-table-column label="字典状态" width="90" prop="status" show-overflow-tooltip>
+        <el-table-column sortable prop="remark" label="字典描述" show-overflow-tooltip/>
+        <el-table-column sortable label="创建时间" prop="createdAt" show-overflow-tooltip width="180"/>
+        <el-table-column sortable label="字典状态" align="center" width="120" prop="status" show-overflow-tooltip>
           <template #default="scope">
             <el-tag type="success" v-if="scope.row.status">启用</el-tag>
             <el-tag type="info" v-else>禁用</el-tag>
           </template>
         </el-table-column>
-        <el-table-column label="操作" width="110">
+        <el-table-column fixed="right" label="操作" width="110">
           <template #default="scope">
             <el-button size="small" link type="primary" @click="onOpenEditDic(scope.row)">修改</el-button>
             <el-button size="small" link type="danger" @click="onRowDel(scope.row)">删除</el-button>

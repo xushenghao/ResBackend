@@ -1,7 +1,7 @@
 <template>
   <div class="system-post-container">
     <el-card shadow="hover">
-      <div class="system-user-search mb15">
+      <div class="system-post-search mb15">
         <el-form :inline="true">
           <el-form-item label="岗位名称">
             <el-input size="default" v-model="tableData.param.postName" placeholder="请输入岗位名称" class="w-50 m-2" clearable/>
@@ -40,18 +40,18 @@
       <el-table stripe :data="tableData.data" style="width: 100%" @selection-change="handleSelectionChange">
         <el-table-column type="selection" width="55" align="center"/>
         <el-table-column type="index" label="序号" width="60"/>
-        <el-table-column prop="postCode" width="120" label="岗位编码" show-overflow-tooltip></el-table-column>
-        <el-table-column prop="postName" width="120" label="岗位名称" show-overflow-tooltip></el-table-column>
-        <el-table-column prop="postSort" width="60" align="center" label="排序" show-overflow-tooltip></el-table-column>
-        <el-table-column prop="remark" label="岗位描述" show-overflow-tooltip></el-table-column>
-        <el-table-column prop="createdAt" width="180" label="创建时间" show-overflow-tooltip></el-table-column>
-        <el-table-column prop="status" width="100" label="岗位状态" show-overflow-tooltip>
+        <el-table-column sortable prop="postCode" width="160" label="岗位编码" show-overflow-tooltip></el-table-column>
+        <el-table-column sortable prop="postName" width="160" label="岗位名称" show-overflow-tooltip></el-table-column>
+        <el-table-column sortable prop="postSort" width="80" align="center" label="排序" show-overflow-tooltip></el-table-column>
+        <el-table-column sortable prop="remark" label="岗位描述" show-overflow-tooltip></el-table-column>
+        <el-table-column sortable prop="createdAt" width="180" label="创建时间" show-overflow-tooltip></el-table-column>
+        <el-table-column sortable prop="status" align="center" width="120" label="岗位状态" show-overflow-tooltip>
           <template #default="scope">
             <el-tag type="success" v-if="scope.row.status===1">启用</el-tag>
             <el-tag type="info" v-else>禁用</el-tag>
           </template>
         </el-table-column>
-        <el-table-column label="操作" width="110" align="center">
+        <el-table-column fixed="right" label="操作" width="110" align="center">
           <template #default="scope">
             <el-button size="small" link type="primary" @click="onOpenEditPost(scope.row)">修改</el-button>
             <el-button size="small" link type="danger" @click="onRowDel(scope.row)">删除</el-button>

@@ -30,17 +30,17 @@
 			</div>
 			<el-table stripe :data="tableData.data" style="width: 100%">
 				<el-table-column type="index" label="序号" width="60" />
-				<el-table-column prop="listOrder" width="60" label="排序" show-overflow-tooltip></el-table-column>
-        <el-table-column prop="name" width="140" label="角色名称" show-overflow-tooltip></el-table-column>
-				<el-table-column prop="remark" label="角色描述" show-overflow-tooltip></el-table-column>
-        <el-table-column prop="createdAt" width="180" label="创建时间" show-overflow-tooltip></el-table-column>
-        <el-table-column prop="status" width="100" label="角色状态" show-overflow-tooltip>
+				<el-table-column sortable prop="listOrder" width="80" label="排序" show-overflow-tooltip></el-table-column>
+        <el-table-column sortable prop="name" width="140" label="角色名称" show-overflow-tooltip></el-table-column>
+				<el-table-column sortable prop="remark" label="角色描述" show-overflow-tooltip></el-table-column>
+        <el-table-column sortable prop="createdAt" width="180" label="创建时间" show-overflow-tooltip></el-table-column>
+        <el-table-column sortable prop="status" align="center" width="120" label="角色状态" show-overflow-tooltip>
           <template #default="scope">
             <el-tag type="success" v-if="scope.row.status===1">启用</el-tag>
             <el-tag type="info" v-else>禁用</el-tag>
           </template>
         </el-table-column>
-				<el-table-column label="操作" width="110" align="center">
+				<el-table-column fixed="right" label="操作" width="110" align="center">
 					<template #default="scope">
 						<el-button size="small" link type="primary" @click="onOpenEditRole(scope.row)">修改</el-button>
 						<el-button size="small" link type="danger" @click="onRowDel(scope.row)">删除</el-button>

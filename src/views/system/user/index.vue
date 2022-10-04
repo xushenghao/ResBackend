@@ -99,16 +99,16 @@
           <el-table stripe :data="tableData.data" style="width: 100%" @selection-change="handleSelectionChange">
             <el-table-column type="selection" width="55" align="center"/>
             <el-table-column type="index" label="序号" width="60" align="center"/>
-            <el-table-column prop="userName" label="账户名称" show-overflow-tooltip></el-table-column>
-            <el-table-column prop="userNickname" label="用户昵称" show-overflow-tooltip></el-table-column>
-            <el-table-column prop="dept.deptName" label="所属机构" show-overflow-tooltip></el-table-column>
-            <el-table-column label="角色" align="center" prop="roleInfo" :show-overflow-tooltip="true">
+            <el-table-column sortable prop="userName" label="账户名称" show-overflow-tooltip></el-table-column>
+            <el-table-column sortable prop="userNickname" label="用户昵称" show-overflow-tooltip></el-table-column>
+            <el-table-column sortable prop="dept.deptName" label="所属机构" show-overflow-tooltip></el-table-column>
+            <el-table-column sortable prop="roleInfo" label="角色" align="center" :show-overflow-tooltip="true">
               <template #default="scope">
                 <span v-for="(item,index) of scope.row.roleInfo" :key="'role-'+index"> {{ item.name + ' ' }}</span>
               </template>
             </el-table-column>
-            <el-table-column prop="mobile" label="手机号" align="center" show-overflow-tooltip></el-table-column>
-            <el-table-column prop="userStatus" width="100" align="center" label="用户状态" show-overflow-tooltip>
+            <el-table-column sortable prop="mobile" label="手机号" align="center" show-overflow-tooltip></el-table-column>
+            <el-table-column sortable prop="userStatus" label="用户状态" align="center" width="120" show-overflow-tooltip>
               <template #default="scope">
                 <el-switch
                     v-model="scope.row.userStatus"

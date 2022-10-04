@@ -63,20 +63,20 @@
             <el-avatar shape="square" size="large" :src="scope.row.avatar" />
           </template>
         </el-table-column>
-        <el-table-column label="姓名" width="100" prop="name"/>
-        <el-table-column label="称谓" width="100" prop="title"/>
-        <el-table-column label="诊所" width="100" prop="clinicName"/>
-        <el-table-column label="专长" prop="ability" :show-overflow-tooltip="true"/>
-        <el-table-column label="标签" prop="tags" :show-overflow-tooltip="true">
+        <el-table-column sortable label="姓名" width="100" prop="name"/>
+        <el-table-column sortable label="称谓" width="100" prop="title"/>
+        <el-table-column sortable label="诊所" width="100" prop="clinicName"/>
+        <el-table-column sortable label="专长" prop="ability" show-overflow-tooltip/>
+        <el-table-column sortable label="标签" prop="tags" show-overflow-tooltip>
           <template #default>
             <el-tag class="ml-2" type="success">Tag</el-tag>
             <el-tag class="ml-2" type="info">Tag</el-tag>
             <el-tag class="ml-2" type="warning">Tag</el-tag>
           </template>
         </el-table-column>
-        <el-table-column label="简介" prop="brief" :show-overflow-tooltip="true"/>
-        <el-table-column label="手机" width="120" prop="mobile"/>
-        <el-table-column label="状态" width="100" prop="status" align="center">
+        <el-table-column sortable label="简介" prop="brief" show-overflow-tooltip/>
+        <el-table-column sortable label="手机" width="120" prop="mobile"/>
+        <el-table-column sortable label="状态" width="100" prop="status" align="center">
           <template #default="scope">
             <el-switch
                 @change="onStatusChange(scope.row)"
@@ -89,7 +89,7 @@
             />
           </template>
         </el-table-column>
-        <el-table-column label="操作" align="center" width="120">
+        <el-table-column fixed="right" label="操作" align="center" width="120">
           <template #default="scope">
             <el-button size="small" link type="primary" @click="onOpenEditor(scope.row)">修改</el-button>
             <el-button size="small" link type="danger" @click="onRowDel(scope.row)">删除</el-button>

@@ -63,13 +63,13 @@
             <el-avatar shape="square" size="large" :src="scope.row.logo"/>
           </template>
         </el-table-column>
-        <el-table-column label="诊所简称" width="120" prop="short" :show-overflow-tooltip="true"/>
-        <el-table-column label="诊所全称" prop="name" :show-overflow-tooltip="true"/>
-        <el-table-column label="所属机构" width="100" prop="deptName"/>
-        <el-table-column label="诊所地址" prop="address" :show-overflow-tooltip="true"/>
-        <el-table-column label="联系电话" width="120" prop="phoneMain"/>
-        <el-table-column label="备用电话" width="120" prop="phoneOther"/>
-        <el-table-column label="营业状态" width="100" prop="status" align="center">
+        <el-table-column sortable label="诊所简称" width="120" prop="short" show-overflow-tooltip/>
+        <el-table-column sortable label="诊所全称" prop="name" show-overflow-tooltip/>
+        <el-table-column sortable label="所属机构" width="120" prop="deptName"/>
+        <el-table-column sortable label="诊所地址" prop="address" show-overflow-tooltip/>
+        <el-table-column sortable label="联系电话" width="120" prop="phoneMain"/>
+        <el-table-column sortable label="备用电话" width="120" prop="phoneOther"/>
+        <el-table-column sortable label="营业状态" width="120" prop="status" align="center">
           <template #default="scope">
             <el-switch
                 @change="onStatusChange(scope.row)"
@@ -82,7 +82,7 @@
             />
           </template>
         </el-table-column>
-        <el-table-column label="操作" align="center" width="120">
+        <el-table-column fixed="right" label="操作" align="center" width="120">
           <template #default="scope">
             <el-button size="small" link type="primary" @click="onOpenEditor(scope.row)">修改</el-button>
             <el-button size="small" link type="danger" @click="onRowDel(scope.row)">删除</el-button>
