@@ -2,21 +2,83 @@
   font-weight: bold;
 }
 
+// 列表视图搜索表头等样式定义
+.card-table {
+  .el-card__header {
+    padding: 5px 20px !important;
+  }
+
+  .el-card__body {
+    padding-left: 0;
+    padding-right: 0;
+  }
+
+  .el-form--inline .el-form-item {
+    min-width: 240px;
+    margin-right: 20px;
+    width: 22.5%;
+  }
+
+  .card-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    .el-collapse,
+    .el-collapse-item__wrap,
+    .el-collapse-item__header {
+      border-top: none;
+      border-bottom: none;
+    }
+
+    .el-collapse-item__content {
+      padding-bottom: 0;
+    }
+
+    .el-collapse-item__header {
+      display: unset;
+    }
+
+    .el-collapse-item__arrow {
+      margin: 0 8px 0 5px;
+      top: 2px;
+    }
+  }
+
+  .right-button {
+    min-width: 216px;
+  }
+}
+
+// 美化树状列表
 .el-aside {
   .el-tree-node__content {
     min-height: 36px;
   }
 }
 
+// 所有表格内置按钮字号
 table {
   .el-button--small {
     font-size: 13px;
   }
 }
 
+// 解决 Safari 自动密码的背景问题
 input:-webkit-autofill,
 input:-webkit-autofill:hover,
 input:-webkit-autofill:focus,
-input:-webkit-autofill:active{
+input:-webkit-autofill:active {
   -webkit-box-shadow: 0 0 0 30px white inset !important;
+}
+
+// 解决按钮图标不居中的问题
+.el-button i.el-icon,
+.el-button i.iconfont,
+.el-button i.fa,
+.el-button--default i.iconfont,
+.el-button--default i.fa,
+.el-button--small i.iconfont,
+.el-button--small i.fa {
+  margin-right: unset;
 }
