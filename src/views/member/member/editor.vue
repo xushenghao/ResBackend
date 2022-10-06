@@ -131,7 +131,7 @@ import {Session} from "/@/utils/storage";
 
 const uploadAvatar = ref<UploadInstance>()
 const formRef = ref<HTMLElement | null>(null);
-const emit = defineEmits(['memberList'])
+const emit = defineEmits(['mainList'])
 
 // 检查联系电话
 const checkPhone = (rule: any, value: string, callback: any) => {
@@ -235,13 +235,13 @@ const onSubmit = () => {
         updateMember(state.data).then(() => {
           ElMessage.success('客户记录更新成功');
           closeEditor();
-          emit('memberList');
+          emit('mainList');
         })
       } else {
         addMember(state.data).then(() => {
           ElMessage.success('客户记录添加成功');
           closeEditor();
-          emit('memberList');
+          emit('mainList');
         })
       }
     }

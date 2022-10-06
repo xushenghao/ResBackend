@@ -11,7 +11,7 @@
               <div class="member-member-search mb15">
                 <el-form :model="state.list.param" ref="queryRef" :inline="true" label-width="70px">
                   <el-form-item label="客户姓名" prop="name">
-                    <el-input clearable v-model="state.list.param.name" @keyup.enter.native="memberList" placeholder="请输入客户姓名"/>
+                    <el-input clearable v-model="state.list.param.name" @keyup.enter.native="mainList" placeholder="请输入客户姓名"/>
                   </el-form-item>
                   <el-form-item label="客户性别" prop="gender">
                     <el-select clearable v-model="state.list.param.gender" placeholder="请选择客户性别">
@@ -22,8 +22,8 @@
                   </el-form-item>
                   <el-form-item label="客户状态" prop="status">
                     <el-select clearable v-model="state.list.param.status" placeholder="请选择客户状态">
-                      <el-option key="0" value="0" label="冻结"/>
                       <el-option key="1" value="1" label="正常"/>
+                      <el-option key="0" value="0" label="冻结"/>
                     </el-select>
                   </el-form-item>
                   <el-form-item label="来源渠道" prop="channelId">
@@ -47,14 +47,14 @@
                     </el-select>
                   </el-form-item>
                   <el-form-item clearable label="客户电话" prop="mobile">
-                    <el-input clearable v-model="state.list.param.mobile" @keyup.enter.native="memberList" placeholder="请输入客户电话"/>
+                    <el-input clearable v-model="state.list.param.mobile" @keyup.enter.native="mainList" placeholder="请输入客户电话"/>
                   </el-form-item>
                   <el-form-item clearable label="客户地址" prop="address">
-                    <el-input clearable v-model="state.list.param.address" @keyup.enter.native="memberList" placeholder="请输入客户地址"/>
+                    <el-input clearable v-model="state.list.param.address" @keyup.enter.native="mainList" placeholder="请输入客户地址"/>
                   </el-form-item>
 
                   <div style="display: inline-flex;margin-bottom: 18px;vertical-align: middle;">
-                    <el-button type="primary" @click="memberList">
+                    <el-button type="primary" @click="mainList">
                       <el-icon>
                         <ele-Search/>
                       </el-icon>
@@ -142,10 +142,10 @@
           :total="state.list.total"
           v-model:page="state.list.param.pageNum"
           v-model:limit="state.list.param.pageSize"
-          @pagination="memberList"
+          @pagination="mainList"
       />
     </el-card>
-    <Editor ref="editorRef" @onRefresh="memberList"/>
+    <Editor ref="editorRef" @onRefresh="mainList"/>
   </div>
 </template>
 
@@ -197,13 +197,13 @@ const state = reactive<MemberList>({
 
 // 初始数据
 const initTableData = () => {
-  memberList()
+  mainList()
   clinicList()
   brokerList()
   channelList()
 };
 // 客户列表
-const memberList = () => {
+const mainList = () => {
   listMember(state.list.param).then((res: any) => {
     state.list.data = res.data.list;
     state.list.total = res.data.total;
@@ -242,7 +242,7 @@ const onOpenEditor = (row: MemberData) => {
 const onReset = (formEl: FormInstance | undefined) => {
   if (!formEl) return
   formEl.resetFields()
-  memberList()
+  mainList()
 };
 
 // 框选数据
@@ -272,7 +272,7 @@ const onRowDel = (row: MemberData) => {
       .then(() => {
         deleteMember(ids).then(() => {
           ElMessage.success('删除成功');
-          memberList();
+          mainList();
         })
       })
       .catch(() => {
@@ -301,7 +301,7 @@ onMounted(() => {
 });
 
 // 导出 emit 事件方法
-defineExpose({memberList})
+defineExpose({mainList})
 </script>
 
 <style scoped lang="scss">
