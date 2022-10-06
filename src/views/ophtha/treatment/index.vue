@@ -15,7 +15,6 @@
                         v-model="state.list.param.name"
                         placeholder="请输入科目名称"
                         clearable
-                        size="default"
                         @keyup.enter.native="treatmentList"
                     />
                   </el-form-item>

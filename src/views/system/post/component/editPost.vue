@@ -6,7 +6,7 @@
           {{ (formData.postId === 0 ? '添加' : '修改') + '岗位' }}
         </div>
       </template>
-      <el-form ref="formRef" :model="formData" :rules="rules" size="default" label-width="90px">
+      <el-form ref="formRef" :model="formData" :rules="rules"  label-width="90px">
         <el-form-item label="岗位名称" prop="postName">
           <el-input v-model="formData.postName" placeholder="请输入岗位名称"/>
         </el-form-item>
@@ -25,8 +25,8 @@
       </el-form>
       <template #footer>
 				<span class="dialog-footer">
-					<el-button @click="onCancel" size="default">取 消</el-button>
-					<el-button type="primary" @click="onSubmit" size="default" :loading="loading">{{ formData.postId === 0 ? '新 增' : '修 改' }}</el-button>
+					<el-button @click="onCancel" >取 消</el-button>
+					<el-button type="primary" @click="onSubmit"  :loading="loading">{{ formData.postId === 0 ? '新 增' : '修 改' }}</el-button>
 				</span>
       </template>
     </el-dialog>

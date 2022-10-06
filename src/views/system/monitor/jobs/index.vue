@@ -16,7 +16,6 @@
                         placeholder="请输入任务名称"
                         clearable
                         style="width: 180px;"
-                        size="default"
                         @keyup.enter.native="dataList"
                     />
                   </el-form-item>
@@ -25,7 +24,6 @@
                         v-model="tableData.param.jobGroup"
                         placeholder="任务分组"
                         clearable
-                        size="default"
                         style="width: 180px"
                     >
                       <el-option
@@ -41,7 +39,6 @@
                         v-model="tableData.param.status"
                         placeholder="任务状态"
                         clearable
-                        size="default"
                         style="width: 180px"
                     >
                       <el-option

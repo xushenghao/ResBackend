@@ -1,7 +1,7 @@
 <template>
   <div class="system-edit-dept-container">
     <el-dialog :title="(deptForm.deptId!==0?'修改':'添加')+'机构'" v-model="isShowDialog" width="769px">
-      <el-form ref="formRef" :model="deptForm" :rules="rules" size="default" label-width="90px">
+      <el-form ref="formRef" :model="deptForm" :rules="rules" label-width="90px">
         <el-row :gutter="35">
           <el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
             <el-form-item label="上级机构">
@@ -66,8 +66,8 @@
       </el-form>
       <template #footer>
 				<span class="dialog-footer">
-					<el-button @click="onCancel" size="default">取 消</el-button>
-					<el-button type="primary" @click="onSubmit" size="default">{{ deptForm.deptId !== 0 ? '修 改' : '添 加' }}</el-button>
+					<el-button @click="onCancel">取 消</el-button>
+					<el-button type="primary" @click="onSubmit" >{{ deptForm.deptId !== 0 ? '修 改' : '添 加' }}</el-button>
 				</span>
       </template>
     </el-dialog>

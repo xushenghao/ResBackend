@@ -1,7 +1,7 @@
 <template>
   <div class="system-edit-job-container">
     <el-dialog :title="(jobForm.jobId!==0?'修改':'添加')+'任务'" v-model="isShowDialog" width="800px">
-      <el-form :model="jobForm" ref="formRef" :rules="rules" size="default" label-width="100px">
+      <el-form :model="jobForm" ref="formRef" :rules="rules"  label-width="100px">
         <el-row>
           <el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12">
             <el-form-item :inline="true" label="任务名称" prop="jobName">
@@ -76,8 +76,8 @@
 
       <template #footer>
 				<span class="dialog-footer">
-					<el-button @click="onCancel" size="default">取 消</el-button>
-					<el-button type="primary" @click="onSubmit" size="default">{{ jobForm.jobId !== 0 ? '修 改' : '添 加' }}</el-button>
+					<el-button @click="onCancel" >取 消</el-button>
+					<el-button type="primary" @click="onSubmit" >{{ jobForm.jobId !== 0 ? '修 改' : '添 加' }}</el-button>
 				</span>
       </template>
     </el-dialog>

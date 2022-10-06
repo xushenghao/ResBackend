@@ -11,10 +11,10 @@
               <div class="system-dept-search mb15">
                 <el-form :inline="true">
                   <el-form-item label="机构名称">
-                    <el-input size="default" v-model="tableData.param.deptName" placeholder="请输入机构名称" class="w-50 m-2" clearable/>
+                    <el-input  v-model="tableData.param.deptName" placeholder="请输入机构名称" class="w-50 m-2" clearable/>
                   </el-form-item>
                   <el-form-item label="机构类型">
-                    <el-select size="default" placeholder="请选择机构类型" class="w-50 m-2" v-model="tableData.param.deptType" clearable>
+                    <el-select  placeholder="请选择机构类型" class="w-50 m-2" v-model="tableData.param.deptType" clearable>
                       <el-option
                           v-for="dict in sys_dept_type"
                           :key="dict.value"
@@ -24,7 +24,7 @@
                     </el-select>
                   </el-form-item>
                   <el-form-item label="机构状态">
-                    <el-select size="default" placeholder="请选择机构状态" class="w-50 m-2" v-model="tableData.param.status" clearable>
+                    <el-select  placeholder="请选择机构状态" class="w-50 m-2" v-model="tableData.param.status" clearable>
                       <el-option label="启用" value="1"/>
                       <el-option label="禁用" value="0"/>
                     </el-select>

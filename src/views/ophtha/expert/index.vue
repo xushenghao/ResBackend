@@ -15,7 +15,6 @@
                         v-model="state.list.param.name"
                         placeholder="请输入专家姓名"
                         clearable
-                        size="default"
                         @keyup.enter.native="expertList"
                     />
                   </el-form-item>

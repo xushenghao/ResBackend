@@ -14,7 +14,7 @@
         <div class="layout-breadcrumb-setting-bar-flex">
           <div class="layout-breadcrumb-setting-bar-flex-label">主题颜色</div>
           <div class="layout-breadcrumb-setting-bar-flex-value">
-            <el-color-picker v-model="getThemeConfig.primary" size="default" @change="onColorPickerChange"></el-color-picker>
+            <el-color-picker v-model="getThemeConfig.primary" @change="onColorPickerChange"></el-color-picker>
           </div>
         </div>
         <div class="layout-breadcrumb-setting-bar-flex mt15">
@@ -29,13 +29,13 @@
         <div class="layout-breadcrumb-setting-bar-flex">
           <div class="layout-breadcrumb-setting-bar-flex-label">{{ $t('message.layout.twoTopBar') }}</div>
           <div class="layout-breadcrumb-setting-bar-flex-value">
-            <el-color-picker v-model="getThemeConfig.topBar" size="default" @change="onBgColorPickerChange('topBar')"></el-color-picker>
+            <el-color-picker v-model="getThemeConfig.topBar" @change="onBgColorPickerChange('topBar')"></el-color-picker>
           </div>
         </div>
         <div class="layout-breadcrumb-setting-bar-flex">
           <div class="layout-breadcrumb-setting-bar-flex-label">{{ $t('message.layout.twoTopBarColor') }}</div>
           <div class="layout-breadcrumb-setting-bar-flex-value">
-            <el-color-picker v-model="getThemeConfig.topBarColor" size="default" @change="onBgColorPickerChange('topBarColor')"></el-color-picker>
+            <el-color-picker v-model="getThemeConfig.topBarColor" @change="onBgColorPickerChange('topBarColor')"></el-color-picker>
           </div>
         </div>
         <div class="layout-breadcrumb-setting-bar-flex mt10">
@@ -50,13 +50,13 @@
         <div class="layout-breadcrumb-setting-bar-flex">
           <div class="layout-breadcrumb-setting-bar-flex-label">{{ $t('message.layout.twoMenuBar') }}</div>
           <div class="layout-breadcrumb-setting-bar-flex-value">
-            <el-color-picker v-model="getThemeConfig.menuBar" size="default" @change="onBgColorPickerChange('menuBar')"></el-color-picker>
+            <el-color-picker v-model="getThemeConfig.menuBar" @change="onBgColorPickerChange('menuBar')"></el-color-picker>
           </div>
         </div>
         <div class="layout-breadcrumb-setting-bar-flex">
           <div class="layout-breadcrumb-setting-bar-flex-label">{{ $t('message.layout.twoMenuBarColor') }}</div>
           <div class="layout-breadcrumb-setting-bar-flex-value">
-            <el-color-picker v-model="getThemeConfig.menuBarColor" size="default" @change="onBgColorPickerChange('menuBarColor')"></el-color-picker>
+            <el-color-picker v-model="getThemeConfig.menuBarColor" @change="onBgColorPickerChange('menuBarColor')"></el-color-picker>
           </div>
         </div>
         <div class="layout-breadcrumb-setting-bar-flex mt14">
@@ -76,7 +76,6 @@
           <div class="layout-breadcrumb-setting-bar-flex-value">
             <el-color-picker
                 v-model="getThemeConfig.columnsMenuBar"
-                size="default"
                 @change="onBgColorPickerChange('columnsMenuBar')"
                 :disabled="getThemeConfig.layout !== 'columns'"
             >
@@ -88,7 +87,6 @@
           <div class="layout-breadcrumb-setting-bar-flex-value">
             <el-color-picker
                 v-model="getThemeConfig.columnsMenuBarColor"
-                size="default"
                 @change="onBgColorPickerChange('columnsMenuBarColor')"
                 :disabled="getThemeConfig.layout !== 'columns'"
             >
@@ -154,7 +152,6 @@
                 :min="1"
                 :max="9999"
                 @change="setLocalThemeConfig"
-                size="default"
                 style="width: 90px"
             >
             </el-input-number>
@@ -251,7 +248,7 @@
         <div class="layout-breadcrumb-setting-bar-flex mt14">
           <div class="layout-breadcrumb-setting-bar-flex-label">{{ $t('message.layout.fourWartermarkText') }}</div>
           <div class="layout-breadcrumb-setting-bar-flex-value">
-            <el-input v-model="getThemeConfig.wartermarkText" size="default" style="width: 120px" @input="onWartermarkTextInput($event)"></el-input>
+            <el-input v-model="getThemeConfig.wartermarkText" style="width: 120px" @input="onWartermarkTextInput($event)"></el-input>
           </div>
         </div>
 
@@ -260,7 +257,7 @@
         <div class="layout-breadcrumb-setting-bar-flex mt15">
           <div class="layout-breadcrumb-setting-bar-flex-label">{{ $t('message.layout.fiveTagsStyle') }}</div>
           <div class="layout-breadcrumb-setting-bar-flex-value">
-            <el-select v-model="getThemeConfig.tagsStyle" placeholder="请选择" size="default" style="width: 120px" @change="setLocalThemeConfig">
+            <el-select v-model="getThemeConfig.tagsStyle" placeholder="请选择" style="width: 120px" @change="setLocalThemeConfig">
               <el-option label="风格1" value="tags-style-one"></el-option>
               <el-option label="风格4" value="tags-style-four"></el-option>
               <el-option label="风格5" value="tags-style-five"></el-option>
@@ -270,7 +267,7 @@
         <div class="layout-breadcrumb-setting-bar-flex mt15">
           <div class="layout-breadcrumb-setting-bar-flex-label">{{ $t('message.layout.fiveAnimation') }}</div>
           <div class="layout-breadcrumb-setting-bar-flex-value">
-            <el-select v-model="getThemeConfig.animation" placeholder="请选择" size="default" style="width: 120px" @change="setLocalThemeConfig">
+            <el-select v-model="getThemeConfig.animation" placeholder="请选择" style="width: 120px" @change="setLocalThemeConfig">
               <el-option label="右侧滑入" value="slide-right"></el-option>
               <el-option label="左侧滑入" value="slide-left"></el-option>
               <el-option label="透明度" value="opacitys"></el-option>
@@ -283,7 +280,6 @@
             <el-select
                 v-model="getThemeConfig.columnsAsideStyle"
                 placeholder="请选择"
-                size="default"
                 style="width: 90px"
                 :disabled="getThemeConfig.layout !== 'columns'"
                 @change="setLocalThemeConfig"
@@ -299,7 +295,6 @@
             <el-select
                 v-model="getThemeConfig.columnsAsideLayout"
                 placeholder="请选择"
-                size="default"
                 style="width: 90px"
                 :disabled="getThemeConfig.layout !== 'columns'"
                 @change="setLocalThemeConfig"

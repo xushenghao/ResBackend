@@ -11,13 +11,13 @@
               <div class="system-post-search mb15">
                 <el-form :inline="true">
                   <el-form-item label="岗位名称">
-                    <el-input size="default" v-model="tableData.param.postName" placeholder="请输入岗位名称" class="w-50 m-2" clearable/>
+                    <el-input  v-model="tableData.param.postName" placeholder="请输入岗位名称" class="w-50 m-2" clearable/>
                   </el-form-item>
                   <el-form-item label="岗位编码">
-                    <el-input size="default" v-model="tableData.param.postCode" placeholder="请输入岗位编码" class="w-50 m-2" clearable/>
+                    <el-input  v-model="tableData.param.postCode" placeholder="请输入岗位编码" class="w-50 m-2" clearable/>
                   </el-form-item>
                   <el-form-item label="岗位状态">
-                    <el-select size="default" placeholder="请选择岗位状态" class="w-50 m-2" v-model="tableData.param.status" clearable>
+                    <el-select  placeholder="请选择岗位状态" class="w-50 m-2" v-model="tableData.param.status" clearable>
                       <el-option label="启用" value="1"/>
                       <el-option label="禁用" value="0"/>
                     </el-select>

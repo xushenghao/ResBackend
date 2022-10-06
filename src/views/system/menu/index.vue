@@ -16,7 +16,7 @@
                 placeholder="请输入菜单名称"
                 clearable
                 class="w-50 m-2"
-                size="default"
+
             />
           </el-form-item>
           <el-form-item label="组件路径">
@@ -24,7 +24,7 @@
                 v-model="queryParams.component"
                 placeholder="请输入组件路径"
                 clearable
-                size="default"
+
                 class="w-50 m-2"
             />
           </el-form-item>

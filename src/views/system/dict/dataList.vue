@@ -15,7 +15,7 @@
                         v-model="tableData.param.dictType"
                         placeholder="请输入字典类型"
                         clearable
-                        size="default"
+
                         @keyup.enter.native="dataList"
                     />
                   </el-form-item>
@@ -24,7 +24,7 @@
                         v-model="tableData.param.dictLabel"
                         placeholder="请输入字典标签"
                         clearable
-                        size="default"
+
                         @keyup.enter.native="dataList"
                     />
                   </el-form-item>
@@ -33,7 +33,7 @@
                         v-model="tableData.param.status"
                         placeholder="字典状态"
                         clearable
-                        size="default"
+
                         style="width: 240px"
                     >
                       <el-option label="启用" :value="1"/>

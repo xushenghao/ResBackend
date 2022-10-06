@@ -2,7 +2,7 @@
   <div class="ophtha-edit-treatment-container">
     <el-drawer v-model="state.isShow" :size='480' :title="(state.data.id!==''?'修改':'添加')+'科目'">
       <div style="padding: 0 20px">
-        <el-form :model="state.data" ref="formRef" :rules="state.rules" size="default" label-width="100px">
+        <el-form :model="state.data" ref="formRef" :rules="state.rules" label-width="100px">
           <el-form-item :inline="true" label="科目图例" prop="photos">
             <el-upload
                 class="photos-uploader"
@@ -54,8 +54,8 @@
       </div>
       <template #footer>
         <div style="padding: 20px">
-          <el-button @click="onCancel" size="default">取消</el-button>
-          <el-button type="primary" @click="onSubmit" size="default">{{ state.data.id !== "" ? '修改' : '添加' }}</el-button>
+          <el-button @click="onCancel">取消</el-button>
+          <el-button type="primary" @click="onSubmit">{{ state.data.id !== "" ? '修改' : '添加' }}</el-button>
         </div>
       </template>
     </el-drawer>

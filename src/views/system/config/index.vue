@@ -15,7 +15,6 @@
                         v-model="tableData.param.configName"
                         placeholder="请输入参数名称"
                         clearable
-                        size="default"
                         @keyup.enter.native="dataList"
                     />
                   </el-form-item>
@@ -24,7 +23,6 @@
                         v-model="tableData.param.configKey"
                         placeholder="请输入参数键名"
                         clearable
-                        size="default"
                         @keyup.enter.native="dataList"
                     />
                   </el-form-item>
@@ -33,7 +31,6 @@
                         v-model="tableData.param.configType"
                         placeholder="系统内置"
                         clearable
-                        size="default"
                         style="width: 240px"
                     >
                       <el-option v-for="dict in sys_yes_no"
@@ -45,7 +42,6 @@
                   <el-form-item label="创建时间" prop="dateRange">
                     <el-date-picker
                         v-model="tableData.param.dateRange"
-                        size="default"
                         style="width: 240px"
                         value-format="YYYY-MM-DD"
                         type="daterange"

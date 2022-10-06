@@ -16,7 +16,7 @@
                         placeholder="请输入登录地址"
                         clearable
                         style="width: 180px;"
-                        size="default"
+
                         @keyup.enter.native="dataList"
                     />
                   </el-form-item>
@@ -26,7 +26,7 @@
                         placeholder="请输入登录地点"
                         clearable
                         style="width: 180px;"
-                        size="default"
+
                         @keyup.enter.native="dataList"
                     />
                   </el-form-item>
@@ -36,7 +36,7 @@
                         placeholder="请输入用户名称"
                         clearable
                         style="width: 180px;"
-                        size="default"
+
                         @keyup.enter.native="dataList"
                     />
                   </el-form-item>
@@ -45,7 +45,7 @@
                         v-model="tableData.param.status"
                         placeholder="登录状态"
                         clearable
-                        size="default"
+
                         style="width: 180px"
                     >
                       <el-option
@@ -59,7 +59,7 @@
                   <el-form-item label="登录时间" prop="dateRange">
                     <el-date-picker
                         v-model="tableData.param.dateRange"
-                        size="default"
+
                         style="width: 240px"
                         value-format="YYYY-MM-DD"
                         type="daterange"

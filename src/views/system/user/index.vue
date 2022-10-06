@@ -5,7 +5,7 @@
         <el-card shadow="hover">
           <el-aside>
             <el-scrollbar>
-              <el-input :prefix-icon="search" v-model="filterText" placeholder="请输入机构名称" clearable size="default"/>
+              <el-input :prefix-icon="search" v-model="filterText" placeholder="请输入机构名称" clearable />
               <el-tree
                   ref="treeRef"
                   class="filter-tree"
@@ -36,7 +36,7 @@
                             v-model="tableData.param.keyWords"
                             placeholder="请输入用户账号或姓名"
                             clearable
-                            size="default"
+
                             style="width: 240px"
                             @keyup.enter.native="userList"
                         />
@@ -46,7 +46,7 @@
                             v-model="tableData.param.mobile"
                             placeholder="请输入手机号码"
                             clearable
-                            size="default"
+
                             style="width: 240px"
                             @keyup.enter.native="userList"
                         />
@@ -56,7 +56,7 @@
                             v-model="tableData.param.status"
                             placeholder="请选择用户状态"
                             clearable
-                            size="default"
+
                             style="width: 240px"
                         >
                           <el-option label="启用" :value="1"/>
@@ -66,7 +66,7 @@
                       <el-form-item label="创建时间" prop="dateRange">
                         <el-date-picker
                             v-model="tableData.param.dateRange"
-                            size="default"
+
                             style="width: 240px"
                             value-format="YYYY-MM-DD"
                             type="daterange"
