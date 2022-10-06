@@ -1,65 +1,76 @@
 <template>
   <div class="system-dic-container">
-    <el-card shadow="hover">
-      <div class="system-jobs-search mb15">
-        <el-form :model="tableData.param" ref="queryRef" :inline="true" label-width="68px">
-          <el-form-item label="任务名称" prop="name">
-            <el-input
-                v-model="tableData.param.jobName"
-                placeholder="请输入任务名称"
-                clearable
-                style="width: 180px;"
-                size="default"
-                @keyup.enter.native="dataList"
-            />
-          </el-form-item>
-
-          <el-form-item label="任务分组" prop="status">
-            <el-select
-                v-model="tableData.param.jobGroup"
-                placeholder="任务分组"
-                clearable
-                size="default"
-                style="width: 180px"
-            >
-              <el-option
-                  v-for="dict in sys_job_group"
-                  :key="dict.value"
-                  :label="dict.label"
-                  :value="dict.value"
-              />
-            </el-select>
-          </el-form-item>
-
-          <el-form-item label="任务状态" prop="status">
-            <el-select
-                v-model="tableData.param.status"
-                placeholder="任务状态"
-                clearable
-                size="default"
-                style="width: 180px"
-            >
-              <el-option
-                  v-for="dict in sys_job_status"
-                  :key="dict.value"
-                  :label="dict.label"
-                  :value="dict.value"
-              />
-            </el-select>
-          </el-form-item>
-          <el-form-item>
-            <el-button size="default" type="primary" class="ml10" @click="dataList">
-              <el-icon>
-                <ele-Search/>
-              </el-icon>
-              查询
-            </el-button>
-            <el-button size="default" @click="resetQuery(queryRef)">
-              <el-icon>
-                <ele-Refresh/>
-              </el-icon>
-              重置
-            </el-button>
+    <el-card shadow="hover" class="card-table">
+      <template #header>
+        <div class="card-header">
+          <el-collapse>
+            <el-collapse-item name="finder">
+              <template v-slot:title>
+                <el-link type="primary" :underline="false">搜索</el-link>
+              </template>
+              <div class="system-jobs-search mb15">
+                <el-form :model="tableData.param" ref="queryRef" :inline="true" label-width="68px">
+                  <el-form-item label="任务名称" prop="name">
+                    <el-input
+                        v-model="tableData.param.jobName"
+                        placeholder="请输入任务名称"
+                        clearable
+                        style="width: 180px;"
+                        size="default"
+                        @keyup.enter.native="dataList"
+                    />
+                  </el-form-item>
+                  <el-form-item label="任务分组" prop="status">
+                    <el-select
+                        v-model="tableData.param.jobGroup"
+                        placeholder="任务分组"
+                        clearable
+                        size="default"
+                        style="width: 180px"
+                    >
+                      <el-option
+                          v-for="dict in sys_job_group"
+                          :key="dict.value"
+                          :label="dict.label"
+                          :value="dict.value"
+                      />
+                    </el-select>
+                  </el-form-item>
+                  <el-form-item label="任务状态" prop="status">
+                    <el-select
+                        v-model="tableData.param.status"
+                        placeholder="任务状态"
+                        clearable
+                        size="default"
+                        style="width: 180px"
+                    >
+                      <el-option
+                          v-for="dict in sys_job_status"
+                          :key="dict.value"
+                          :label="dict.label"
+                          :value="dict.value"
+                      />
+                    </el-select>
+                  </el-form-item>
+                  <el-form-item>
+                    <el-button size="default" type="primary" class="ml10" @click="dataList">
+                      <el-icon>
+                        <ele-Search/>
+                      </el-icon>
+                      查询
+                    </el-button>
+                    <el-button size="default" @click="resetQuery(queryRef)">
+                      <el-icon>
+                        <ele-Refresh/>
+                      </el-icon>
+                      重置
+                    </el-button>
+                  </el-form-item>
+                </el-form>
+              </div>
+            </el-collapse-item>
+          </el-collapse>
+          <div class="right-button">
             <el-button size="default" type="primary" class="ml10" @click="onOpenAddJob">
               <el-icon>
                 <ele-Plus/>
@@ -72,9 +83,9 @@
               </el-icon>
               删除任务
             </el-button>
-          </el-form-item>
-        </el-form>
-      </div>
+          </div>
+        </div>
+      </template>
       <el-table stripe :data="tableData.data" style="width: 100%" @selection-change="onSelectionChange">
         <el-table-column type="selection" width="55" align="center"/>
         <el-table-column label="任务名称" align="center" width="120" prop="jobName"/>
