@@ -2,6 +2,7 @@
   font-weight: bold;
 }
 
+// 删除按钮普通类型样式
 .el-button--danger.is-plain {
   --el-button-bg-color: transparent;
 }
@@ -52,7 +53,7 @@
   .right-button {
     min-width: 225px;
 
-    .el-button{
+    .el-button {
       float: right;
       margin-left: 10px;
     }
@@ -90,4 +91,23 @@ input:-webkit-autofill:active {
 .el-button--small i.iconfont,
 .el-button--small i.fa {
   margin-right: unset;
+}
+
+// 编辑抽屉中上传控件样式
+.uploader {
+  width: 100%;
+  line-height: 0;
+
+  .el-upload {
+    width: 100%;
+    cursor: pointer;
+    justify-content: left;
+
+    .el-image {
+      width: 100%;
+      min-height: 128px;
+      max-height: 150px;
+      border-radius: var(--el-border-radius-base);
+    }
+  }
 }

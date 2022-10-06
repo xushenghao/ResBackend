@@ -5,7 +5,7 @@
         <el-form :model="state.data" ref="formRef" :rules="state.rules" label-width="100px">
           <el-form-item required :inline="true" label="形象照" prop="avatar">
             <el-upload
-                class="avatar-uploader"
+                class="avatar uploader"
                 accept=".jpg, .png"
                 ref="uploadAvatar"
                 :limit=1
@@ -20,7 +20,7 @@
               <el-tooltip
                   effect="dark"
                   class="box-item"
-                  placement="right"
+                  placement="left-start"
               >
                 <template #content>点击更换 JPEG 或 PNG 格式的图<br>片，推荐尺寸为 128 * 128 像素</template>
                 <el-avatar shape="square" size="large" :src="state.data.avatar"/>
@@ -29,7 +29,7 @@
           </el-form-item>
           <el-form-item :inline="true" label="执业照" prop="licence">
             <el-upload
-                class="photos-uploader"
+                class="photos uploader"
                 accept=".jpg, .png"
                 ref="uploadLicence"
                 :limit=1
@@ -44,7 +44,7 @@
               <el-tooltip
                   effect="dark"
                   class="box-item"
-                  placement="right"
+                  placement="left-start"
               >
                 <template #content>点击更换 JPEG 或 PNG 格式的图<br>片，推荐尺寸为 640 * 300 像素</template>
                 <el-image :src="state.data.licence" class="licence" fit="cover" alt=""/>
@@ -255,36 +255,4 @@ defineExpose({openEditor})
 </script>
 
 <style lang="scss">
-.el-form-item__label {
-  font-weight: bold;
-}
-
-.photos-uploader {
-  width: 100%;
-
-  .el-upload {
-    width: 100%;
-  }
-}
-
-.avatar-uploader,
-.photos-uploader {
-  line-height: 0;
-  border-radius: 5px;
-  border: 1px solid #dddfe6;
-
-  .el-upload {
-    cursor: pointer;
-    float: left;
-
-    .licence {
-      width: 100%;
-      min-height: 128px;
-      max-height: 150px;
-      overflow: hidden;
-      border-radius: 5px;
-    }
-  }
-}
-
 </style>
