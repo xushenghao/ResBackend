@@ -36,8 +36,8 @@
                       />
                     </el-select>
                   </el-form-item>
-                  <el-form-item label="所属诊所" prop="clinicId">
-                    <el-select clearable v-model="state.list.param.clinicId" placeholder="请选择所属诊所">
+                  <el-form-item label="归属诊所" prop="clinicId">
+                    <el-select clearable v-model="state.list.param.clinicId" placeholder="请选择归属诊所">
                       <el-option
                           v-for="clinic in state.clinic"
                           :key="clinic.id"
@@ -103,9 +103,9 @@
           </template>
         </el-table-column>
         <el-table-column sortable label="生日" width="100" align="center" prop="birthday"/>
-        <el-table-column sortable label="所属诊所" width="110" align="center" prop="clinicId">
+        <el-table-column sortable label="归属诊所" width="110" align="center" prop="clinicId">
           <template #default="scope">
-              {{ state.clinic.filter(item => item.id === scope.row.clinicId)[0]?.short }}
+            {{ state.clinic.filter(item => item.id === scope.row.clinicId)[0]?.short }}
           </template>
         </el-table-column>
         <el-table-column sortable label="来源渠道" width="110" align="center" prop="channelId">
@@ -114,8 +114,7 @@
           </template>
         </el-table-column>
         <el-table-column sortable label="联系地址" min-width="120" show-overflow-tooltip prop="address"/>
-        <el-table-column sortable label="最近登录" min-width="120"  show-overflow-tooltip prop="lastLoginTime"/>
-        <el-table-column sortable label="备注" min-width="120" show-overflow-tooltip prop="remark"/>
+        <el-table-column sortable label="备注" min-width="120" show-overflow-tooltip prop="describe"/>
         <el-table-column sortable label="手机" width="120" prop="mobile"/>
         <el-table-column sortable label="状态" width="100" prop="status" align="center">
           <template #default="scope">
@@ -130,8 +129,9 @@
             />
           </template>
         </el-table-column>
-        <el-table-column fixed="right" label="操作" align="center" width="120">
+        <el-table-column fixed="right" label="操作" align="center" width="160">
           <template #default="scope">
+            <el-button size="small" link type="primary">回访</el-button>
             <el-button size="small" link type="primary" @click="onOpenEditor(scope.row)">修改</el-button>
             <el-button size="small" link type="danger" @click="onRowDel(scope.row)">删除</el-button>
           </template>
@@ -156,6 +156,7 @@ import {changeStatus, deleteMember, listMember} from '/@/api/member/member';
 import {MemberData, MemberList} from "/@/views/member/member/dataType";
 import Editor from "/@/views/member/member/editor.vue";
 import {listClinic} from "/@/api/ophtha/clinic";
+import {listBroker} from "/@/api/member/broker";
 import {listChannel} from "/@/api/member/channel";
 
 const queryRef = ref();
@@ -187,9 +188,8 @@ const state = reactive<MemberList>({
       brokerId: '',
       clinicId: '',
       avatar: '',
-      remark: '',
-      address: '',
       describe: '',
+      address: '',
       createdBy: ''
     },
   },
@@ -199,6 +199,7 @@ const state = reactive<MemberList>({
 const initTableData = () => {
   memberList()
   clinicList()
+  brokerList()
   channelList()
 };
 // 客户列表
@@ -214,6 +215,12 @@ const clinicList = () => {
     state.clinic = res.data.list;
   });
 };
+// 渠道人员列表
+const brokerList = () => {
+  listBroker({status: 1}).then((res: any) => {
+    state.broker = res.data.list;
+  });
+};
 // 渠道列表
 const channelList = () => {
   listChannel({status: 1}).then((res: any) => {
@@ -223,12 +230,12 @@ const channelList = () => {
 
 // 新增弹窗
 const onOpenAddEditor = () => {
-  editorRef.value.openEditor(undefined, state.clinic);
+  editorRef.value.openEditor(undefined, state.broker, state.clinic, state.channel);
 };
 
 // 修改弹窗
 const onOpenEditor = (row: MemberData) => {
-  editorRef.value.openEditor(row, state.clinic);
+  editorRef.value.openEditor(row, state.broker, state.clinic, state.channel);
 };
 
 // 重置按钮
@@ -298,8 +305,4 @@ defineExpose({memberList})
 </script>
 
 <style scoped lang="scss">
-.el-tag {
-  margin: 0 2px;
-}
-
 </style>

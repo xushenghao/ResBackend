@@ -12,10 +12,9 @@ export interface MemberData {
     salt: string;           // 加密盐，最大长度为 10
     introduce: string;      // 推荐信息，渠道对接自定义用
     channelId: string;      // 来源渠道ID
-    brokerId: string;       // 来源经纪人ID
+    brokerId: string;       // 渠道人员ID
     clinicId: string;       // 初始门店ID
     avatar: string;         // 用户头像
-    remark: string;         // 备注
     address: string;        // 联系地址
     describe: string;       // 描述信息
     createdBy: string;      // 创建用户
@@ -35,8 +34,8 @@ export interface ChannelList {
 }
 
 export interface BrokerList {
-    id: string;         // 经纪人ID
-    name: string;       // 经纪人姓名
+    id: string;         // 渠道人员ID
+    name: string;       // 渠道人员姓名
     channelId: string;  // 所属渠道ID
 }
 
@@ -65,10 +64,9 @@ export interface MemberList {
             salt: string;                // 加密盐，最大长度为 10
             introduce: string;           // 推荐信息，渠道对接自定义用
             channelId: string;           // 来源渠道ID
-            brokerId: string;            // 来源经纪人ID
+            brokerId: string;            // 来源渠道人员ID
             clinicId: string;            // 初始门店ID
             avatar: string;              // 用户头像
-            remark: string;              // 备注
             address: string;             // 联系地址
             describe: string;            // 描述信息
             createdBy: string;           // 创建用户
@@ -78,8 +76,11 @@ export interface MemberList {
 
 // 编辑视图数据类型
 export interface MemberEditor {
+    isShow: boolean;
     data: MemberData;
     clinic: Array<ClinicList>
+    broker: Array<BrokerList>;
+    channel: Array<ChannelList>;
     rules: {};
     upload: {
         url: string;
