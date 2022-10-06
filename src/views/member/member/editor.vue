@@ -56,6 +56,9 @@
                 v-model="state.data.birthday"
             />
           </el-form-item>
+          <el-form-item :inline="true" label="身份证" prop="residentId">
+            <el-input type="password" v-model="state.data.residentId" maxlength="18" show-password placeholder="请输入身份证"/>
+          </el-form-item>
           <el-form-item required :inline="true" label="密码" prop="password">
             <el-input type="password" v-model="state.data.password" show-password placeholder="请生成登录密码"/>
           </el-form-item>
@@ -82,9 +85,6 @@
               />
             </el-select>
           </el-form-item>
-          <el-form-item :inline="true" label="客户介绍" prop="describe">
-            <el-input v-model="state.data.describe" autosize type="textarea" placeholder="请输入客户介绍"/>
-          </el-form-item>
           <el-form-item required :inline="true" label="归属诊所" prop="clinicId">
             <el-select v-model="state.data.clinicId" placeholder="请选择归属诊所" class="w100">
               <el-option
@@ -96,10 +96,13 @@
               />
             </el-select>
           </el-form-item>
-          <el-form-item :inline="true" label="开户人员" prop="createdBy">
+          <el-form-item required :inline="true" label="开户人员" prop="createdBy">
             <el-input v-model="state.data.createdBy" placeholder="请输入开户人员"/>
           </el-form-item>
-          <el-form-item label="客户状态" prop="status">
+          <el-form-item :inline="true" label="备注" prop="describe">
+            <el-input v-model="state.data.describe" autosize type="textarea" placeholder="请输入备注信息"/>
+          </el-form-item>
+          <el-form-item label="状态" prop="status">
             <el-radio-group v-model="state.data.status">
               <el-radio :label=1>正常</el-radio>
               <el-radio :label=0>冻结</el-radio>
@@ -154,9 +157,9 @@ const state = reactive<MemberEditor>({
     gender: 0,
     birthday: '',
     nickname: '',
+    residentId: '',
     password: '',
     salt: '',
-    introduce: '',
     channelId: '',
     brokerId: '',
     clinicId: '',
@@ -198,9 +201,9 @@ const resetForm = () => {
     gender: 0,
     birthday: '',
     nickname: '',
+    residentId: '',
     password: '',
     salt: '',
-    introduce: '',
     channelId: '',
     brokerId: '',
     clinicId: '',
