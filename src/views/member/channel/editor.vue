@@ -1,6 +1,6 @@
 <template>
   <div class="member-edit-member-container">
-    <el-drawer v-model="state.isShow" :size='480' :title="(state.data.id!==''?'修改':'添加')+'渠道'">
+    <el-drawer v-model="state.isShow" :size='480' :title="(state.data.id!==''?'修改':'添加')+'记录'">
       <div style="padding: 0 20px">
         <el-form :model="state.data" ref="formRef" :rules="state.rules" label-width="80px">
           <el-form-item required :inline="true" label="名称" prop="name">

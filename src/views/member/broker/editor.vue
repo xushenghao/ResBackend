@@ -28,16 +28,10 @@
             </el-upload>
           </el-form-item>
           <el-form-item required :inline="true" label="姓名" prop="name">
-            <el-input v-model="state.data.name" placeholder="请输入客户姓名"/>
+            <el-input v-model="state.data.name" placeholder="请输入人员姓名"/>
           </el-form-item>
           <el-form-item required :inline="true" label="昵称" prop="nickname">
-            <el-input v-model="state.data.nickname" placeholder="请输入客户昵称"/>
-          </el-form-item>
-          <el-form-item required :inline="true" label="邮箱" prop="mail">
-            <el-input v-model="state.data.mail" placeholder="请输入客户邮箱"/>
-          </el-form-item>
-          <el-form-item required :inline="true" label="电话" prop="mobile">
-            <el-input v-model="state.data.mobile" placeholder="请输入联系电话"/>
+            <el-input v-model="state.data.nickname" placeholder="请输入人员昵称"/>
           </el-form-item>
           <el-form-item label="性别" prop="gender">
             <el-radio-group v-model="state.data.gender">
@@ -46,18 +40,11 @@
               <el-radio :label=2>女士</el-radio>
             </el-radio-group>
           </el-form-item>
-          <el-form-item label="生日" prop="birthday">
-            <el-date-picker
-                type="date"
-                class="w100"
-                format="YYYY-MM-DD"
-                value-format="YYYY-MM-DD"
-                placeholder="请选择客户生日"
-                v-model="state.data.birthday"
-            />
-          </el-form-item>
           <el-form-item :inline="true" label="身份证" prop="residentId">
-            <el-input type="password" v-model="state.data.residentId" maxlength="18" show-password placeholder="请输入身份证"/>
+            <el-input clearable type="password" v-model="state.data.residentId" maxlength="18" show-password placeholder="请输入身份证"/>
+          </el-form-item>
+          <el-form-item required :inline="true" label="电话" prop="mobile">
+            <el-input v-model="state.data.mobile" placeholder="请输入联系电话"/>
           </el-form-item>
           <el-form-item required :inline="true" label="密码" prop="password">
             <el-input type="password" v-model="state.data.password" show-password placeholder="请生成登录密码"/>
@@ -65,8 +52,8 @@
           <el-form-item :inline="true" label="地址" prop="address">
             <el-input v-model="state.data.address" placeholder="请输入联系地址"/>
           </el-form-item>
-          <el-form-item :inline="true" label="来源渠道" prop="channelId">
-            <el-select :clearable="true" :filterable="true" v-model="state.data.channelId" placeholder="请选择来源渠道" class="w100">
+          <el-form-item required :inline="true" label="所属渠道" prop="channelId">
+            <el-select :filterable="true" v-model="state.data.channelId" placeholder="请选择所属渠道" class="w100">
               <el-option
                   v-for="channel in state.channel"
                   :key="channel.id"
@@ -75,32 +62,11 @@
               />
             </el-select>
           </el-form-item>
-          <el-form-item :inline="true" label="渠道人员" prop="brokerId">
-            <el-select :clearable="true" :filterable="true" v-model="state.data.brokerId" placeholder="请选择渠道人员" class="w100">
-              <el-option
-                  v-for="broker in state.broker"
-                  :key="broker.id"
-                  :value="broker.id"
-                  :label="broker.name"
-              />
-            </el-select>
-          </el-form-item>
-          <el-form-item required :inline="true" label="归属诊所" prop="clinicId">
-            <el-select v-model="state.data.clinicId" placeholder="请选择归属诊所" class="w100">
-              <el-option
-                  v-for="clinic in state.clinic"
-                  :key="clinic.id"
-                  :value="clinic.id"
-                  :label="clinic.short"
-                  @change="onClinicChange"
-              />
-            </el-select>
-          </el-form-item>
           <el-form-item required :inline="true" label="开户人员" prop="createdBy">
             <el-input v-model="state.data.createdBy" placeholder="请输入开户人员"/>
           </el-form-item>
-          <el-form-item :inline="true" label="备注" prop="describe">
-            <el-input v-model="state.data.describe" autosize type="textarea" placeholder="请输入备注信息"/>
+          <el-form-item :inline="true" label="备注" prop="remark">
+            <el-input v-model="state.data.remark" autosize type="textarea" placeholder="请输入备注信息"/>
           </el-form-item>
           <el-form-item label="状态" prop="status">
             <el-radio-group v-model="state.data.status">
@@ -124,8 +90,8 @@
 import {reactive, ref, unref} from 'vue';
 import {ElMessage, UploadInstance} from "element-plus";
 import {UploadRawFile} from "element-plus/es/components/upload/src/upload";
-import {BrokerList, ChannelList, ClinicList, MemberData, MemberEditor, UploadResult} from "/@/views/member/member/dataType";
-import {addMember, updateMember} from "/@/api/member/member";
+import {BrokerData, BrokerEditor, ChannelList, UploadResult} from "/@/views/member/broker/dataType";
+import {addBroker, updateBroker} from "/@/api/member/broker";
 import {uploader} from "/@/utils/upload";
 import {Session} from "/@/utils/storage";
 
@@ -143,31 +109,27 @@ const checkPhone = (rule: any, value: string, callback: any) => {
 };
 
 // 编辑器状态
-const state = reactive<MemberEditor>({
+const state = reactive<BrokerEditor>({
   isShow: false,
-  clinic: [],
-  broker: [],
   channel: [],
   data: {
     id: '',
     name: '',
-    mail: '',
-    mobile: '',
-    status: 1,
-    gender: 0,
-    birthday: '',
     nickname: '',
     residentId: '',
+    channelId: '',
+    mobile: '',
     password: '',
     salt: '',
-    channelId: '',
-    brokerId: '',
-    clinicId: '',
+    status: 1,
+    gender: 0,
     avatar: '',
-    describe: '',
+    remark: '',
     address: '',
+    lastLoginIp: '',
+    lastLoginTime: '',
     createdBy: Session.get('userInfo').userNickname || ' - ',
-    lastLoginTime: ''
+    createdAt: '',
   },
   rules: {
     mobile: [
@@ -179,15 +141,11 @@ const state = reactive<MemberEditor>({
 
 // 打开弹窗
 const openEditor = (
-    row?: MemberData,
-    broker?: Array<BrokerList>,
-    clinic?: Array<ClinicList>,
+    row?: BrokerData,
     channel?: Array<ChannelList>,
 ) => {
   resetForm();
   if (row) state.data = row;
-  if (clinic) state.clinic = clinic;
-  if (broker) state.broker = broker;
   if (channel) state.channel = channel;
   state.isShow = true;
 };
@@ -195,23 +153,21 @@ const resetForm = () => {
   state.data = {
     id: '',
     name: '',
-    mail: '',
-    mobile: '',
-    status: 1,
-    gender: 0,
-    birthday: '',
     nickname: '',
     residentId: '',
+    channelId: '',
+    mobile: '',
     password: '',
     salt: '',
-    channelId: '',
-    brokerId: '',
-    clinicId: '',
+    status: 1,
+    gender: 0,
     avatar: '',
-    describe: '',
+    remark: '',
     address: '',
-    createdBy: '',
-    lastLoginTime: ''
+    lastLoginIp: '',
+    lastLoginTime: '',
+    createdBy: Session.get('userInfo').userNickname || ' - ',
+    createdAt: '',
   }
 };
 
@@ -232,14 +188,14 @@ const onSubmit = () => {
   formWrap.validate((valid: boolean) => {
     if (valid) {
       if (state.data.id !== "") {
-        updateMember(state.data).then(() => {
-          ElMessage.success('客户记录更新成功');
+        updateBroker(state.data).then(() => {
+          ElMessage.success('渠道人员记录更新成功');
           closeEditor();
           emit('mainList');
         })
       } else {
-        addMember(state.data).then(() => {
-          ElMessage.success('客户记录添加成功');
+        addBroker(state.data).then(() => {
+          ElMessage.success('渠道人员记录添加成功');
           closeEditor();
           emit('mainList');
         })
@@ -263,11 +219,6 @@ const beforeUpload = (rawFile: UploadRawFile) => {
   }
 
   return true
-}
-
-// 归属诊所ID
-const onClinicChange = () => {
-  // TODO 变更归属诊所的权限控制
 }
 
 // 上传图片途中
