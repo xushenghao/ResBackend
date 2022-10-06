@@ -41,13 +41,13 @@
                     </el-select>
                   </el-form-item>
                   <el-form-item>
-                    <el-button size="default" type="primary" class="ml10" @click="dataList">
+                    <el-button type="primary" class="ml10" @click="dataList">
                       <el-icon>
                         <ele-Search/>
                       </el-icon>
                       查询
                     </el-button>
-                    <el-button size="default" @click="resetQuery(queryRef)">
+                    <el-button @click="resetQuery(queryRef)">
                       <el-icon>
                         <ele-Refresh/>
                       </el-icon>
@@ -59,13 +59,13 @@
             </el-collapse-item>
           </el-collapse>
           <div class="right-button">
-            <el-button size="default" type="success" class="ml10" @click="onOpenAddDic">
+            <el-button type="success" class="ml10" @click="onOpenAddDic">
               <el-icon>
                 <ele-FolderAdd/>
               </el-icon>
               新增字典
             </el-button>
-            <el-button size="default" type="danger" class="ml10" @click="onRowDel(null)">
+            <el-button plain type="danger" @click="onRowDel(null)">
               <el-icon>
                 <ele-Delete/>
               </el-icon>

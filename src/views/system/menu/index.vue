@@ -29,7 +29,7 @@
             />
           </el-form-item>
           <el-form-item>
-            <el-button size="default" type="primary" class="ml10" @click="handleQuery">
+            <el-button type="primary" class="ml10" @click="handleQuery">
               <el-icon>
                 <ele-Search/>
               </el-icon>
@@ -41,7 +41,7 @@
             </el-collapse-item>
           </el-collapse>
           <div class="right-button">
-            <el-button size="default" type="success" class="ml10" @click="onOpenAddMenu(null)" v-auth="'api/v1/system/menu/add'">
+            <el-button type="success" class="ml10" @click="onOpenAddMenu(null)" v-auth="'api/v1/system/menu/add'">
               <el-icon>
                 <ele-FolderAdd/>
               </el-icon>

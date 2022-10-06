@@ -68,8 +68,7 @@ import {ElMessage, UploadInstance} from "element-plus";
 import {UploadRawFile} from "element-plus/es/components/upload/src/upload";
 import {ClinicData, TreatmentData, TreatmentEditor, UploadResult} from "/@/views/ophtha/treatment/dataType";
 import {addTreatment, updateTreatment} from "/@/api/ophtha/treatment";
-import {uploadUrl} from "/@/utils/consts";
-import {Session} from "/@/utils/storage";
+import {uploader} from "/@/utils/upload";
 
 const uploadPhotos = ref<UploadInstance>()
 const formRef = ref<HTMLElement | null>(null);
@@ -94,11 +93,7 @@ const state = reactive<TreatmentEditor>({
   rules: {
     category: [],
   },
-  upload: {
-    url: uploadUrl,
-    headers: {Authorization: `Bearer ${Session.get('token')}`},
-    isUploading: false,
-  },
+  upload: uploader,
 });
 
 // 打开弹窗

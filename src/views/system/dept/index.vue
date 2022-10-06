@@ -30,7 +30,7 @@
                     </el-select>
                   </el-form-item>
                   <el-form-item>
-                    <el-button size="default" type="primary" class="ml10" @click="deptList">
+                    <el-button type="primary" class="ml10" @click="deptList">
                       <el-icon>
                         <ele-Search/>
                       </el-icon>
@@ -42,7 +42,7 @@
             </el-collapse-item>
           </el-collapse>
           <div class="right-button">
-            <el-button size="default" type="success" class="ml10" @click="onOpenAddDept">
+            <el-button type="success" class="ml10" @click="onOpenAddDept">
               <el-icon>
                 <ele-FolderAdd/>
               </el-icon>

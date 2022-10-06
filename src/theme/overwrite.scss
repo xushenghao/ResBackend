@@ -2,6 +2,10 @@
   font-weight: bold;
 }
 
+.el-button--danger.is-plain {
+  --el-button-bg-color: transparent;
+}
+
 // 列表视图搜索表头等样式定义
 .card-table {
   .el-card__header {
@@ -46,7 +50,12 @@
   }
 
   .right-button {
-    min-width: 216px;
+    min-width: 225px;
+
+    .el-button{
+      float: right;
+      margin-left: 10px;
+    }
   }
 }
 

@@ -98,8 +98,7 @@ import {ElMessage, UploadInstance} from "element-plus";
 import {UploadRawFile} from "element-plus/es/components/upload/src/upload";
 import {ClinicData, ExpertData, ExpertEditor, UploadResult} from "/@/views/ophtha/expert/dataType";
 import {addExpert, updateExpert} from "/@/api/ophtha/expert";
-import {uploadUrl} from "/@/utils/consts";
-import {Session} from "/@/utils/storage";
+import {uploader} from "/@/utils/upload";
 
 const uploadAvatar = ref<UploadInstance>()
 const uploadLicence = ref<UploadInstance>()
@@ -138,11 +137,7 @@ const state = reactive<ExpertEditor>({
       {validator: checkPhone, trigger: 'blur'}
     ],
   },
-  upload: {
-    url: uploadUrl,
-    headers: {Authorization: `Bearer ${Session.get('token')}`},
-    isUploading: false,
-  },
+  upload: uploader,
 });
 
 // 打开弹窗

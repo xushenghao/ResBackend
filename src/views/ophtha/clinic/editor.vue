@@ -97,8 +97,7 @@ import {ElMessage, UploadInstance} from "element-plus";
 import {UploadRawFile} from "element-plus/es/components/upload/src/upload";
 import {ClinicData, ClinicEditor, DeptData, UploadResult} from "/@/views/ophtha/clinic/dataType";
 import {addClinic, updateClinic} from "/@/api/ophtha/clinic";
-import {Session} from "/@/utils/storage";
-import {uploadUrl} from "/@/utils/consts";
+import {uploader} from "/@/utils/upload";
 
 const uploadLogo = ref<UploadInstance>()
 const uploadHero = ref<UploadInstance>()
@@ -139,11 +138,7 @@ const state = reactive<ClinicEditor>({
       {validator: checkPhone, trigger: 'blur'}
     ],
   },
-  upload: {
-    url: uploadUrl,
-    headers: {Authorization: `Bearer ${Session.get('token')}`},
-    isUploading: false,
-  },
+  upload: uploader,
 });
 
 // 打开弹窗

@@ -23,7 +23,7 @@
                     </el-select>
                   </el-form-item>
                   <el-form-item>
-                    <el-button size="default" type="primary" class="ml10" @click="postList">
+                    <el-button type="primary" class="ml10" @click="postList">
                       <el-icon>
                         <ele-Search/>
                       </el-icon>
@@ -35,13 +35,13 @@
             </el-collapse-item>
           </el-collapse>
           <div class="right-button">
-            <el-button size="default" type="success" class="ml10" @click="onOpenAddPost">
+            <el-button type="success" class="ml10" @click="onOpenAddPost">
               <el-icon>
                 <ele-FolderAdd/>
               </el-icon>
               新增岗位
             </el-button>
-            <el-button size="default" type="danger" class="ml10" @click="onRowDel(null)">
+            <el-button plain type="danger" @click="onRowDel(null)">
               <el-icon>
                 <ele-Delete/>
               </el-icon>

@@ -54,13 +54,13 @@
                   </el-form-item>
 
                   <div style="display: inline-flex;margin-bottom: 18px;vertical-align: middle;">
-                    <el-button size="default" type="primary" @click="memberList">
+                    <el-button type="primary" @click="memberList">
                       <el-icon>
                         <ele-Search/>
                       </el-icon>
                       查询
                     </el-button>
-                    <el-button size="default" @click="onReset(queryRef)">
+                    <el-button @click="onReset(queryRef)">
                       <el-icon>
                         <ele-Refresh/>
                       </el-icon>
@@ -72,13 +72,13 @@
             </el-collapse-item>
           </el-collapse>
           <div class="right-button">
-            <el-button size="default" type="primary" @click="onOpenAddEditor">
+            <el-button type="primary" @click="onOpenAddEditor">
               <el-icon>
                 <ele-Plus/>
               </el-icon>
               新增客户
             </el-button>
-            <el-button size="default" type="danger" @click="onRowDel(null)">
+            <el-button plain type="danger" @click="onRowDel(null)">
               <el-icon>
                 <ele-Delete/>
               </el-icon>

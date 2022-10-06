@@ -20,7 +20,7 @@
                     </el-select>
                   </el-form-item>
                   <el-form-item>
-                    <el-button size="default" type="primary" class="ml10" @click="roleList">
+                    <el-button type="primary" class="ml10" @click="roleList">
                       <el-icon>
                         <ele-Search/>
                       </el-icon>
@@ -32,7 +32,7 @@
             </el-collapse-item>
           </el-collapse>
           <div class="right-button">
-            <el-button size="default" type="success" class="ml10" @click="onOpenAddRole">
+            <el-button type="success" class="ml10" @click="onOpenAddRole">
               <el-icon>
                 <ele-FolderAdd/>
               </el-icon>

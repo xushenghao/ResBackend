@@ -36,13 +36,13 @@
                     </el-select>
                   </el-form-item>
                   <el-form-item>
-                    <el-button size="default" type="primary" class="ml10" @click="treatmentList">
+                    <el-button type="primary" class="ml10" @click="treatmentList">
                       <el-icon>
                         <ele-Search/>
                       </el-icon>
                       查询
                     </el-button>
-                    <el-button size="default" @click="onReset(queryRef)">
+                    <el-button @click="onReset(queryRef)">
                       <el-icon>
                         <ele-Refresh/>
                       </el-icon>
@@ -54,13 +54,13 @@
             </el-collapse-item>
           </el-collapse>
           <div class="right-button">
-            <el-button size="default" type="primary" class="ml10" @click="onOpenAddEditor">
+            <el-button type="primary" class="ml10" @click="onOpenAddEditor">
               <el-icon>
                 <ele-Plus/>
               </el-icon>
               新增科目
             </el-button>
-            <el-button size="default" type="danger" class="ml10" @click="onRowDel(null)">
+            <el-button plain type="danger" @click="onRowDel(null)">
               <el-icon>
                 <ele-Delete/>
               </el-icon>
