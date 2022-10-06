@@ -1,65 +1,78 @@
 <template>
   <div class="system-dic-container">
-    <el-card shadow="hover">
-      <div class="system-user-search mb15">
-        <el-form :model="tableData.param" ref="queryRef" :inline="true" label-width="68px">
-          <el-form-item label="字典名称" prop="dictName">
-            <el-input
-                v-model="tableData.param.dictName"
-                placeholder="请输入字典名称"
-                clearable
-                size="default"
-                style="width: 240px"
-                @keyup.enter.native="typeList"
-            />
-          </el-form-item>
-          <el-form-item label="字典类型" prop="dictType">
-            <el-input
-                v-model="tableData.param.dictType"
-                placeholder="请输入字典类型"
-                clearable
-                size="default"
-                style="width: 240px"
-                @keyup.enter.native="typeList"
-            />
-          </el-form-item>
-          <el-form-item label="字典状态" prop="status" style="width: 200px;">
-            <el-select
-                v-model="tableData.param.status"
-                placeholder="字典状态"
-                clearable
-                size="default"
-                style="width: 240px"
-            >
-              <el-option label="启用" :value="1"/>
-              <el-option label="禁用" :value="0"/>
-            </el-select>
-          </el-form-item>
-          <el-form-item label="创建时间" prop="dateRange">
-            <el-date-picker
-                v-model="tableData.param.dateRange"
-                size="default"
-                style="width: 240px"
-                value-format="YYYY-MM-DD"
-                type="daterange"
-                range-separator="-"
-                start-placeholder="开始日期"
-                end-placeholder="结束日期"
-            ></el-date-picker>
-          </el-form-item>
-          <el-form-item>
-            <el-button size="default" type="primary" class="ml10" @click="typeList">
-              <el-icon>
-                <ele-Search/>
-              </el-icon>
-              查询
-            </el-button>
-            <el-button size="default" @click="resetQuery(queryRef)">
-              <el-icon>
-                <ele-Refresh/>
-              </el-icon>
-              重置
-            </el-button>
+    <el-card shadow="hover" class="card-table">
+      <template #header>
+        <div class="card-header">
+          <el-collapse>
+            <el-collapse-item name="finder">
+              <template v-slot:title>
+                <el-link type="primary" :underline="false">搜索</el-link>
+              </template>
+              <div class="system-user-search mb15">
+                <el-form :model="tableData.param" ref="queryRef" :inline="true" label-width="68px">
+                  <el-form-item label="字典名称" prop="dictName">
+                    <el-input
+                        v-model="tableData.param.dictName"
+                        placeholder="请输入字典名称"
+                        clearable
+                        size="default"
+                        style="width: 240px"
+                        @keyup.enter.native="typeList"
+                    />
+                  </el-form-item>
+                  <el-form-item label="字典类型" prop="dictType">
+                    <el-input
+                        v-model="tableData.param.dictType"
+                        placeholder="请输入字典类型"
+                        clearable
+                        size="default"
+                        style="width: 240px"
+                        @keyup.enter.native="typeList"
+                    />
+                  </el-form-item>
+                  <el-form-item label="字典状态" prop="status" style="width: 200px;">
+                    <el-select
+                        v-model="tableData.param.status"
+                        placeholder="字典状态"
+                        clearable
+                        size="default"
+                        style="width: 240px"
+                    >
+                      <el-option label="启用" :value="1"/>
+                      <el-option label="禁用" :value="0"/>
+                    </el-select>
+                  </el-form-item>
+                  <el-form-item label="创建时间" prop="dateRange">
+                    <el-date-picker
+                        v-model="tableData.param.dateRange"
+                        size="default"
+                        style="width: 240px"
+                        value-format="YYYY-MM-DD"
+                        type="daterange"
+                        range-separator="-"
+                        start-placeholder="开始日期"
+                        end-placeholder="结束日期"
+                    ></el-date-picker>
+                  </el-form-item>
+                  <el-form-item>
+                    <el-button size="default" type="primary" class="ml10" @click="typeList">
+                      <el-icon>
+                        <ele-Search/>
+                      </el-icon>
+                      查询
+                    </el-button>
+                    <el-button size="default" @click="resetQuery(queryRef)">
+                      <el-icon>
+                        <ele-Refresh/>
+                      </el-icon>
+                      重置
+                    </el-button>
+                  </el-form-item>
+                </el-form>
+              </div>
+            </el-collapse-item>
+          </el-collapse>
+          <div class="right-button">
             <el-button size="default" type="success" class="ml10" @click="onOpenAddDic">
               <el-icon>
                 <ele-FolderAdd/>
@@ -72,9 +85,9 @@
               </el-icon>
               删除字典
             </el-button>
-          </el-form-item>
-        </el-form>
-      </div>
+          </div>
+        </div>
+      </template>
       <el-table stripe :data="tableData.data" style="width: 100%" @selection-change="handleSelectionChange">
         <el-table-column type="selection" width="60" align="center"/>
         <el-table-column sortable label="字典主键" width="120" align="center" prop="dictId"/>
@@ -86,7 +99,7 @@
             </router-link>
           </template>
         </el-table-column>
-        <el-table-column sortable prop="remark" label="字典描述" show-overflow-tooltip/>
+        <el-table-column sortable min-width="120" label="字典描述" prop="remark" show-overflow-tooltip/>
         <el-table-column sortable label="创建时间" prop="createdAt" show-overflow-tooltip width="180"/>
         <el-table-column sortable label="字典状态" align="center" width="120" prop="status" show-overflow-tooltip>
           <template #default="scope">
@@ -114,8 +127,8 @@
 </template>
 
 <script lang="ts">
-import {toRefs, reactive, onMounted, ref, defineComponent} from 'vue';
-import {ElMessageBox, ElMessage, FormInstance} from 'element-plus';
+import {defineComponent, onMounted, reactive, ref, toRefs} from 'vue';
+import {ElMessage, ElMessageBox, FormInstance} from 'element-plus';
 import EditDic from '/@/views/system/dict/component/editDic.vue';
 import {deleteType, getTypeList} from "/@/api/system/dict/type";
 

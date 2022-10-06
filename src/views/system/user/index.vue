@@ -21,66 +21,79 @@
         </el-card>
       </el-col>
       <el-col :span="20">
-        <el-card shadow="hover">
-          <div class="system-user-search mb15">
-            <el-form :model="tableData.param" ref="queryRef" :inline="true" label-width="68px">
-              <el-form-item label="关键字" prop="keyWords">
-                <el-input
-                    v-model="tableData.param.keyWords"
-                    placeholder="请输入用户账号或姓名"
-                    clearable
-                    size="default"
-                    style="width: 240px"
-                    @keyup.enter.native="userList"
-                />
-              </el-form-item>
-              <el-form-item label="手机号码" prop="mobile">
-                <el-input
-                    v-model="tableData.param.mobile"
-                    placeholder="请输入手机号码"
-                    clearable
-                    size="default"
-                    style="width: 240px"
-                    @keyup.enter.native="userList"
-                />
-              </el-form-item>
-              <el-form-item label="用户状态" prop="status">
-                <el-select
-                    v-model="tableData.param.status"
-                    placeholder="请选择用户状态"
-                    clearable
-                    size="default"
-                    style="width: 240px"
-                >
-                  <el-option label="启用" :value="1"/>
-                  <el-option label="禁用" :value="0"/>
-                </el-select>
-              </el-form-item>
-              <el-form-item label="创建时间" prop="dateRange">
-                <el-date-picker
-                    v-model="tableData.param.dateRange"
-                    size="default"
-                    style="width: 240px"
-                    value-format="YYYY-MM-DD"
-                    type="daterange"
-                    range-separator="-"
-                    start-placeholder="开始日期"
-                    end-placeholder="结束日期"
-                ></el-date-picker>
-              </el-form-item>
-              <el-form-item>
-                <el-button size="default" type="primary" class="ml10" @click="userList">
-                  <el-icon>
-                    <ele-Search/>
-                  </el-icon>
-                  查询
-                </el-button>
-                <el-button size="default" @click="resetQuery(queryRef)">
-                  <el-icon>
-                    <ele-Refresh/>
-                  </el-icon>
-                  重置
-                </el-button>
+        <el-card shadow="hover" class="card-table">
+          <template #header>
+            <div class="card-header">
+              <el-collapse>
+                <el-collapse-item name="finder">
+                  <template v-slot:title>
+                    <el-link type="primary" :underline="false">搜索</el-link>
+                  </template>
+                  <div class="system-user-search mb15">
+                    <el-form :model="tableData.param" ref="queryRef" :inline="true" label-width="68px">
+                      <el-form-item label="关键字" prop="keyWords">
+                        <el-input
+                            v-model="tableData.param.keyWords"
+                            placeholder="请输入用户账号或姓名"
+                            clearable
+                            size="default"
+                            style="width: 240px"
+                            @keyup.enter.native="userList"
+                        />
+                      </el-form-item>
+                      <el-form-item label="手机号码" prop="mobile">
+                        <el-input
+                            v-model="tableData.param.mobile"
+                            placeholder="请输入手机号码"
+                            clearable
+                            size="default"
+                            style="width: 240px"
+                            @keyup.enter.native="userList"
+                        />
+                      </el-form-item>
+                      <el-form-item label="用户状态" prop="status">
+                        <el-select
+                            v-model="tableData.param.status"
+                            placeholder="请选择用户状态"
+                            clearable
+                            size="default"
+                            style="width: 240px"
+                        >
+                          <el-option label="启用" :value="1"/>
+                          <el-option label="禁用" :value="0"/>
+                        </el-select>
+                      </el-form-item>
+                      <el-form-item label="创建时间" prop="dateRange">
+                        <el-date-picker
+                            v-model="tableData.param.dateRange"
+                            size="default"
+                            style="width: 240px"
+                            value-format="YYYY-MM-DD"
+                            type="daterange"
+                            range-separator="-"
+                            start-placeholder="开始日期"
+                            end-placeholder="结束日期"
+                        ></el-date-picker>
+                      </el-form-item>
+                      <el-form-item>
+                        <el-button size="default" type="primary" class="ml10" @click="userList">
+                          <el-icon>
+                            <ele-Search/>
+                          </el-icon>
+                          查询
+                        </el-button>
+                        <el-button size="default" @click="resetQuery(queryRef)">
+                          <el-icon>
+                            <ele-Refresh/>
+                          </el-icon>
+                          重置
+                        </el-button>
+                      </el-form-item>
+                    </el-form>
+                  </div>
+                </el-collapse-item>
+              </el-collapse>
+              <div class="right-button">
                 <el-button size="default" type="success" class="ml10" @click="onOpenAddUser">
                   <el-icon>
                     <ele-FolderAdd/>
@@ -93,21 +106,21 @@
                   </el-icon>
                   删除用户
                 </el-button>
-              </el-form-item>
-            </el-form>
-          </div>
+              </div>
+            </div>
+          </template>
           <el-table stripe :data="tableData.data" style="width: 100%" @selection-change="handleSelectionChange">
             <el-table-column type="selection" width="55" align="center"/>
             <el-table-column type="index" label="序号" width="60" align="center"/>
-            <el-table-column sortable prop="userName" label="账户名称" show-overflow-tooltip></el-table-column>
-            <el-table-column sortable prop="userNickname" label="用户昵称" show-overflow-tooltip></el-table-column>
-            <el-table-column sortable prop="dept.deptName" label="所属机构" show-overflow-tooltip></el-table-column>
-            <el-table-column sortable prop="roleInfo" label="角色" align="center" :show-overflow-tooltip="true">
+            <el-table-column sortable min-width="120" prop="userName" label="账户名称" show-overflow-tooltip></el-table-column>
+            <el-table-column sortable min-width="120" prop="userNickname" label="用户昵称" show-overflow-tooltip></el-table-column>
+            <el-table-column sortable min-width="120" prop="dept.deptName" label="所属机构" show-overflow-tooltip></el-table-column>
+            <el-table-column sortable min-width="120" prop="roleInfo" label="角色" align="center" :show-overflow-tooltip="true">
               <template #default="scope">
                 <span v-for="(item,index) of scope.row.roleInfo" :key="'role-'+index"> {{ item.name + ' ' }}</span>
               </template>
             </el-table-column>
-            <el-table-column sortable prop="mobile" label="手机号" align="center" show-overflow-tooltip></el-table-column>
+            <el-table-column sortable min-width="120" prop="mobile" label="手机号" align="center" show-overflow-tooltip></el-table-column>
             <el-table-column sortable prop="userStatus" label="用户状态" align="center" width="120" show-overflow-tooltip>
               <template #default="scope">
                 <el-switch

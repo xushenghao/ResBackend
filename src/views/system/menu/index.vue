@@ -1,6 +1,13 @@
 <template>
   <div class="system-menu-container">
-    <el-card shadow="hover">
+    <el-card shadow="hover" class="card-table">
+      <template #header>
+        <div class="card-header">
+          <el-collapse>
+            <el-collapse-item name="finder">
+              <template v-slot:title>
+                <el-link type="primary" :underline="false">搜索</el-link>
+              </template>
       <div class="system-menu-search mb15">
         <el-form :inline="true">
           <el-form-item label="菜单名称">
@@ -28,39 +35,45 @@
               </el-icon>
               查询
             </el-button>
+          </el-form-item>
+        </el-form>
+      </div>
+            </el-collapse-item>
+          </el-collapse>
+          <div class="right-button">
             <el-button size="default" type="success" class="ml10" @click="onOpenAddMenu(null)" v-auth="'api/v1/system/menu/add'">
               <el-icon>
                 <ele-FolderAdd/>
               </el-icon>
               新增菜单
             </el-button>
-          </el-form-item>
-        </el-form>
-      </div>
+          </div>
+        </div>
+      </template>
       <el-table :data="menuTableData" style="width: 100%" row-key="path" :tree-props="{ children: 'children', hasChildren: 'hasChildren' }">
-        <el-table-column label="菜单名称" show-overflow-tooltip>
+        <el-table-column sortable label="菜单名称" min-width="120" show-overflow-tooltip>
           <template #default="scope">
             <SvgIcon :name="scope.row.icon"/>
             <span class="ml10">{{ scope.row.title }}</span>
           </template>
         </el-table-column>
-        <el-table-column label="排序" show-overflow-tooltip width="80" align="center">
+        <el-table-column sortable label="排序" show-overflow-tooltip width="80" align="center">
           <template #default="scope">
             {{ scope.row.weight }}
           </template>
         </el-table-column>
-        <el-table-column prop="path" label="路由路径" show-overflow-tooltip/>
-        <el-table-column label="组件路径" show-overflow-tooltip>
+        <el-table-column sortable prop="path" label="路由路径" min-width="120" show-overflow-tooltip/>
+        <el-table-column sortable label="组件路径" min-width="120" show-overflow-tooltip>
           <template #default="scope">
             <span>{{ scope.row.component }}</span>
           </template>
         </el-table-column>
-        <el-table-column label="API 接口" show-overflow-tooltip>
+        <el-table-column sortable label="API 接口" min-width="120" show-overflow-tooltip>
           <template #default="scope">
             <span>{{ scope.row.name }}</span>
           </template>
         </el-table-column>
-        <el-table-column label="类型" show-overflow-tooltip width="80" align="center">
+        <el-table-column sortable label="类型" show-overflow-tooltip width="80" align="center">
           <template #default="scope">
             <el-tag
                 :type="scope.row.menuType===0?'danger':(scope.row.menuType===1?'success':'warning')"
@@ -68,7 +81,7 @@
             </el-tag>
           </template>
         </el-table-column>
-        <el-table-column prop="isHide" label="显示状态" :formatter="formatIsHide" width="100" align="center"/>
+        <el-table-column sortable prop="isHide" label="显示状态" :formatter="formatIsHide" width="120" align="center"/>
         <el-table-column fixed="right" label="操作" show-overflow-tooltip width="160" align="center">
           <template #default="scope">
             <el-button size="small" link type="primary" @click="onOpenAddMenu(scope.row)" v-auth="'api/v1/system/menu/add'" v-if="scope.row.menuType!==2">

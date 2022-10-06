@@ -1,43 +1,56 @@
 <template>
   <div class="system-dept-container">
-    <el-card shadow="hover">
-      <div class="system-dept-search mb15">
-        <el-form :inline="true">
-          <el-form-item label="机构名称">
-            <el-input size="default" v-model="tableData.param.deptName" placeholder="请输入机构名称" class="w-50 m-2" clearable/>
-          </el-form-item>
-          <el-form-item label="机构类型">
-            <el-select size="default" placeholder="请选择机构类型" class="w-50 m-2" v-model="tableData.param.deptType" clearable>
-              <el-option
-                  v-for="dict in sys_dept_type"
-                  :key="dict.value"
-                  :label="dict.label"
-                  :value="dict.value"
-              />
-            </el-select>
-          </el-form-item>
-          <el-form-item label="机构状态">
-            <el-select size="default" placeholder="请选择机构状态" class="w-50 m-2" v-model="tableData.param.status" clearable>
-              <el-option label="启用" value="1"/>
-              <el-option label="禁用" value="0"/>
-            </el-select>
-          </el-form-item>
-          <el-form-item>
-            <el-button size="default" type="primary" class="ml10" @click="deptList">
-              <el-icon>
-                <ele-Search/>
-              </el-icon>
-              查询
-            </el-button>
+    <el-card shadow="hover" class="card-table">
+      <template #header>
+        <div class="card-header">
+          <el-collapse>
+            <el-collapse-item name="finder">
+              <template v-slot:title>
+                <el-link type="primary" :underline="false">搜索</el-link>
+              </template>
+              <div class="system-dept-search mb15">
+                <el-form :inline="true">
+                  <el-form-item label="机构名称">
+                    <el-input size="default" v-model="tableData.param.deptName" placeholder="请输入机构名称" class="w-50 m-2" clearable/>
+                  </el-form-item>
+                  <el-form-item label="机构类型">
+                    <el-select size="default" placeholder="请选择机构类型" class="w-50 m-2" v-model="tableData.param.deptType" clearable>
+                      <el-option
+                          v-for="dict in sys_dept_type"
+                          :key="dict.value"
+                          :label="dict.label"
+                          :value="dict.value"
+                      />
+                    </el-select>
+                  </el-form-item>
+                  <el-form-item label="机构状态">
+                    <el-select size="default" placeholder="请选择机构状态" class="w-50 m-2" v-model="tableData.param.status" clearable>
+                      <el-option label="启用" value="1"/>
+                      <el-option label="禁用" value="0"/>
+                    </el-select>
+                  </el-form-item>
+                  <el-form-item>
+                    <el-button size="default" type="primary" class="ml10" @click="deptList">
+                      <el-icon>
+                        <ele-Search/>
+                      </el-icon>
+                      查询
+                    </el-button>
+                  </el-form-item>
+                </el-form>
+              </div>
+            </el-collapse-item>
+          </el-collapse>
+          <div class="right-button">
             <el-button size="default" type="success" class="ml10" @click="onOpenAddDept">
               <el-icon>
                 <ele-FolderAdd/>
               </el-icon>
               新增机构
             </el-button>
-          </el-form-item>
-        </el-form>
-      </div>
+          </div>
+        </div>
+      </template>
       <el-table
           stripe
           :data="tableData.data"
@@ -46,7 +59,7 @@
           default-expand-all
           :tree-props="{ children: 'children', hasChildren: 'hasChildren' }"
       >
-        <el-table-column prop="deptName" label="机构名称" show-overflow-tooltip/>
+        <el-table-column prop="deptName" min-width="120" label="机构名称" show-overflow-tooltip/>
         <el-table-column prop="deptType" width="100" label="机构类型" show-overflow-tooltip>
           <template #default="scope">
             <el-tag type="success">

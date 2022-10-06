@@ -1,27 +1,40 @@
 <template>
   <div class="system-post-container">
-    <el-card shadow="hover">
-      <div class="system-post-search mb15">
-        <el-form :inline="true">
-          <el-form-item label="岗位名称">
-            <el-input size="default" v-model="tableData.param.postName" placeholder="请输入岗位名称" class="w-50 m-2" clearable/>
-          </el-form-item>
-          <el-form-item label="岗位编码">
-            <el-input size="default" v-model="tableData.param.postCode" placeholder="请输入岗位编码" class="w-50 m-2" clearable/>
-          </el-form-item>
-          <el-form-item label="岗位状态">
-            <el-select size="default" placeholder="请选择岗位状态" class="w-50 m-2" v-model="tableData.param.status" clearable>
-              <el-option label="启用" value="1"/>
-              <el-option label="禁用" value="0"/>
-            </el-select>
-          </el-form-item>
-          <el-form-item>
-            <el-button size="default" type="primary" class="ml10" @click="postList">
-              <el-icon>
-                <ele-Search/>
-              </el-icon>
-              查询
-            </el-button>
+    <el-card shadow="hover" class="card-table">
+      <template #header>
+        <div class="card-header">
+          <el-collapse>
+            <el-collapse-item name="finder">
+              <template v-slot:title>
+                <el-link type="primary" :underline="false">搜索</el-link>
+              </template>
+              <div class="system-post-search mb15">
+                <el-form :inline="true">
+                  <el-form-item label="岗位名称">
+                    <el-input size="default" v-model="tableData.param.postName" placeholder="请输入岗位名称" class="w-50 m-2" clearable/>
+                  </el-form-item>
+                  <el-form-item label="岗位编码">
+                    <el-input size="default" v-model="tableData.param.postCode" placeholder="请输入岗位编码" class="w-50 m-2" clearable/>
+                  </el-form-item>
+                  <el-form-item label="岗位状态">
+                    <el-select size="default" placeholder="请选择岗位状态" class="w-50 m-2" v-model="tableData.param.status" clearable>
+                      <el-option label="启用" value="1"/>
+                      <el-option label="禁用" value="0"/>
+                    </el-select>
+                  </el-form-item>
+                  <el-form-item>
+                    <el-button size="default" type="primary" class="ml10" @click="postList">
+                      <el-icon>
+                        <ele-Search/>
+                      </el-icon>
+                      查询
+                    </el-button>
+                  </el-form-item>
+                </el-form>
+              </div>
+            </el-collapse-item>
+          </el-collapse>
+          <div class="right-button">
             <el-button size="default" type="success" class="ml10" @click="onOpenAddPost">
               <el-icon>
                 <ele-FolderAdd/>
@@ -34,16 +47,16 @@
               </el-icon>
               删除岗位
             </el-button>
-          </el-form-item>
-        </el-form>
-      </div>
+          </div>
+        </div>
+      </template>
       <el-table stripe :data="tableData.data" style="width: 100%" @selection-change="handleSelectionChange">
         <el-table-column type="selection" width="55" align="center"/>
-        <el-table-column type="index" label="序号" width="60"/>
+        <el-table-column type="index" align="center" label="序号" width="60"/>
+        <el-table-column sortable prop="postSort" width="80" align="center" label="排序" show-overflow-tooltip></el-table-column>
         <el-table-column sortable prop="postCode" width="160" label="岗位编码" show-overflow-tooltip></el-table-column>
         <el-table-column sortable prop="postName" width="160" label="岗位名称" show-overflow-tooltip></el-table-column>
-        <el-table-column sortable prop="postSort" width="80" align="center" label="排序" show-overflow-tooltip></el-table-column>
-        <el-table-column sortable prop="remark" label="岗位描述" show-overflow-tooltip></el-table-column>
+        <el-table-column sortable prop="remark" min-width="120" label="岗位描述" show-overflow-tooltip></el-table-column>
         <el-table-column sortable prop="createdAt" width="180" label="创建时间" show-overflow-tooltip></el-table-column>
         <el-table-column sortable prop="status" align="center" width="120" label="岗位状态" show-overflow-tooltip>
           <template #default="scope">
@@ -71,8 +84,8 @@
 </template>
 
 <script lang="ts">
-import {toRefs, reactive, onMounted, ref, defineComponent, toRaw} from 'vue';
-import {ElMessageBox, ElMessage} from 'element-plus';
+import {defineComponent, onMounted, reactive, ref, toRaw, toRefs} from 'vue';
+import {ElMessage, ElMessageBox} from 'element-plus';
 import EditPost from '/@/views/system/post/component/editPost.vue';
 import {deletePost, getPostList} from "/@/api/system/post";
 
