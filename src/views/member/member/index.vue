@@ -3,7 +3,7 @@
     <el-card shadow="hover" class="card-table">
       <template #header>
         <div class="card-header">
-          <el-collapse v-model="showFinder">
+          <el-collapse>
             <el-collapse-item name="finder">
               <template v-slot:title>
                 <el-link type="primary" :underline="false">搜索</el-link>
@@ -158,7 +158,6 @@ import Editor from "/@/views/member/member/editor.vue";
 import {listClinic} from "/@/api/ophtha/clinic";
 import {listChannel} from "/@/api/member/channel";
 
-const showFinder = ref();
 const queryRef = ref();
 const editorRef = ref();
 const state = reactive<MemberList>({

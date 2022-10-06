@@ -1,46 +1,59 @@
 <template>
   <div class="ophtha-expert-container">
-    <el-card shadow="hover">
-      <div class="ophtha-expert-search mb15">
-        <el-form :model="state.list.param" ref="queryRef" :inline="true" label-width="68px">
-          <el-form-item label="专家姓名" prop="name">
-            <el-input
-                v-model="state.list.param.name"
-                placeholder="请输入专家姓名"
-                clearable
-                size="default"
-                @keyup.enter.native="expertList"
-            />
-          </el-form-item>
-          <el-form-item label="专家状态" prop="status">
-            <el-select v-model="state.list.param.status" placeholder="请选择专家状态" class="w100">
-              <el-option key="0" value="0" label="停诊"/>
-              <el-option key="1" value="1" label="接诊"/>
-            </el-select>
-          </el-form-item>
-          <el-form-item label="所属诊所" prop="clinicName">
-            <el-select v-model="state.list.param.clinicName" placeholder="请选择所属诊所" class="w100">
-              <el-option
-                  v-for="clinic in state.clinic"
-                  :key="clinic.id"
-                  :value="clinic.short"
-                  :label="clinic.short"
-              />
-            </el-select>
-          </el-form-item>
-          <el-form-item>
-            <el-button size="default" type="primary" class="ml10" @click="expertList">
-              <el-icon>
-                <ele-Search/>
-              </el-icon>
-              查询
-            </el-button>
-            <el-button size="default" @click="onReset(queryRef)">
-              <el-icon>
-                <ele-Refresh/>
-              </el-icon>
-              重置
-            </el-button>
+    <el-card shadow="hover" class="card-table">
+      <template #header>
+        <div class="card-header">
+          <el-collapse>
+            <el-collapse-item name="finder">
+              <template v-slot:title>
+                <el-link type="primary" :underline="false">搜索</el-link>
+              </template>
+              <div class="ophtha-expert-search mb15">
+                <el-form :model="state.list.param" ref="queryRef" :inline="true" label-width="68px">
+                  <el-form-item label="专家姓名" prop="name">
+                    <el-input
+                        v-model="state.list.param.name"
+                        placeholder="请输入专家姓名"
+                        clearable
+                        size="default"
+                        @keyup.enter.native="expertList"
+                    />
+                  </el-form-item>
+                  <el-form-item label="专家状态" prop="status">
+                    <el-select v-model="state.list.param.status" placeholder="请选择专家状态" class="w100">
+                      <el-option key="0" value="0" label="停诊"/>
+                      <el-option key="1" value="1" label="接诊"/>
+                    </el-select>
+                  </el-form-item>
+                  <el-form-item label="所属诊所" prop="clinicName">
+                    <el-select v-model="state.list.param.clinicName" placeholder="请选择所属诊所" class="w100">
+                      <el-option
+                          v-for="clinic in state.clinic"
+                          :key="clinic.id"
+                          :value="clinic.short"
+                          :label="clinic.short"
+                      />
+                    </el-select>
+                  </el-form-item>
+                  <el-form-item>
+                    <el-button size="default" type="primary" class="ml10" @click="expertList">
+                      <el-icon>
+                        <ele-Search/>
+                      </el-icon>
+                      查询
+                    </el-button>
+                    <el-button size="default" @click="onReset(queryRef)">
+                      <el-icon>
+                        <ele-Refresh/>
+                      </el-icon>
+                      重置
+                    </el-button>
+                  </el-form-item>
+                </el-form>
+              </div>
+            </el-collapse-item>
+          </el-collapse>
+          <div class="right-button">
             <el-button size="default" type="primary" class="ml10" @click="onOpenAddEditor">
               <el-icon>
                 <ele-Plus/>
@@ -53,9 +66,9 @@
               </el-icon>
               删除专家
             </el-button>
-          </el-form-item>
-        </el-form>
-      </div>
+          </div>
+        </div>
+      </template>
       <el-table stripe :data="state.list.data" style="width: 100%" @selection-change="onSelectionChange">
         <el-table-column type="selection" width="55" align="center"/>
         <el-table-column label="头像" width="100" alian="center" prop="avatar">
