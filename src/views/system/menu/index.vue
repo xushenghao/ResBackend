@@ -5,7 +5,7 @@
         <div class="card-header">
           <el-collapse>
             <el-collapse-item name="finder">
-              <template v-slot:title>
+              <template #title>
                 <el-link type="primary" :underline="false">搜索</el-link>
               </template>
       <div class="system-menu-search mb15">
