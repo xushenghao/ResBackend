@@ -9,7 +9,7 @@ import { defineComponent, reactive, toRefs, onMounted, nextTick, watch, computed
 import { useRoute } from 'vue-router';
 import { useStore } from '/@/store';
 export default defineComponent({
-	name: 'layoutIfameView',
+	name: 'layoutIframeView',
 	setup() {
 		const route = useRoute();
 		const store = useStore();

@@ -2,7 +2,7 @@
   <div class="layout-navbars-breadcrumb-user" :style="{ flex: layoutUserFlexNum }">
     <el-dropdown v-show="false" :show-timeout="70" :hide-timeout="50" trigger="click" @command="onComponentSizeChange">
       <div class="layout-navbars-breadcrumb-user-icon">
-        <i class="iconfont icon-ziti" :title="$t('message.user.title0')"/>
+        <i class="iconfont icon-ziti" :title="$t('message.user.componentSize')"/>
       </div>
       <template #dropdown>
         <el-dropdown-menu>
@@ -14,7 +14,7 @@
     </el-dropdown>
     <el-dropdown v-show="false" :show-timeout="70" :hide-timeout="50" trigger="click" @command="onLanguageChange">
       <div class="layout-navbars-breadcrumb-user-icon">
-        <i class="iconfont" :class="disabledI18n === 'en' ? 'icon-fuhao-yingwen' : 'icon-fuhao-zhongwen'" :title="$t('message.user.title1')"/>
+        <i class="iconfont" :class="disabledI18n === 'en' ? 'icon-fuhao-yingwen' : 'icon-fuhao-zhongwen'" :title="$t('message.user.languageSwitching')"/>
       </div>
       <template #dropdown>
         <el-dropdown-menu>
@@ -24,20 +24,18 @@
       </template>
     </el-dropdown>
     <div v-show="false" class="layout-navbars-breadcrumb-user-icon" @click="onSearchClick">
-      <el-icon :title="$t('message.user.title2')">
+      <el-icon :title="$t('message.user.menuSearch')">
         <ele-Search/>
       </el-icon>
     </div>
-<!--
-    <div class="layout-navbars-breadcrumb-user-icon" @click="onLayoutSettingClick">
-      <i class="icon-skin iconfont" :title="$t('message.user.title3')"/>
+    <div v-show="true" class="layout-navbars-breadcrumb-user-icon" @click="onLayoutSettingClick">
+      <i class="icon-skin iconfont" :title="$t('message.user.layoutConfig')"/>
     </div>
--->
     <div class="layout-navbars-breadcrumb-user-icon">
       <el-popover placement="bottom" trigger="click" :width="300">
         <template #reference>
           <el-badge :is-dot="true">
-            <el-icon :title="$t('message.user.title4')">
+            <el-icon :title="$t('message.user.message')">
               <ele-Bell/>
             </el-icon>
           </el-badge>
@@ -48,11 +46,11 @@
     <div class="layout-navbars-breadcrumb-user-icon mr10" @click="onScreenfullClick">
       <i
           class="iconfont"
-          :title="isScreenfull ? $t('message.user.title6') : $t('message.user.title5')"
+          :title="isScreenfull ? $t('message.user.fullScreenOff') : $t('message.user.fullScreen')"
           :class="!isScreenfull ? 'icon-fullscreen' : 'icon-tuichuquanping'"
-      ></i>
+      />
     </div>
-    <el-dropdown :show-timeout="70" :hide-timeout="50" @command="onHandleCommandClick">
+    <el-dropdown trigger="hover" :show-timeout="70" :hide-timeout="50" @command="onHandleCommandClick">
 			<span class="layout-navbars-breadcrumb-user-link">
 				<img
             :src="getUserInfos.avatar"
@@ -65,8 +63,8 @@
 			</span>
       <template #dropdown>
         <el-dropdown-menu>
-          <el-dropdown-item command="/personal">{{ $t('message.user.dropdown2') }}</el-dropdown-item>
-          <el-dropdown-item divided command="logOut">{{ $t('message.user.dropdown5') }}</el-dropdown-item>
+          <el-dropdown-item command="/personal">{{ $t('message.user.personalCenter') }}</el-dropdown-item>
+          <el-dropdown-item divided command="logOut">{{ $t('message.user.logout') }}</el-dropdown-item>
         </el-dropdown-menu>
       </template>
     </el-dropdown>
