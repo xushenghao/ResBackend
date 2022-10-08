@@ -56,7 +56,6 @@
               </el-button>
               <template #dropdown>
                 <el-dropdown-menu>
-                  <el-dropdown-item @click="onOpenAddEditor">手工新增记录</el-dropdown-item>
                   <el-dropdown-item>复制上周班表</el-dropdown-item>
                   <el-dropdown-item>导入钉钉班表</el-dropdown-item>
                 </el-dropdown-menu>
@@ -87,7 +86,7 @@
               :editable="false"
               :clearable="false"
               format="第 ww 周"
-              @change="onWeekChange"
+              @change="setWeekNumber"
               class="date-picker"
           />
           <el-tooltip content="后一周" placement="right">
@@ -100,22 +99,24 @@
         </el-col>
         <el-col :span="10"/>
       </el-row>
-      <el-table border :data="state.list.data" size="large" v-loading="state.list.loading">
-        <el-table-column min-width="120" prop="name">
+      <el-table border :data="state.expert" size="large" v-loading="state.list.loading">
+        <el-table-column width="120" prop="name">
           <template #default="{ row }">
             <span style="color: #1f1f1f; font-weight: bold">{{ row.name }}</span>
           </template>
         </el-table-column>
-        <el-table-column min-width="120" label="坐诊诊所" align="center" prop="clinicName"/>
-        <el-table-column width="160" align="center" v-for="(item) in state.weekday" :key="item.date">
+        <el-table-column width="120" label="坐诊诊所" align="center" prop="clinicName"/>
+        <el-table-column align="center" v-for="(item) in state.weekday" :key="item.date">
           <template #header>
             <span style="color: #1f1f1f">{{ item.week }} {{ item.date }}</span>
           </template>
-          <template #default>
+          <template #default="{ row }">
             <div class="calendar">
-              <div class="schedule-info">
-                已排班
-              </div>
+              <template v-for="sch in item.schedule">
+                  <span v-if="sch.expertName === row.name" class="schedule-info" :key="sch.id">
+                    {{ sch.shiftName }} 号{{ sch.serviceCount }}
+                  </span>
+              </template>
               <el-popover
                   :offset=0
                   :hide-after=0
@@ -133,7 +134,7 @@
                     <el-button size="large" class="action-btn left" @click="onShiftMan()">预留</el-button>
                   </el-col>
                   <el-col :span="12">
-                    <el-button size="large" class="action-btn right" @click="onShiftMan()">排班</el-button>
+                    <el-button size="large" class="action-btn right" @click="onPlan()">排班</el-button>
                   </el-col>
                 </el-row>
               </el-popover>
@@ -158,49 +159,68 @@ import 'dayjs/locale/zh-cn'
 import {h, onMounted, reactive, ref} from 'vue';
 import {ElNotification, FormInstance} from 'element-plus'
 import {ArrowLeft, ArrowRight} from "@element-plus/icons-vue";
-import {DayInfo, ScheduleList} from "/@/views/reserve/schedule/dataType";
-import {listExpert} from '/@/api/ophtha/expert';
+import {ScheduleList} from "/@/views/reserve/schedule/dataType";
+import {listSchedule} from "/@/api/reserve/schedule";
 import {listClinic} from "/@/api/ophtha/clinic";
+import {listExpert} from '/@/api/ophtha/expert';
 
 dayjs.locale('zh-cn')
-
 const weekRef = ref("");
 const queryRef = ref();
 const state = reactive<ScheduleList>({
   ids: [],
   clinic: [],
+  expert: [],
   weekday: [],
   list: {
     data: [],
     total: 0,
     loading: false,
     param: {
-      pageNum: 1,
-      pageSize: 10,
-      dateRange: [],
+      paging: {
+        dateRange: [],
+        pageSize: 10,
+        pageNum: 1,
+        orderBy: '',
+      },
       status: undefined,
-      name: '',
-      title: '',
-      mobile: '',
-      clinicName: '',
+      name: undefined,
+      clinicName: undefined,
     },
   },
 });
 
-const expertList = () => {
-  listExpert(state.list.param).then((res: any) => {
-    state.list.data = res.data.list;
-    state.list.total = res.data.total;
-  });
-};
-const clinicList = () => {
-  listClinic({status: 1}).then((res: any) => {
-    state.clinic = res.data.list;
+// 获取专家列表
+const expertList = async () => {
+  state.list.loading = true;
+  await listExpert(state.list.param).then((res: any) => {
+    state.expert = res.data.list;
+    state.list.loading = false;
   });
 };
 
-// 新增弹窗
-const onOpenAddEditor = () => {
+// 获取诊所列表
+const clinicList = async () => {
+  state.list.loading = true;
+  await listClinic({status: 1}).then((res: any) => {
+    state.clinic = res.data.list;
+    state.list.loading = false;
+  });
+};
+
+// 获取班表列表
+const scheduleList = async () => {
+  state.list.loading = true;
+  await listSchedule(state.list.param).then((res: any) => {
+    state.list.data = res.data.list;
+    state.list.total = res.data.total;
+    state.list.loading = false;
+  });
+};
+
+// 排班弹窗
+const onPlan = () => {
+  onShiftMan();
 };
 
 // 重置按钮
@@ -219,26 +239,27 @@ const onShiftMan = () => {
 };
 
 // 周期选择
-const onWeekChange = async () => {
-  state.list.loading = true;
+const setWeekNumber = async () => {
   // 初始时间
   if (weekRef.value == "") weekRef.value = dayjs().subtract(dayjs().day() - 1, 'day').format('YYYY-MM-DD');
   const start = dayjs(weekRef.value)
-  state.list.param.dateRange[0] = start.format('YYYY-MM-DD');
-  state.list.param.dateRange[1] = start.add(6, 'day').format('YYYY-MM-DD');
+  state.list.param.paging.dateRange[0] = start.format('YYYY-MM-DD');
+  state.list.param.paging.dateRange[1] = start.add(7, 'day').format('YYYY-MM-DD');
 
-  // TODO 查询班表
+  // 刷新班表
+  state.list.loading = true;
+  await scheduleList()
 
   // 遍历填充
   for (let i = 0; i < 7; i++) {
     const theDay = start.add(i, 'day')
-    const data = {
-      date: theDay.format('MM-DD'),
+    state.weekday[i] = {
       week: theDay.format('ddd'),
+      date: theDay.format('MM-DD'),
       past: theDay.isBefore(dayjs(), 'day'),
+      today: theDay.isSame(dayjs(), 'day'),
+      schedule: state.list.data?.filter((item: any) => dayjs(item.dateAt).day() == theDay.day()),
     }
-
-    state.weekday[i] = data as DayInfo
   }
   state.list.loading = false;
 };
@@ -250,19 +271,14 @@ const onArrowClick = (type: string) => {
   } else {
     weekRef.value = dayjs(weekRef.value).add(7, 'day').format('YYYY-MM-DD')
   }
-  onWeekChange()
+  setWeekNumber()
 };
 
 // 初始数据
-const initTableData = () => {
-  expertList()
-  clinicList()
-};
-
-// 页面加载时
-onMounted(() => {
-  initTableData();
-  onWeekChange();
+onMounted(async () => {
+  await expertList()
+  await clinicList()
+  await setWeekNumber();
 });
 </script>
 
@@ -287,10 +303,6 @@ onMounted(() => {
     --el-input-border-color: none;
     --el-input-hover-border-color: none;
     --el-input-focus-border-color: none;
-  }
-
-  .el-input__wrapper {
-    border-radius: 0;
   }
 
   .el-input__prefix {
@@ -354,6 +366,8 @@ onMounted(() => {
 
   .schedule-info {
     cursor: not-allowed;
+    background: rgba(233, 191, 42, 0.05);
+    color: black;
   }
 
   .action-hover:hover {
