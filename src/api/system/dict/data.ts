@@ -34,7 +34,7 @@ export function getDataList(query: Object) {
     return request({
         url: '/api/v1/system/dict/data/list',
         method: 'post',
-        params: query
+        data: query
     })
 }
 

@@ -4,7 +4,7 @@ export function getUserList(query:Object) {
     return request({
         url: '/api/v1/system/user/list',
         method: 'post',
-        params:query
+        data:query
     })
 }
 

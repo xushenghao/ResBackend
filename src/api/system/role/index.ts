@@ -4,7 +4,7 @@ export function getRoleList(query:Object) {
     return request({
         url: '/api/v1/system/role/list',
         method: 'post',
-        params:query
+        data:query
     })
 }
 

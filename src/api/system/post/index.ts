@@ -4,7 +4,7 @@ export function getPostList(query:Object) {
     return request({
         url: '/api/v1/system/post/list',
         method: 'post',
-        params:query
+        data:query
     })
 }
 

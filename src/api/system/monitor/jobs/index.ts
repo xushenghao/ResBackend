@@ -80,6 +80,6 @@ export function listJob(query: object) {
     return request({
         url: '/api/v1/system/jobs/list',
         method: 'post',
-        params: query
+        data: query
     })
 }

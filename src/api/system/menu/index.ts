@@ -4,7 +4,7 @@ export function getMenuList(query: Object) {
     return request({
         url: '/api/v1/system/menu/list',
         method: 'post',
-        params: query
+        data: query
     })
 }
 

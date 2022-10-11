@@ -45,6 +45,6 @@ export function listTreatment(query: Object) {
     return request({
         url: '/api/v1/ophtha/treatment/list',
         method: 'post',
-        params: query
+        data: query
     })
 }

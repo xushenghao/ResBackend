@@ -45,6 +45,6 @@ export function listClinic(query: Object) {
     return request({
         url: '/api/v1/ophtha/clinic/list',
         method: 'post',
-        params: query
+        data: query
     })
 }

@@ -45,6 +45,6 @@ export function listChannel(query: Object) {
     return request({
         url: '/api/v1/member/channel/list',
         method: 'post',
-        params: query
+        data: query
     })
 }

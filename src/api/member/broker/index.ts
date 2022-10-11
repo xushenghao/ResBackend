@@ -45,6 +45,6 @@ export function listBroker(query: Object) {
     return request({
         url: '/api/v1/member/broker/list',
         method: 'post',
-        params: query
+        data: query
     })
 }

@@ -5,7 +5,7 @@ export function logList(query: object) {
     return request({
         url: '/api/v1/system/logs/list',
         method: 'post',
-        params: query
+        data: query
     })
 }
 

@@ -4,7 +4,7 @@ export function getDeptList(query?: Object) {
     return request({
         url: '/api/v1/system/dept/list',
         method: 'post',
-        params: query
+        data: query
     })
 }
 

@@ -4,7 +4,7 @@ export function getTypeList(query: Object) {
     return request({
         url: '/api/v1/system/dict/type/list',
         method: 'post',
-        params: query
+        data: query
     })
 }
 

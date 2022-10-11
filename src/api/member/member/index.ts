@@ -53,6 +53,6 @@ export function listMember(query: Object) {
     return request({
         url: '/api/v1/member/member/list',
         method: 'post',
-        params: query
+        data: query
     })
 }

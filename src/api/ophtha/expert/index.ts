@@ -45,6 +45,6 @@ export function listExpert(query: Object) {
     return request({
         url: '/api/v1/ophtha/expert/list',
         method: 'post',
-        params: query
+        data: query
     })
 }

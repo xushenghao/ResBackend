@@ -45,6 +45,6 @@ export function listSchedule(query: Object) {
     return request({
         url: '/api/v1/ophtha/schedule/list',
         method: 'post',
-        params: query
+        data: query
     })
 }
