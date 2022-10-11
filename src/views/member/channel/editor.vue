@@ -1,37 +1,35 @@
 <template>
   <div class="member-edit-member-container">
     <el-drawer v-model="state.isShow" :size='480' :title="(state.data.id!==''?'修改':'添加')+'记录'">
-      <div style="padding: 0 20px">
-        <el-form :model="state.data" ref="formRef" :rules="state.rules" label-width="80px">
-          <el-form-item required :inline="true" label="名称" prop="name">
-            <el-input v-model="state.data.name" placeholder="请输入渠道名称"/>
-          </el-form-item>
-          <el-form-item required :inline="true" label="简称" prop="short">
-            <el-input v-model="state.data.short" placeholder="请输入渠道简称"/>
-          </el-form-item>
-          <el-form-item :inline="true" label="地址" prop="address">
-            <el-input v-model="state.data.address" placeholder="请输入渠道地址"/>
-          </el-form-item>
-          <el-form-item required :inline="true" label="渠道主管" prop="contact">
-            <el-input v-model="state.data.contact" placeholder="请输入渠道主管"/>
-          </el-form-item>
-          <el-form-item required :inline="true" label="联系电话" prop="mobile">
-            <el-input v-model="state.data.mobile" placeholder="请输入联系电话"/>
-          </el-form-item>
-          <el-form-item required :inline="true" label="创建人员" prop="createdBy">
-            <el-input v-model="state.data.createdBy" placeholder="请输入创建人员"/>
-          </el-form-item>
-          <el-form-item :inline="true" label="备注" prop="remark">
-            <el-input v-model="state.data.remark" autosize type="textarea" placeholder="请输入备注信息"/>
-          </el-form-item>
-          <el-form-item label="状态" prop="status">
-            <el-radio-group v-model="state.data.status">
-              <el-radio :label=1>启用</el-radio>
-              <el-radio :label=0>禁用</el-radio>
-            </el-radio-group>
-          </el-form-item>
-        </el-form>
-      </div>
+      <el-form :model="state.data" ref="formRef" :rules="state.rules" label-width="80px" style="padding: 0 20px">
+        <el-form-item required :inline="true" label="名称" prop="name">
+          <el-input v-model="state.data.name" placeholder="请输入渠道名称"/>
+        </el-form-item>
+        <el-form-item required :inline="true" label="简称" prop="short">
+          <el-input v-model="state.data.short" placeholder="请输入渠道简称"/>
+        </el-form-item>
+        <el-form-item :inline="true" label="地址" prop="address">
+          <el-input v-model="state.data.address" placeholder="请输入渠道地址"/>
+        </el-form-item>
+        <el-form-item required :inline="true" label="渠道主管" prop="contact">
+          <el-input v-model="state.data.contact" placeholder="请输入渠道主管"/>
+        </el-form-item>
+        <el-form-item required :inline="true" label="联系电话" prop="mobile">
+          <el-input v-model="state.data.mobile" placeholder="请输入联系电话"/>
+        </el-form-item>
+        <el-form-item required :inline="true" label="创建人员" prop="createdBy">
+          <el-input v-model="state.data.createdBy" placeholder="请输入创建人员"/>
+        </el-form-item>
+        <el-form-item :inline="true" label="备注" prop="remark">
+          <el-input v-model="state.data.remark" autosize type="textarea" placeholder="请输入备注信息"/>
+        </el-form-item>
+        <el-form-item label="状态" prop="status">
+          <el-radio-group v-model="state.data.status">
+            <el-radio :label=1>启用</el-radio>
+            <el-radio :label=0>禁用</el-radio>
+          </el-radio-group>
+        </el-form-item>
+      </el-form>
       <template #footer>
         <div style="padding: 20px">
           <el-button @click="onCancel">取消</el-button>

@@ -1,84 +1,82 @@
 <template>
   <div class="ophtha-edit-clinic-container">
     <el-drawer v-model="state.isShow" :size='480' :title="(state.data.id!==''?'修改':'添加')+'诊所'">
-      <div style="padding: 0 20px">
-        <el-form :model="state.data" ref="formRef" :rules="state.rules" label-width="100px">
-          <el-form-item :inline="true" label="品牌标志" prop="logo">
-            <el-upload
-                class="avatar uploader"
-                accept=".jpg, .png"
-                ref="uploadLogo"
-                :limit=1
-                :auto-upload="true"
-                :show-file-list="false"
-                :action="state.upload.url"
-                :headers="state.upload.headers"
-                :before-upload="beforeUpload"
-                :on-progress="onUploadProgress"
-                :on-success="onLogoUploadSuccess"
+      <el-form :model="state.data" ref="formRef" :rules="state.rules" label-width="100px" style="padding: 0 20px">
+        <el-form-item :inline="true" label="品牌标志" prop="logo">
+          <el-upload
+              class="avatar uploader"
+              accept=".jpg, .png"
+              ref="uploadLogo"
+              :limit=1
+              :auto-upload="true"
+              :show-file-list="false"
+              :action="state.upload.url"
+              :headers="state.upload.headers"
+              :before-upload="beforeUpload"
+              :on-progress="onUploadProgress"
+              :on-success="onLogoUploadSuccess"
+          >
+            <el-tooltip
+                effect="dark"
+                class="box-item"
+                placement="left-start"
             >
-              <el-tooltip
-                  effect="dark"
-                  class="box-item"
-                  placement="left-start"
-              >
-                <template #content>点击更换 JPEG 或 PNG 格式的图<br>片，推荐尺寸为 128 * 128 像素</template>
-                <el-avatar shape="square" size="large" :src="state.data.logo"/>
-              </el-tooltip>
-            </el-upload>
-          </el-form-item>
-          <el-form-item :inline="true" label="形象照片" prop="photos">
-            <el-upload
-                class="photos uploader"
-                accept=".jpg, .png"
-                ref="uploadHero"
-                :limit=1
-                :auto-upload="true"
-                :show-file-list="false"
-                :action="state.upload.url"
-                :headers="state.upload.headers"
-                :before-upload="beforeUpload"
-                :on-progress="onUploadProgress"
-                :on-success="onHeroUploadSuccess"
+              <template #content>点击更换 JPEG 或 PNG 格式的图<br>片，推荐尺寸为 128 * 128 像素</template>
+              <el-avatar shape="square" size="large" :src="state.data.logo"/>
+            </el-tooltip>
+          </el-upload>
+        </el-form-item>
+        <el-form-item :inline="true" label="形象照片" prop="photos">
+          <el-upload
+              class="photos uploader"
+              accept=".jpg, .png"
+              ref="uploadHero"
+              :limit=1
+              :auto-upload="true"
+              :show-file-list="false"
+              :action="state.upload.url"
+              :headers="state.upload.headers"
+              :before-upload="beforeUpload"
+              :on-progress="onUploadProgress"
+              :on-success="onHeroUploadSuccess"
+          >
+            <el-tooltip
+                effect="dark"
+                class="box-item"
+                placement="left-start"
             >
-              <el-tooltip
-                  effect="dark"
-                  class="box-item"
-                  placement="left-start"
-              >
-                <template #content>点击更换 JPEG 或 PNG 格式的图<br>片，推荐尺寸为 640 * 300 像素</template>
-                <el-image :src="state.data.photos" class="photos" fit="cover" alt=""/>
-              </el-tooltip>
-            </el-upload>
-          </el-form-item>
-          <el-form-item :inline="true" label="诊所全称" prop="name">
-            <el-input v-model="state.data.name" placeholder="请输入诊所全称" class="w100"/>
-          </el-form-item>
-          <el-form-item required :inline="true" label="诊所简称" prop="short">
-            <el-input v-model="state.data.short" placeholder="请输入诊所简称" class="w100"/>
-          </el-form-item>
-          <el-form-item required :inline="true" label="所属机构" prop="deptName">
-            <el-select v-model="state.data.deptName" @change="onDeptChange" placeholder="请选择所属机构" class="w100">
-              <el-option v-for="dept in state.dept" :key="dept.deptId" :value="dept.deptName" :label="dept.deptName"/>
-            </el-select>
-          </el-form-item>
-          <el-form-item :inline="true" label="诊所地址" prop="address">
-            <el-input v-model="state.data.address" placeholder="请输入诊所地址" class="w100"/>
-          </el-form-item>
-          <el-form-item :inline="true" label="联系电话" prop="phoneMain">
-            <el-input v-model="state.data.phoneMain" placeholder="请输入联系电话" class="w100"/>
-          </el-form-item>
-          <el-form-item :inline="true" label="备用电话" prop="phoneOther">
-            <el-input v-model="state.data.phoneOther" placeholder="请输入备用电话" class="w100"/>
-          </el-form-item>
-          <el-form-item label="运营状态" prop="status">
-            <el-radio-group v-model="state.data.status">
-              <el-radio :label=1>接诊</el-radio>
-              <el-radio :label=0>停诊</el-radio>
-            </el-radio-group>
-          </el-form-item>
-        </el-form>
-      </div>
+              <template #content>点击更换 JPEG 或 PNG 格式的图<br>片，推荐尺寸为 640 * 300 像素</template>
+              <el-image :src="state.data.photos" class="photos" fit="cover" alt=""/>
+            </el-tooltip>
+          </el-upload>
+        </el-form-item>
+        <el-form-item :inline="true" label="诊所全称" prop="name">
+          <el-input v-model="state.data.name" placeholder="请输入诊所全称" class="w100"/>
+        </el-form-item>
+        <el-form-item required :inline="true" label="诊所简称" prop="short">
+          <el-input v-model="state.data.short" placeholder="请输入诊所简称" class="w100"/>
+        </el-form-item>
+        <el-form-item required :inline="true" label="所属机构" prop="deptName">
+          <el-select v-model="state.data.deptName" @change="onDeptChange" placeholder="请选择所属机构" class="w100">
+            <el-option v-for="dept in state.dept" :key="dept.deptId" :value="dept.deptName" :label="dept.deptName"/>
+          </el-select>
+        </el-form-item>
+        <el-form-item :inline="true" label="诊所地址" prop="address">
+          <el-input v-model="state.data.address" placeholder="请输入诊所地址" class="w100"/>
+        </el-form-item>
+        <el-form-item :inline="true" label="联系电话" prop="phoneMain">
+          <el-input v-model="state.data.phoneMain" placeholder="请输入联系电话" class="w100"/>
+        </el-form-item>
+        <el-form-item :inline="true" label="备用电话" prop="phoneOther">
+          <el-input v-model="state.data.phoneOther" placeholder="请输入备用电话" class="w100"/>
+        </el-form-item>
+        <el-form-item label="运营状态" prop="status">
+          <el-radio-group v-model="state.data.status">
+            <el-radio :label=1>接诊</el-radio>
+            <el-radio :label=0>停诊</el-radio>
+          </el-radio-group>
+        </el-form-item>
+      </el-form>
       <template #footer>
         <div style="padding: 20px">
           <el-button @click="onCancel">取消</el-button>

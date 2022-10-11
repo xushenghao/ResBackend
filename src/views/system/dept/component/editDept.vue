@@ -163,14 +163,14 @@ export default defineComponent({
           if (state.deptForm.deptId === 0) {
             //添加
             addDept(state.deptForm).then(() => {
-              ElMessage.success('角色添加成功');
+              ElMessage.success('机构添加成功');
               closeDialog(); // 关闭弹窗
               emit('deptList')
             });
           } else {
             //修改
             editDept(state.deptForm).then(() => {
-              ElMessage.success('角色修改成功');
+              ElMessage.success('机构修改成功');
               closeDialog(); // 关闭弹窗
               emit('deptList')
             });

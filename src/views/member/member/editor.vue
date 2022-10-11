@@ -1,115 +1,113 @@
 <template>
   <div class="member-edit-member-container">
     <el-drawer v-model="state.isShow" :size='480' :title="(state.data.id!==''?'修改':'添加')+'记录'">
-      <div style="padding: 0 20px">
-        <el-form :model="state.data" ref="formRef" :rules="state.rules" label-width="80px">
-          <el-form-item required :inline="true" label="头像" prop="avatar">
-            <el-upload
-                class="avatar uploader"
-                accept=".jpg, .png"
-                ref="uploadAvatar"
-                :limit=1
-                :auto-upload="true"
-                :show-file-list="false"
-                :action="state.upload.url"
-                :headers="state.upload.headers"
-                :before-upload="beforeUpload"
-                :on-progress="onUploadProgress"
-                :on-success="onAvatarUploadSuccess"
+      <el-form :model="state.data" ref="formRef" :rules="state.rules" label-width="80px" style="padding: 0 20px">>
+        <el-form-item required :inline="true" label="头像" prop="avatar">
+          <el-upload
+              class="avatar uploader"
+              accept=".jpg, .png"
+              ref="uploadAvatar"
+              :limit=1
+              :auto-upload="true"
+              :show-file-list="false"
+              :action="state.upload.url"
+              :headers="state.upload.headers"
+              :before-upload="beforeUpload"
+              :on-progress="onUploadProgress"
+              :on-success="onAvatarUploadSuccess"
+          >
+            <el-tooltip
+                effect="dark"
+                class="box-item"
+                placement="left-start"
             >
-              <el-tooltip
-                  effect="dark"
-                  class="box-item"
-                  placement="left-start"
-              >
-                <template #content>点击更换 JPEG 或 PNG 格式的图<br>片，推荐尺寸为 128 * 128 像素</template>
-                <el-avatar shape="square" size="large" :src="state.data.avatar"/>
-              </el-tooltip>
-            </el-upload>
-          </el-form-item>
-          <el-form-item required :inline="true" label="姓名" prop="name">
-            <el-input v-model="state.data.name" placeholder="请输入客户姓名"/>
-          </el-form-item>
-          <el-form-item required :inline="true" label="昵称" prop="nickname">
-            <el-input v-model="state.data.nickname" placeholder="请输入客户昵称"/>
-          </el-form-item>
-          <el-form-item required :inline="true" label="邮箱" prop="mail">
-            <el-input v-model="state.data.mail" placeholder="请输入客户邮箱"/>
-          </el-form-item>
-          <el-form-item required :inline="true" label="电话" prop="mobile">
-            <el-input v-model="state.data.mobile" placeholder="请输入联系电话"/>
-          </el-form-item>
-          <el-form-item label="性别" prop="gender">
-            <el-radio-group v-model="state.data.gender">
-              <el-radio :label=0>保密</el-radio>
-              <el-radio :label=1>先生</el-radio>
-              <el-radio :label=2>女士</el-radio>
-            </el-radio-group>
-          </el-form-item>
-          <el-form-item label="生日" prop="birthday">
-            <el-date-picker
-                type="date"
-                class="w100"
-                format="YYYY-MM-DD"
-                value-format="YYYY-MM-DD"
-                placeholder="请选择客户生日"
-                v-model="state.data.birthday"
+              <template #content>点击更换 JPEG 或 PNG 格式的图<br>片，推荐尺寸为 128 * 128 像素</template>
+              <el-avatar shape="square" size="large" :src="state.data.avatar"/>
+            </el-tooltip>
+          </el-upload>
+        </el-form-item>
+        <el-form-item required :inline="true" label="姓名" prop="name">
+          <el-input v-model="state.data.name" placeholder="请输入客户姓名"/>
+        </el-form-item>
+        <el-form-item required :inline="true" label="昵称" prop="nickname">
+          <el-input v-model="state.data.nickname" placeholder="请输入客户昵称"/>
+        </el-form-item>
+        <el-form-item required :inline="true" label="邮箱" prop="mail">
+          <el-input v-model="state.data.mail" placeholder="请输入客户邮箱"/>
+        </el-form-item>
+        <el-form-item required :inline="true" label="电话" prop="mobile">
+          <el-input v-model="state.data.mobile" placeholder="请输入联系电话"/>
+        </el-form-item>
+        <el-form-item label="性别" prop="gender">
+          <el-radio-group v-model="state.data.gender">
+            <el-radio :label=0>保密</el-radio>
+            <el-radio :label=1>先生</el-radio>
+            <el-radio :label=2>女士</el-radio>
+          </el-radio-group>
+        </el-form-item>
+        <el-form-item label="生日" prop="birthday">
+          <el-date-picker
+              type="date"
+              class="w100"
+              format="YYYY-MM-DD"
+              value-format="YYYY-MM-DD"
+              placeholder="请选择客户生日"
+              v-model="state.data.birthday"
+          />
+        </el-form-item>
+        <el-form-item :inline="true" label="身份证" prop="residentId">
+          <el-input type="password" v-model="state.data.residentId" maxlength="18" show-password placeholder="请输入身份证"/>
+        </el-form-item>
+        <el-form-item required :inline="true" label="密码" prop="password">
+          <el-input type="password" v-model="state.data.password" show-password placeholder="请生成登录密码"/>
+        </el-form-item>
+        <el-form-item :inline="true" label="地址" prop="address">
+          <el-input v-model="state.data.address" placeholder="请输入联系地址"/>
+        </el-form-item>
+        <el-form-item :inline="true" label="来源渠道" prop="channelId">
+          <el-select :clearable="true" :filterable="true" v-model="state.data.channelId" placeholder="请选择来源渠道" class="w100">
+            <el-option
+                v-for="channel in state.channel"
+                :key="channel.id"
+                :value="channel.id"
+                :label="channel.short"
             />
-          </el-form-item>
-          <el-form-item :inline="true" label="身份证" prop="residentId">
-            <el-input type="password" v-model="state.data.residentId" maxlength="18" show-password placeholder="请输入身份证"/>
-          </el-form-item>
-          <el-form-item required :inline="true" label="密码" prop="password">
-            <el-input type="password" v-model="state.data.password" show-password placeholder="请生成登录密码"/>
-          </el-form-item>
-          <el-form-item :inline="true" label="地址" prop="address">
-            <el-input v-model="state.data.address" placeholder="请输入联系地址"/>
-          </el-form-item>
-          <el-form-item :inline="true" label="来源渠道" prop="channelId">
-            <el-select :clearable="true" :filterable="true" v-model="state.data.channelId" placeholder="请选择来源渠道" class="w100">
-              <el-option
-                  v-for="channel in state.channel"
-                  :key="channel.id"
-                  :value="channel.id"
-                  :label="channel.short"
-              />
-            </el-select>
-          </el-form-item>
-          <el-form-item :inline="true" label="渠道人员" prop="brokerId">
-            <el-select :clearable="true" :filterable="true" v-model="state.data.brokerId" placeholder="请选择渠道人员" class="w100">
-              <el-option
-                  v-for="broker in state.broker"
-                  :key="broker.id"
-                  :value="broker.id"
-                  :label="broker.name"
-              />
-            </el-select>
-          </el-form-item>
-          <el-form-item required :inline="true" label="归属诊所" prop="clinicId">
-            <el-select v-model="state.data.clinicId" placeholder="请选择归属诊所" class="w100">
-              <el-option
-                  v-for="clinic in state.clinic"
-                  :key="clinic.id"
-                  :value="clinic.id"
-                  :label="clinic.short"
-                  @change="onClinicChange"
-              />
-            </el-select>
-          </el-form-item>
-          <el-form-item required :inline="true" label="开户人员" prop="createdBy">
-            <el-input v-model="state.data.createdBy" placeholder="请输入开户人员"/>
-          </el-form-item>
-          <el-form-item :inline="true" label="备注" prop="describe">
-            <el-input v-model="state.data.describe" autosize type="textarea" placeholder="请输入备注信息"/>
-          </el-form-item>
-          <el-form-item label="状态" prop="status">
-            <el-radio-group v-model="state.data.status">
-              <el-radio :label=1>正常</el-radio>
-              <el-radio :label=0>冻结</el-radio>
-            </el-radio-group>
-          </el-form-item>
-        </el-form>
-      </div>
+          </el-select>
+        </el-form-item>
+        <el-form-item :inline="true" label="渠道人员" prop="brokerId">
+          <el-select :clearable="true" :filterable="true" v-model="state.data.brokerId" placeholder="请选择渠道人员" class="w100">
+            <el-option
+                v-for="broker in state.broker"
+                :key="broker.id"
+                :value="broker.id"
+                :label="broker.name"
+            />
+          </el-select>
+        </el-form-item>
+        <el-form-item required :inline="true" label="归属诊所" prop="clinicId">
+          <el-select v-model="state.data.clinicId" placeholder="请选择归属诊所" class="w100">
+            <el-option
+                v-for="clinic in state.clinic"
+                :key="clinic.id"
+                :value="clinic.id"
+                :label="clinic.short"
+                @change="onClinicChange"
+            />
+          </el-select>
+        </el-form-item>
+        <el-form-item required :inline="true" label="开户人员" prop="createdBy">
+          <el-input v-model="state.data.createdBy" placeholder="请输入开户人员"/>
+        </el-form-item>
+        <el-form-item :inline="true" label="备注" prop="describe">
+          <el-input v-model="state.data.describe" autosize type="textarea" placeholder="请输入备注信息"/>
+        </el-form-item>
+        <el-form-item label="状态" prop="status">
+          <el-radio-group v-model="state.data.status">
+            <el-radio :label=1>正常</el-radio>
+            <el-radio :label=0>冻结</el-radio>
+          </el-radio-group>
+        </el-form-item>
+      </el-form>
       <template #footer>
         <div style="padding: 20px">
           <el-button @click="onCancel">取消</el-button>
