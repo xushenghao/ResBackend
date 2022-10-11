@@ -72,11 +72,15 @@
         <el-table-column type="selection" width="55" align="center"/>
         <el-table-column label="头像" width="100" alian="center" prop="avatar">
           <template #default="scope">
-            <el-avatar shape="square" size="large" :src="scope.row.avatar" />
+            <el-avatar shape="square" size="large" :src="scope.row.avatar"/>
           </template>
         </el-table-column>
         <el-table-column sortable label="姓名" width="100" prop="name"/>
-        <el-table-column sortable label="称谓" width="100" prop="title"/>
+        <el-table-column sortable label="称谓" width="100" prop="title">
+          <template #default="scope">
+            {{ oph_expert_title.find(item => item.value === scope.row.title)?.label }}
+          </template>
+        </el-table-column>
         <el-table-column sortable label="诊所" width="100" prop="clinicName"/>
         <el-table-column sortable label="专长" prop="ability" show-overflow-tooltip/>
         <el-table-column sortable label="标签" prop="tags" show-overflow-tooltip>
@@ -121,7 +125,7 @@
 </template>
 
 <script lang="ts" setup>
-import {onMounted, reactive, ref} from 'vue';
+import {getCurrentInstance, onMounted, reactive, ref} from 'vue';
 import {ElMessage, ElMessageBox, FormInstance} from 'element-plus';
 import {changeStatus, deleteExpert, listExpert} from '/@/api/ophtha/expert';
 import {ExpertData, ExpertList} from "/@/views/ophtha/expert/dataType";
@@ -130,6 +134,9 @@ import {listClinic} from "/@/api/ophtha/clinic";
 
 const queryRef = ref();
 const editorRef = ref();
+const {proxy} = getCurrentInstance() as any;
+const {oph_expert_title} = proxy.useDict('oph_expert_title')
+
 const state = reactive<ExpertList>({
   ids: [],
   clinic: [],

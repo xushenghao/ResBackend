@@ -51,13 +51,20 @@
           </el-upload>
         </el-form-item>
         <el-form-item required :inline="true" label="专家姓名" prop="name">
-          <el-input v-model="state.data.name" placeholder="请输入专家姓名" class="w100"/>
+          <el-input v-model="state.data.name" placeholder="请输入专家姓名"/>
         </el-form-item>
         <el-form-item required :inline="true" label="专家称谓" prop="title">
-          <el-input v-model="state.data.title" placeholder="请输入专家称谓" class="w100"/>
+          <el-select v-model="state.data.title" placeholder="请输入专家称谓" class="w100">
+            <el-option
+                v-for="dict in oph_expert_title"
+                :key="dict.value"
+                :label="dict.label"
+                :value="dict.value"
+            />
+          </el-select>
         </el-form-item>
         <el-form-item required :inline="true" label="联系电话" prop="mobile">
-          <el-input v-model="state.data.mobile" placeholder="请输入联系电话" class="w100"/>
+          <el-input v-model="state.data.mobile" placeholder="请输入联系电话"/>
         </el-form-item>
         <el-form-item required :inline="true" label="所属诊所" prop="clinicName">
           <el-select v-model="state.data.clinicName" @change="onClinicChange" placeholder="请选择所属诊所" class="w100">
@@ -65,13 +72,13 @@
           </el-select>
         </el-form-item>
         <el-form-item :inline="true" label="专家标签" prop="tags">
-          <el-input v-model="state.data.tags" placeholder="请输入专家标签" class="w100"/>
+          <el-input v-model="state.data.tags" placeholder="请输入专家标签"/>
         </el-form-item>
         <el-form-item :inline="true" label="技术专长" prop="ability">
-          <el-input v-model="state.data.ability" autosize type="textarea" placeholder="请输入技术专长" class="w100"/>
+          <el-input v-model="state.data.ability" autosize type="textarea" placeholder="请输入技术专长"/>
         </el-form-item>
         <el-form-item :inline="true" label="专家介绍" prop="brief">
-          <el-input v-model="state.data.brief" autosize type="textarea" placeholder="请输入专家介绍" class="w100"/>
+          <el-input v-model="state.data.brief" autosize type="textarea" placeholder="请输入专家介绍"/>
         </el-form-item>
         <el-form-item label="专家状态" prop="status">
           <el-radio-group v-model="state.data.status">
@@ -91,7 +98,7 @@
 </template>
 
 <script lang="ts" setup>
-import {reactive, ref, unref} from 'vue';
+import {getCurrentInstance, reactive, ref, unref} from 'vue';
 import {ElMessage, UploadInstance} from "element-plus";
 import {UploadRawFile} from "element-plus/es/components/upload/src/upload";
 import {ClinicData, ExpertData, ExpertEditor, UploadResult} from "/@/views/ophtha/expert/dataType";
@@ -100,6 +107,8 @@ import {uploader} from "/@/utils/upload";
 
 const uploadAvatar = ref<UploadInstance>()
 const uploadLicence = ref<UploadInstance>()
+const {proxy} = getCurrentInstance() as any;
+const {oph_expert_title} = proxy.useDict('oph_expert_title')
 const formRef = ref<HTMLElement | null>(null);
 const emit = defineEmits(['expertList'])
 
