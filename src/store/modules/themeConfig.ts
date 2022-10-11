@@ -1,17 +1,29 @@
 import {Module} from 'vuex';
-import {ThemeConfigState, RootStateTypes} from '/@/store/interface';
+import {RootStateTypes, ThemeConfigState} from '/@/store/interface';
+import {Local} from '/@/utils/storage';
+
+// 进行判断是否全局配置数据是否发生改变 true 没有改变  false 改变了 需要重新更新下 缓存的数据 并且 优先以代码文件数据
+import {ThemeChangeFlag} from '/@/utils/theme';
 
 /**
  * 2020.05.28 by lyt 优化
  * 修改一下配置时，需要每次都清理 `window.localStorage` 浏览器永久缓存，配置才会生效
  * 哪个大佬有解决办法，欢迎pr，感谢💕！
  */
-const themeConfigModule: Module<ThemeConfigState, RootStateTypes> = {
-    namespaced: true,
-    state: {
+
+/**
+ * 补充说明： 此处解决这个问题 有两个方案
+ * 分析：目前只有在App.vue 页面加载完成后 才会出发 Local.set('themeConfig',数据源);
+ * 方案1： 直接修改 App.vue 在此处拿取到数据后 进行判断 本地设置的初始化值 和 缓存的  Local.get('themeConfig'); 是否不一样
+ * 方案2： 在 当前文件的  action 下的 setThemeConfig 函数中 设置数据中 进行判断
+ * 结论： 不管哪种方案都需要 一个判断是否改变数据的 函数，此处把这个函数封装在 /utils/theme => ThemeChangeFlag 函数中
+ */
+
+    // 把值进行初始化 单独提出一个变量 方便后面做参数判断
+const initDefaultThemeConfig: ThemeConfigState = {
         themeConfig: {
-            isDrawer: false,                     // 是否开启布局配置抽屉
-            primary: '#E49612',                  // 默认主题颜色
+            isDrawer: false,        // 是否开启布局配置抽屉
+            primary: '#409eff',     // 默认 primary 主题颜色
 
             /**
              * 菜单 / 顶栏
@@ -86,7 +98,13 @@ const themeConfigModule: Module<ThemeConfigState, RootStateTypes> = {
             globalViceTitle: '业务管理系统',
             globalComponentSize: 'default',
             globalI18n: 'zh-cn',
-        },
+        }
+    }
+
+const themeConfigModule: Module<ThemeConfigState, RootStateTypes> = {
+    namespaced: true,
+    state: {
+        themeConfig: initDefaultThemeConfig.themeConfig,
     },
     mutations: {
         getThemeConfig(state: any, data: object) {
@@ -94,8 +112,14 @@ const themeConfigModule: Module<ThemeConfigState, RootStateTypes> = {
         },
     },
     actions: {
+        // 设置布局配置
+        // 进行判断当前传递的 data 和 自己初始化设置的是否一致 如果是 false 表示需要重新更新并设置初始化的
         setThemeConfig({commit}, data: object) {
-            commit('getThemeConfig', data);
+            const flag = ThemeChangeFlag(data, initDefaultThemeConfig.themeConfig)
+            if (!flag) {
+                Local.set('themeConfig', initDefaultThemeConfig.themeConfig);
+            }
+            commit('getThemeConfig', flag ? data : initDefaultThemeConfig.themeConfig);
         },
     },
 };

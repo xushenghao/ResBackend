@@ -1,4 +1,4 @@
-import {ElMessage} from 'element-plus';
+import { ElMessage } from 'element-plus';
 
 /**
  * hex颜色转rgb颜色
@@ -56,4 +56,23 @@ export function getLightColor(color: string, level: number) {
     let rgb = hexToRgb(color);
     for (let i = 0; i < 3; i++) rgb[i] = Math.floor((255 - rgb[i]) * level + rgb[i]);
     return rgbToHex(rgb[0], rgb[1], rgb[2]);
+}
+
+/**
+ * 全局配置项 用来检测是否发生了改变
+ * @param newData 需要更新的数据 也就是从缓存里拿取的
+ * @param initData 初始化的数据 文件代码的
+ * @return boolean true 没有改变 不需要变动  false 已经改变了需要变动
+ * @auto: zengye
+ * @Date: 2022-10-08 16:52
+ * @LastEditTime: Do not edit
+ */
+export function ThemeChangeFlag(newData: any, initData: any) {
+    if (!newData || !initData) {
+        return true;
+    }
+    if (typeof newData != 'object' || typeof initData != 'object') {
+        return true;
+    }
+    return JSON.stringify(newData) === JSON.stringify(initData);
 }
