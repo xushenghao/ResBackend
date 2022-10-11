@@ -53,23 +53,23 @@
       </template>
       <el-table
           stripe
-          :data="tableData.data"
-          style="width: 100%"
           row-key="deptId"
           default-expand-all
+          style="width: 100%"
+          :data="tableData.data"
           :tree-props="{ children: 'children', hasChildren: 'hasChildren' }"
       >
-        <el-table-column prop="deptName" min-width="120" label="机构名称" show-overflow-tooltip/>
-        <el-table-column prop="deptType" width="100" label="机构类型" show-overflow-tooltip>
+        <el-table-column sortable prop="deptName" min-width="120" label="机构名称" show-overflow-tooltip/>
+        <el-table-column sortable prop="deptType" width="120" label="机构类型" align="center">
           <template #default="scope">
             <el-tag type="success">
               {{ sys_dept_type[scope.row.deptType].label }}
             </el-tag>
           </template>
         </el-table-column>
-        <el-table-column prop="orderNum" width="60" label="排序" show-overflow-tooltip/>
-        <el-table-column prop="createdAt" width="180" label="创建时间" show-overflow-tooltip/>
-        <el-table-column prop="status" width="100" label="机构状态" align="center" show-overflow-tooltip>
+        <el-table-column sortable prop="orderNum" width="80" label="排序" align="center"/>
+        <el-table-column sortable prop="createdAt" width="180" label="创建时间"/>
+        <el-table-column sortable prop="status" width="120" label="机构状态" align="center">
           <template #default="scope">
             <el-tag type="success" v-if="scope.row.status===1">启用</el-tag>
             <el-tag type="info" v-else>禁用</el-tag>

@@ -67,7 +67,7 @@
       <template #footer>
 				<span class="dialog-footer">
 					<el-button @click="onCancel">取 消</el-button>
-					<el-button type="primary" @click="onSubmit" >{{ deptForm.deptId !== 0 ? '修 改' : '添 加' }}</el-button>
+					<el-button type="primary" @click="onSubmit">{{ deptForm.deptId !== 0 ? '修 改' : '添 加' }}</el-button>
 				</span>
       </template>
     </el-dialog>
@@ -83,7 +83,7 @@ import {ElMessage} from "element-plus";
 interface TableDataRow {
   id: number;
   deptName: string;
-  deptType: number;
+  deptType: string;
   parentId: number;
   children?: TableDataRow[];
 }
@@ -92,7 +92,7 @@ interface deptFormState {
   deptId: number;
   parentId: number;
   deptName: string;
-  deptType: number | undefined;
+  deptType: string;
   orderNum: number;
   leader: string;
   phone: string | number;
@@ -119,7 +119,7 @@ export default defineComponent({
         deptId: 0,
         parentId: 0, // 上级机构
         deptName: '', // 机构名称
-        deptType: undefined,
+        deptType: '',
         orderNum: 0,
         leader: '',
         phone: '',
@@ -140,6 +140,7 @@ export default defineComponent({
         state.deptData = proxy.handleTree(res.data.deptList ?? [], "deptId", "parentId");
       });
       if (row && typeof row === "object") {
+        row.deptType = row.deptType.toString()
         state.deptForm = row;
       } else if (row) {
         state.deptForm.parentId = row
@@ -183,7 +184,7 @@ export default defineComponent({
         deptId: 0,
         parentId: 0, // 上级机构
         deptName: '', // 机构名称
-        deptType: undefined,
+        deptType: '',
         orderNum: 0,
         leader: '',
         phone: '',
