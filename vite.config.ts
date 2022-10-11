@@ -36,13 +36,12 @@ const viteConfig = defineConfig((mode: ConfigEnv) => {
 		},
 		build: {
 			outDir: 'dist',
+			base: env.VITE_PUBLIC_PATH,
 			sourcemap: false,
 			chunkSizeWarningLimit: 1500,
+			target:['edge90','chrome90','firefox90','safari15'],
 			rollupOptions: {
 				output: {
-					entryFileNames: `assets/[name].${new Date().getTime()}.js`,
-					chunkFileNames: `assets/[name].${new Date().getTime()}.js`,
-					assetFileNames: `assets/[name].${new Date().getTime()}.[ext]`,
 					compact: true,
 					manualChunks: {
 						vue: ['vue', 'vue-router', 'vuex'],
